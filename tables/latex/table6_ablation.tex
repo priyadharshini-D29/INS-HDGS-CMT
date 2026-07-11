@@ -1,0 +1,20 @@
+\begin{table}[t]
+  \caption{Ablation study of INS-HDGS-CMT (LOSOCV; calibrated). $\Delta$ is the paired change relative to the full model (balanced accuracy $0.753$); a negative $\Delta$ indicates the component helps. $p$ is a Wilcoxon signed-rank test on balanced accuracy; $^{*}$ denotes $p<0.05$. Rows are ordered by importance (most degrading first).}
+  \label{tab:ablation}
+  \centering
+  \begin{tabular}{@{}lcccc@{}}
+    \toprule
+    Configuration & BalAcc & $\Delta$\,BalAcc & $\Delta$\,MCC & $p$ \\
+    \midrule
+    Full model                & 0.753 & ---      & ---      & --- \\
+    $-$ Dynamic graph         & 0.696 & $-0.057$ & $-0.110$ & $0.007^{*}$ \\
+    $-$ Contrastive objective & 0.729 & $-0.024$ & $-0.028$ & $0.159$ \\
+    $-$ MMD alignment         & 0.731 & $-0.022$ & $-0.037$ & $0.300$ \\
+    $-$ Eye-tracking branch   & 0.735 & $-0.018$ & $-0.037$ & $0.255$ \\
+    $-$ Spiking encoder       & 0.752 & $-0.001$ & $+0.005$ & $0.535$ \\
+    $-$ ROI guidance          & 0.754 & $+0.001$ & $+0.005$ & $0.687$ \\
+    $-$ Fusion transformer    & 0.756 & $+0.003$ & $+0.017$ & $0.802$ \\
+    $-$ Neuro-symbolic module & 0.773 & $+0.019$ & $+0.050$ & $0.794$ \\
+    \botrule
+  \end{tabular}
+\end{table}

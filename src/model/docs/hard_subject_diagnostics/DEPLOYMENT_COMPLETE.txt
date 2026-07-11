@@ -1,0 +1,550 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                                                                            ║
+║             ✓ HARD-SUBJECT DIAGNOSTIC FRAMEWORK DEPLOYMENT                ║
+║                                                                            ║
+║                    INS-HDGS-CMT LOSOCV Pipeline                           ║
+║                                                                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+IMPLEMENTATION COMPLETE ✓
+
+Your comprehensive hard-subject diagnostic framework is now ready to use.
+
+================================================================================
+📦 WHAT WAS CREATED
+================================================================================
+
+Location: /home/nvidia/24PHD1314/Neuma_Model/NEUMA_PHASE8/
+
+[1] EXECUTABLE SCRIPTS (3 files)
+    ────────────────────────────
+
+    ✓ hard_subject_diagnostics.py (30 KB)
+      Main diagnostic module with 10 analysis functions
+      - Probability histogram
+      - ROC curve & AUC
+      - Precision-recall curve
+      - Threshold sweep
+      - Confusion matrix
+      - Calibration analysis (ECE)
+      - Embedding visualization (t-SNE, UMAP)
+      - Feature statistics & subject shift detection
+      - Ranking failure analysis
+      - Automatic failure mode diagnosis (A-E)
+
+    ✓ hard_subject_summary.py (14 KB)
+      Aggregation & summary report generator
+      - Load all subject diagnostics
+      - Generate text summary report
+      - Create comparison visualizations
+
+    ✓ scripts/run_diagnostics_pipeline.sh (11 KB, executable)
+      End-to-end automation script
+      - Pre-flight checks
+      - Phase 1: Individual subject diagnostics
+      - Phase 2: Summary & aggregation
+      - Progress tracking
+      - Colored output
+      - Next-steps guidance
+
+
+[2] DOCUMENTATION (3 files)
+    ───────────────────────
+
+    ✓ HARD_SUBJECT_DIAGNOSTICS_README.md (14 KB)
+      Comprehensive user guide
+      - Quick start (2 commands)
+      - Detailed interpretation of all 10 diagnostics
+      - Failure mode classification (A-E)
+      - Common patterns & solutions
+      - File glossary
+      - Troubleshooting FAQ
+
+    ✓ HARD_SUBJECT_DIAGNOSTICS_IMPLEMENTATION.txt (26 KB)
+      Detailed technical reference
+      - Complete implementation notes
+      - Step-by-step workflow (6 steps)
+      - Metric reference table
+      - Pattern recognition guide
+      - Troubleshooting guide
+
+    ✓ HARD_SUBJECT_DIAGNOSTICS_QUICKREF.md (26 KB)
+      Quick reference & checklist
+      - Diagnostic outputs summary
+      - Failure mode quick reference (A-E)
+      - Fast execution paths
+      - Common workflows
+      - Time estimates
+      - Verification checklist
+
+
+================================================================================
+⚡ QUICK START (Choose One)
+================================================================================
+
+OPTION 1: FULLY AUTOMATED (Recommended)
+────────────────────────────────────────
+
+  $ cd /home/nvidia/24PHD1314/Neuma_Model/NEUMA_PHASE8/
+  $ bash scripts/run_diagnostics_pipeline.sh
+
+  Time: ~30-45 min (with embeddings) or ~15-20 min (--skip-embeddings)
+  Output: Complete diagnostics + summary report
+
+
+OPTION 2: MANUAL COMMANDS
+──────────────────────────
+
+  # Step 1: Run diagnostics
+  $ python hard_subject_diagnostics.py \
+      --label ins_hdgs_cmt_v17 \
+      --hard-subjects S21,S03,S13,S35,S36 \
+      --output-dir output/diagnostics
+
+  # Step 2: Generate summary
+  $ python hard_subject_summary.py \
+      --diagnostics-dir output/diagnostics \
+      --output output/hard_subjects_summary.txt
+
+  # Step 3: View results
+  $ cat output/hard_subjects_summary.txt
+
+
+OPTION 3: FAST MODE (Skip Embeddings)
+──────────────────────────────────────
+
+  $ bash scripts/run_diagnostics_pipeline.sh --skip-embeddings
+
+  Time: ~15-20 minutes
+  Same output, skips t-SNE/UMAP visualizations
+
+
+================================================================================
+📂 OUTPUT STRUCTURE
+================================================================================
+
+After running, you'll have:
+
+output/diagnostics/
+├── S21/                              (Subject 1)
+│   ├── probability_histogram.png      ✓ Class separability
+│   ├── roc_curve.png                 ✓ Ranking quality (AUC)
+│   ├── pr_curve.png                  ✓ Precision-recall trade-off
+│   ├── threshold_sweep.png           ✓ Optimal threshold search
+│   ├── best_threshold.json           ✓ Recommended threshold
+│   ├── confusion_matrix.png          ✓ Error patterns
+│   ├── calibration.png               ✓ Probability calibration
+│   ├── tsne_label.png                ✓ t-SNE visualization
+│   ├── umap_label.png                ✓ UMAP visualization
+│   ├── subject_shift_report.json     ✓ Distribution anomalies
+│   ├── ranking_analysis.csv          ✓ Predictions sorted by prob
+│   ├── diagnosis.json                ✓ Structured diagnosis
+│   └── diagnosis.txt                 ✓ Human-readable diagnosis
+├── S03/  (Subject 2) — (identical structure)
+├── S13/  (Subject 3) — (identical structure)
+├── S35/  (Subject 4) — (identical structure)
+├── S36/  (Subject 5) — (identical structure)
+├── hard_subjects_summary.txt          ✓ Aggregate report
+├── comparison_auc.png                 ✓ AUC comparison
+└── comparison_metrics.png             ✓ Multi-metric comparison
+
+
+================================================================================
+🎯 WHAT YOU'LL DISCOVER
+================================================================================
+
+The diagnostics will reveal for each hard subject:
+
+✓ Is the problem a THRESHOLD ISSUE?
+  (Mode A: Classes separable but threshold wrong → EASY FIX)
+
+✓ Is the problem a CALIBRATION ISSUE?
+  (Mode B: Good ranking but miscalibrated probabilities → EASY FIX)
+
+✓ Is the problem SUBJECT DISTRIBUTION SHIFT?
+  (Mode C: Subject different from training set → MEDIUM EFFORT)
+
+✓ Is there LABEL NOISE?
+  (Mode D: Ground truth labels may be wrong → INVESTIGATION)
+
+✓ Is there REPRESENTATION FAILURE?
+  (Mode E: Model can't learn meaningful features → HARD FIX)
+
+The framework provides:
+  • Confidence score for each diagnosis
+  • Specific recommendation per subject
+  • Priority ranking for fixes
+  • Actionable next steps
+
+================================================================================
+📖 DOCUMENTATION GUIDE
+================================================================================
+
+Which document should I read?
+
+For:                                 Read:
+──────────────────────────────────────────────────────────────────────────
+"Just tell me how to run it"         → This file's QUICK START
+Quick reference of everything        → HARD_SUBJECT_DIAGNOSTICS_QUICKREF.md
+Detailed user guide                  → HARD_SUBJECT_DIAGNOSTICS_README.md
+Complete technical reference         → HARD_SUBJECT_DIAGNOSTICS_IMPLEMENTATION.txt
+
+Flow:
+1. Start with: This summary (you're reading it now!)
+2. Then read: HARD_SUBJECT_DIAGNOSTICS_QUICKREF.md
+3. Run: bash scripts/run_diagnostics_pipeline.sh
+4. View: cat output/hard_subjects_summary.txt
+5. For details: HARD_SUBJECT_DIAGNOSTICS_README.md
+6. For deep dive: HARD_SUBJECT_DIAGNOSTICS_IMPLEMENTATION.txt
+
+
+================================================================================
+🔧 KEY COMPONENTS
+================================================================================
+
+10 Diagnostic Analyses:
+
+[1] Probability Histogram
+    → Visualizes predicted probabilities by true class
+    → Determines: Are classes separable?
+
+[2] ROC Curve
+    → Area Under Curve (AUC) regardless of threshold
+    → Determines: Is ranking fundamentally good?
+
+[3] Precision-Recall Curve
+    → Precision vs recall trade-off
+    → Determines: Is there meaningful separation?
+
+[4] Threshold Sweep
+    → Metrics (Acc, Bal.Acc, F1, MCC) vs threshold
+    → Determines: What's the optimal threshold?
+
+[5] Confusion Matrix
+    → True/false positives/negatives
+    → Determines: What are the error patterns?
+
+[6] Calibration Analysis
+    → Predicted vs actual probability
+    → Determines: Are probabilities trustworthy?
+
+[7] Embedding Visualization
+    → t-SNE/UMAP projection of learned features
+    → Determines: Do classes cluster in latent space?
+
+[8] Subject Shift Detection
+    → Mahalanobis/cosine distance to training distribution
+    → Determines: Is subject an outlier?
+
+[9] Ranking Analysis
+    → Individual predictions sorted by probability
+    → Determines: Are individual rankings reasonable?
+
+[10] Automatic Diagnosis
+     → Failure mode classification (A-E)
+     → Determines: What's wrong and what to do about it?
+
+
+================================================================================
+⏱️ TIME ESTIMATES
+================================================================================
+
+Run full diagnostics (5 subjects):    30-45 min (with embeddings)
+                                     15-20 min (--skip-embeddings)
+
+Per-subject diagnostics:              5-10 min (with embeddings)
+                                     2-3 min (--skip-embeddings)
+
+Summary generation:                   ~1 min
+
+View & interpret results:             5-15 min
+
+Implement fixes based on diagnosis:   30 min - 4 hours (depends on mode)
+
+Total (diagnostics + simple fix):     1-2 hours
+Total (diagnostics + all fixes):      1-2 days
+
+
+================================================================================
+✅ PRE-FLIGHT CHECKLIST
+================================================================================
+
+Before running, verify:
+
+[✓] Fold probabilities exist
+    $ ls output/fold_probs/fold*.npz | wc -l
+    (Should show ~40+ files)
+
+[✓] Model checkpoints available (optional, needed for embeddings)
+    $ ls output/checkpoints/ins_hdgs_cmt_v17/*.pt | head -5
+
+[✓] Dataset accessible (optional, needed for embeddings)
+    $ ls data/ | head -5
+
+[✓] Disk space available (~1-2 GB)
+    $ df -h . | tail -1
+
+[✓] Python environment configured
+    $ python --version && python -c "import torch; print(f'PyTorch: {torch.__version__}')"
+
+[✓] Enough time (30-45 min, or 15-20 with --skip-embeddings)
+
+
+================================================================================
+📞 SUPPORT & NEXT STEPS
+================================================================================
+
+Questions about:
+
+"How do I run it?"
+  → Read: This file (QUICK START section)
+  → Or: HARD_SUBJECT_DIAGNOSTICS_QUICKREF.md
+
+"What does each diagnostic mean?"
+  → Read: HARD_SUBJECT_DIAGNOSTICS_README.md
+
+"How do I interpret the results?"
+  → Read: HARD_SUBJECT_DIAGNOSTICS_IMPLEMENTATION.txt
+
+"What should I do with the diagnosis?"
+  → Read: HARD_SUBJECT_DIAGNOSTICS_QUICKREF.md (FAILURE MODE section)
+
+"My results don't match expectations"
+  → Read: HARD_SUBJECT_DIAGNOSTICS_QUICKREF.md (TROUBLESHOOTING)
+
+
+After diagnostics complete:
+
+[1] Review hard_subjects_summary.txt
+[2] Identify failure modes for each subject
+[3] Prioritize by confidence score
+[4] Implement fixes per recommendations
+[5] Re-run diagnostics to validate improvements
+
+
+================================================================================
+🚀 RECOMMENDED WORKFLOW
+================================================================================
+
+PHASE 1: INITIAL DIAGNOSTICS (30-45 min)
+──────────────────────────────────────────
+
+  Step 1: $ bash scripts/run_diagnostics_pipeline.sh --skip-embeddings
+  Step 2: $ cat output/hard_subjects_summary.txt
+  Step 3: $ for s in S21 S03 S13 S35 S36; do \
+            echo "=== $s ===" && \
+            cat output/diagnostics/$s/diagnosis.txt | head -20
+          done
+
+  Output: Clear identification of failure modes & priorities
+
+
+PHASE 2: IMPLEMENT EASY FIXES (1-2 hours)
+───────────────────────────────────────────
+
+  For Mode A (Threshold Issue):
+    → Apply best_threshold.json to inference
+    → Re-evaluate (~15 min)
+
+  For Mode B (Calibration Issue):
+    → Apply temperature scaling
+    → Re-evaluate (~30 min)
+
+  For Mode C (Distribution Shift):
+    → Collect subject-specific data
+    → Fine-tune model (~2-4 hours)
+
+  For Mode D (Label Noise):
+    → Manual review of samples
+    → Correct obvious errors (~1-2 hours)
+
+  For Mode E (Representation Failure):
+    → Deep debugging session (~4-8 hours)
+    → May require architecture changes
+
+
+PHASE 3: VALIDATE IMPROVEMENTS (30-45 min)
+────────────────────────────────────────────
+
+  Step 1: Re-run diagnostics after fixes
+  Step 2: Compare metrics to baseline
+  Step 3: Verify improvements per failure mode
+  Step 4: Iterate if needed
+
+
+================================================================================
+💡 KEY INSIGHTS
+================================================================================
+
+The framework automatically detects:
+
+✓ Class Separability
+  → Are classes linearly separable in learned space?
+  → Probability histogram shows this clearly
+
+✓ Ranking Quality
+  → Does the model rank samples correctly?
+  → ROC AUC shows ranking quality regardless of threshold
+
+✓ Threshold Calibration
+  → Is 0.5 the optimal decision boundary?
+  → Threshold sweep shows the optimal value
+
+✓ Probability Calibration
+  → Do predicted probabilities match actual frequencies?
+  → Calibration curve shows miscalibration patterns
+
+✓ Distribution Shift
+  → Is the subject different from training set?
+  → Subject shift report quantifies the difference
+
+✓ Label Quality
+  → Are ground truth labels consistent?
+  → Ranking analysis reveals suspicious samples
+
+✓ Representation Quality
+  → Do learned features capture engagement?
+  → t-SNE/UMAP visualization reveals representation quality
+
+✓ Systematic Errors
+  → What kinds of errors are being made?
+  → Confusion matrix shows error patterns
+
+
+================================================================================
+🎓 LEARNING OUTCOMES
+================================================================================
+
+After using this framework, you'll understand:
+
+✓ Why your model fails on hard subjects
+✓ Whether it's a training issue or threshold issue
+✓ Whether calibration can fix it
+✓ Whether subject-specific fine-tuning is needed
+✓ How to fix each failure mode systematically
+✓ How to measure improvement after fixes
+
+This transforms "hard subjects" from a mystery into a solved problem with
+clear diagnostic information and actionable recommendations.
+
+
+================================================================================
+📋 VERIFICATION
+================================================================================
+
+Check that everything is in place:
+
+  [ ] hard_subject_diagnostics.py exists and is executable
+  [ ] hard_subject_summary.py exists
+  [ ] scripts/run_diagnostics_pipeline.sh exists and is executable
+  [ ] Documentation files exist:
+      - HARD_SUBJECT_DIAGNOSTICS_README.md
+      - HARD_SUBJECT_DIAGNOSTICS_IMPLEMENTATION.txt
+      - HARD_SUBJECT_DIAGNOSTICS_QUICKREF.md
+
+Verify:
+  $ ls -la hard_subject*.py scripts/run_diagnostics_pipeline.sh HARD_SUBJECT*
+  $ file scripts/run_diagnostics_pipeline.sh | grep executable
+
+
+================================================================================
+🎬 LET'S GO!
+================================================================================
+
+Ready to analyze your hard subjects?
+
+RECOMMENDED FIRST COMMAND:
+
+  $ cd /home/nvidia/24PHD1314/Neuma_Model/NEUMA_PHASE8/
+  $ bash scripts/run_diagnostics_pipeline.sh --skip-embeddings
+
+This will:
+  ✓ Run diagnostics for all 5 hard subjects (15-20 min)
+  ✓ Generate summary report
+  ✓ Create comparison visualizations
+  ✓ Identify failure modes and priorities
+
+After completion:
+  ✓ View: cat output/hard_subjects_summary.txt
+  ✓ Explore: output/diagnostics/<subject>/diagnosis.txt
+  ✓ Implement: fixes based on recommendations
+
+Questions?
+  → See: HARD_SUBJECT_DIAGNOSTICS_QUICKREF.md
+  → Or: HARD_SUBJECT_DIAGNOSTICS_README.md
+
+
+================================================================================
+✨ FRAMEWORK FEATURES SUMMARY
+✨
+================================================================================
+
+What makes this framework valuable:
+
+✓ COMPREHENSIVE
+  • 10 different diagnostic perspectives
+  • Eliminates guessing about failure modes
+
+✓ AUTOMATED
+  • One-command execution
+  • Batch processing all subjects simultaneously
+  • Saves results automatically
+
+✓ DIAGNOSTIC
+  • Automatic failure mode detection (A-E)
+  • Confidence scoring for each diagnosis
+  • Clear recommendations per subject
+
+✓ ACTIONABLE
+  • Specific next steps for each failure mode
+  • Priority ranking by confidence
+  • Time estimates for each fix
+
+✓ WELL-DOCUMENTED
+  • 3 comprehensive guides
+  • Quick reference checklists
+  • Troubleshooting section
+  • Example workflows
+
+✓ EFFICIENT
+  • 15-45 min for complete analysis
+  • Optional embedding skip for speed
+  • Reusable components
+
+✓ VISUAL
+  • 10+ PNG visualizations per subject
+  • Summary comparison plots
+  • Easy to interpret graphs
+
+✓ SCALABLE
+  • Can add more subjects easily
+  • Can extend with new analyses
+  • Modular code design
+
+
+================================================================================
+✅ DEPLOYMENT COMPLETE!
+================================================================================
+
+Your hard-subject diagnostic framework is ready to use.
+
+All components are in place:
+  ✓ Executable scripts
+  ✓ Comprehensive documentation
+  ✓ Automated pipeline
+  ✓ Quick reference guides
+
+Next step: Run your first diagnostics!
+
+  $ bash scripts/run_diagnostics_pipeline.sh --skip-embeddings
+
+Expected output in ~20 minutes:
+  • output/diagnostics/ (with all 5 subjects)
+  • hard_subjects_summary.txt
+  • comparison_auc.png & comparison_metrics.png
+
+Then review and implement recommendations.
+
+Good luck! 🚀
+
+================================================================================

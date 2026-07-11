@@ -1,0 +1,40 @@
+# Ablation manifest — the canonical list of variants and the component each
+# one disables. Consumed by reproducibility/run_ablation.sh and
+# scripts/analysis/run_component_ablation.py.
+variants:
+  - name: full
+    disables: []
+    description: Full multimodal reference model
+  - name: eeg_only
+    disables: [eye_tracking_branch]
+    description: EEG branch only
+  - name: et_only
+    disables: [eeg_branch]
+    description: Eye-tracking branch only
+  - name: no_neuro_symbolic
+    disables: [neuro_symbolic_layer]
+    description: Remove differentiable rule layer
+  - name: no_graph
+    disables: [graph_gat]
+    description: Remove dynamic functional graph + GAT
+  - name: no_fusion_transformer
+    disables: [fusion_transformer]
+    description: Remove cross-modal fusion transformer
+  - name: no_snn
+    disables: [spiking_encoder]
+    description: Remove spiking (LIF) encoder
+  - name: no_roi
+    disables: [roi_attention]
+    description: Remove ROI attention
+  - name: no_cross_attention
+    disables: [cross_attention]
+    description: Self-attention only (no cross-modal attention)
+  - name: no_dynamic_connectivity
+    disables: [dynamic_connectivity]
+    description: Static/fixed adjacency instead of dynamic graphs
+  - name: no_contrastive
+    disables: [contrastive_loss]
+    description: Remove contrastive objective
+  - name: no_mmd
+    disables: [mmd_loss]
+    description: Remove MMD subject-invariance term

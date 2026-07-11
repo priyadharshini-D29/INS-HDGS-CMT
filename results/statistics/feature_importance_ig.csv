@@ -1,0 +1,7 @@
+modality,feature,importance,mean_abs_ig,interpretation
+ROI,ROI saliency,0.5231,0.0016726846477085246,Attended stimulus region
+EEG,Posterior alpha power,0.1757,0.0005619372909874199,Visual attention allocation (alpha suppression)
+EEG,Frontal theta power,0.1598,0.0005110514520958363,Attentional control / engagement
+ET,Gaze position,0.1308,0.00041819740522720344,Overt fixation location
+ET,Pupil dynamics,0.0106,3.403402951773131e-05,Arousal / cognitive load
+EEG,Frontal functional connectivity,0.0,0.0,Fronto-cortical network integration

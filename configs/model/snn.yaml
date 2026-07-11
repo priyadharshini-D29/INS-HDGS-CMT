@@ -1,0 +1,10 @@
+# -----------------------------------------------------------------------------
+# Spiking Neural Network encoder (Leaky Integrate-and-Fire neurons).
+# Mirrors src/model/config/settings.py (SNN section).
+# -----------------------------------------------------------------------------
+snn:
+  time_steps: 10        # simulation time steps per forward pass
+  threshold: 1.0        # LIF membrane firing threshold
+  decay: 0.90           # membrane potential decay (leak)
+  hidden_dim: 128
+  surrogate_gradient: fast_sigmoid   # for backprop through the spike function

@@ -1,0 +1,13 @@
+### Table 3. Multimodal fusion comparison (LOSOCV).
+
+> ⚠️ Labels are derived from eye-tracking gaze features; ET / fusion models partially observe the label-generating signal, so these scores are optimistically biased and are reported for modality-information analysis only, not as a leakage-free comparison.
+
+| Model | Acc | BalAcc | Macro-F1 | MCC | ROC-AUC | PR-AUC | ECE |
+|---|---|---|---|---|---|---|---|
+| Cross-Attention | 0.791 ± 0.165 | 0.775 ± 0.184 | 0.700 ± 0.304 | 0.457 ± 0.383 | 0.805 ± 0.211 | 0.838 ± 0.250 | 0.516 ± 0.257 |
+| Multimodal Transformer | 0.777 ± 0.161 | 0.758 ± 0.175 | 0.674 ± 0.299 | 0.424 ± 0.360 | 0.780 ± 0.210 | 0.803 ± 0.275 | 0.514 ± 0.268 |
+| INS-HDGS-CMT w/o Neuro-Symbolic | 0.754 ± 0.180 | 0.742 ± 0.171 | 0.666 ± 0.297 | 0.483 ± 0.339 | 0.875 ± 0.177 | 0.902 ± 0.166 | 0.420 ± 0.132 |
+| Dual Transformer | 0.753 ± 0.171 | 0.742 ± 0.188 | 0.689 ± 0.270 | 0.424 ± 0.379 | 0.765 ± 0.238 | 0.814 ± 0.268 | 0.516 ± 0.266 |
+| **INS-HDGS-CMT (full)** | 0.753 ± 0.182 | 0.740 ± 0.186 | 0.688 ± 0.275 | 0.463 ± 0.364 | 0.901 ± 0.136 | 0.909 ± 0.160 | 0.418 ± 0.143 |
+| DynamicGAT+ET Transformer | 0.747 ± 0.169 | 0.726 ± 0.174 | 0.634 ± 0.290 | 0.405 ± 0.341 | 0.764 ± 0.183 | 0.805 ± 0.249 | 0.519 ± 0.255 |
+| Late Fusion (CNN-LSTM+ET-LSTM) | 0.677 ± 0.184 | 0.665 ± 0.188 | 0.574 ± 0.310 | 0.271 ± 0.375 | 0.668 ± 0.256 | 0.731 ± 0.280 | 0.497 ± 0.234 |

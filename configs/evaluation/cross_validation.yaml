@@ -1,0 +1,16 @@
+# -----------------------------------------------------------------------------
+# Stratified k-fold cross-validation (subject-mixed) — reported as a
+# comparison protocol against LOSOCV in the supplementary material.
+# -----------------------------------------------------------------------------
+evaluation:
+  scheme: kfold
+  n_folds: 5
+  stratified: true
+  shuffle: true
+  seed: 42
+  metrics:
+    - balanced_accuracy
+    - accuracy
+    - mcc
+    - roc_auc
+    - pr_auc

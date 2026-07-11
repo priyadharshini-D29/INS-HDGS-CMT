@@ -1,0 +1,17 @@
+\begin{table}[t]
+  \caption{Most influential inputs by Integrated-Gradients attribution (LOSOCV; attribution to the HIGH-engagement logit, mean baseline, 24 integration steps, normalised mean $|\mathrm{IG}|$ per input element across 37 folds / 347 epochs). Attribution is to the model's actual inputs (band power, gaze, pupil, ROI), not to engineered dwell/fixation metrics.}
+  \label{tab:features}
+  \centering
+  \begin{tabular}{@{}llcl@{}}
+    \toprule
+    Modality & Feature & Importance & Interpretation \\
+    \midrule
+    ROI & ROI saliency vector            & 0.52 & Attended stimulus region \\
+    EEG & Posterior alpha power          & 0.18 & Visual attention allocation (alpha suppression) \\
+    EEG & Frontal theta power            & 0.16 & Attentional control / engagement \\
+    ET  & Gaze position                  & 0.13 & Overt fixation location \\
+    ET  & Pupil dynamics                 & 0.01 & Arousal / cognitive load \\
+    EEG & Frontal functional connectivity & $<$0.01 & Network integration (see ablation) \\
+    \botrule
+  \end{tabular}
+\end{table}

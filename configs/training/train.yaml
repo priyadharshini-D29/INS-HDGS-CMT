@@ -1,0 +1,37 @@
+# -----------------------------------------------------------------------------
+# Training loop, loss weights and ensemble settings.
+# Mirrors src/model/config/settings.py (Training + Ensemble sections).
+# -----------------------------------------------------------------------------
+train:
+  batch_size: 32
+  epochs: 250
+  patience: 50               # early-stopping patience (epochs)
+  dropout: 0.25
+  use_amp: true              # mixed-precision training
+  grad_accum_steps: 1
+  subject_norm: true         # per-subject z-score normalisation
+
+ensemble:
+  n_members: 7               # models per fold (different seeds), probs averaged
+
+# Focal loss (engagement class-imbalance handling)
+focal_loss:
+  alpha: 1.0                 # global scale (1.0 = no down-scaling)
+  gamma: 2.0                 # focusing exponent; paper headline uses 3.0
+  alpha_strategy: effective_num   # balanced | sqrt_inv_freq | effective_num
+
+# Multi-task loss weights
+loss_weights:
+  cls: 5.00
+  contrast: 0.05
+  roi: 0.05
+  connectivity: 0.02
+  mmd: 0.10
+  secondary: 0.15
+
+# Domain adaptation (subject-invariance)
+domain_adaptation:
+  lambda_dann: 0.10
+  lambda_mmd: 0.10
+  mmd_mode: marginal         # marginal | conditional
+  contrastive_temperature: 0.07

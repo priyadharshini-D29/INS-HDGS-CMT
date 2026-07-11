@@ -1,0 +1,19 @@
+# -----------------------------------------------------------------------------
+# Neuro-Symbolic differentiable rule layer + classification heads.
+# Mirrors src/model/config/settings.py (Neuro-Symbolic + Classification heads).
+# -----------------------------------------------------------------------------
+neuro_symbolic:
+  n_rules: 8            # number of differentiable rules
+  hidden_dim: 64       # rule premise embedding size
+  temperature: 1.0     # rule softmax temperature
+
+classifier:
+  hidden_dim: 64
+  n_classes: 2         # HIGH_ENGAGEMENT (1) vs LOW_ENGAGEMENT (0)
+
+# Optional secondary task heads (off by default).
+secondary_heads:
+  enabled: false
+  purchase_classes: 2       # BUY / NOT_BUY
+  attention_levels: 3       # LOW / MEDIUM / HIGH visual attention
+  preference_classes: 3     # NEGATIVE / NEUTRAL / POSITIVE

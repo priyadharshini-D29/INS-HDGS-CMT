@@ -1,0 +1,18 @@
+{
+  "checkpoint": "repro_focal_g3p0_effective_num_37_fold01_e0.pt",
+  "n_epochs_measured": 300,
+  "n_channels": 24,
+  "time_steps": 10,
+  "mean_firing_rate": 0.10593229166666666,
+  "sparsity": 0.8940677083333334,
+  "lif_synapse_macs": 327680,
+  "input_proj_macs": 30720,
+  "E_MAC_pJ": 4.6,
+  "E_AC_pJ": 0.9,
+  "energy_pJ_snn_lif": 31240.704,
+  "energy_pJ_ann_lif": 1507328.0,
+  "energy_ratio_lif_snn_over_ann": 0.020725883152173916,
+  "energy_pJ_snn_encoder": 172552.704,
+  "energy_pJ_ann_encoder": 1648639.9999999998,
+  "energy_ratio_encoder_snn_over_ann": 0.10466366459627331
+}

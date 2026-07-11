@@ -1,0 +1,63 @@
+# NEUMA / INS-HDGS-CMT — environment for the full pipeline
+# (src/data_pipeline/, src/model/, NEUMA_ML/).
+#
+# Rebuilt directly from the project's actual imports (scanned across
+# src/, NEUMA_ML/, DataSource/, excluding archive/) rather than carried
+# over from an unrelated environment. Anything not imported anywhere in
+# this codebase was removed (old file pulled in Jupyter/notebook tooling,
+# a git+https meegkit dependency, and several EEG libraries — asrpy,
+# pymanopt, pyriemann, numba, imbalanced-learn, statsmodels, plotly,
+# graphviz — none of which are actually used by any script here).
+#
+# ── torch ────────────────────────────────────────────────────────────
+# Install torch SEPARATELY FIRST, matching your machine's CUDA version
+# (or CPU-only). Do not add a hard torch==...+cuXXX pin here — that
+# build tag only exists on PyTorch's own per-CUDA-version wheel index,
+# not the default PyPI index, and will break a plain `pip install -r`
+# for everyone whose CUDA version differs.
+#
+#   GPU (pick the index matching your driver's CUDA version):
+#     pip install torch --index-url https://download.pytorch.org/whl/cu124
+#   CPU only:
+#     pip install torch
+#
+# Then install everything below:
+#   pip install -r requirements.txt
+#
+# ── Core scientific stack ───────────────────────────────────────────
+numpy==2.4.6
+pandas==3.0.3
+scipy==1.17.1
+scikit-learn==1.8.0
+joblib==1.5.3
+networkx==3.6.1
+
+# ── Signal processing / EEG-ET ──────────────────────────────────────
+mne==1.12.1
+pyxdf==1.17.4
+antropy==0.2.2
+
+# ── Vision / image handling (ROI, brochure images) ──────────────────
+opencv-python==4.13.0.92
+pillow==12.2.0
+
+# ── Tabular models (NEUMA_ML baselines) ─────────────────────────────
+catboost==1.2.10
+xgboost==3.2.0
+
+# ── Plotting ─────────────────────────────────────────────────────────
+matplotlib==3.10.9
+seaborn==0.13.2
+
+# ── I/O ──────────────────────────────────────────────────────────────
+openpyxl==3.1.5
+
+# ── Misc ─────────────────────────────────────────────────────────────
+tqdm==4.67.3
+
+# ── Optional — only used by a few diagnostic/analysis scripts,
+#    guarded by try/except at their call sites. Safe to omit if
+#    install fails; only latent-space (UMAP) plots and the
+#    torch_geometric graph_builder path (unused by main.py) need them.
+umap-learn==0.5.7
+torch-geometric

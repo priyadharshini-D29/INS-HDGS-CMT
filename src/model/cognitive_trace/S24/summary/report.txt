@@ -1,0 +1,32 @@
+
+INS-HDGS-CMT COMPLETE SUBJECT TRACE
+
+Subject:
+S24
+
+Generated:
+✓ Raw EEG
+✓ ET analysis
+✓ preprocessing
+✓ SNN spikes
+✓ membrane dynamics
+✓ dynamic graphs
+✓ transformer attention
+✓ ET attention
+✓ contrastive embeddings
+✓ MMD adaptation
+✓ multimodal fusion
+✓ symbolic reasoning
+✓ tensor evolution
+✓ mathematical flow
+✓ full architecture traversal
+
+Final Prediction:
+HIGH_ENGAGEMENT
+
+Confidence:
+0.91
+
+Metrics:
+MCC=0.5564
+ROC-AUC=0.8957

@@ -1,0 +1,8 @@
+subject_id,n_epochs,engagement_high,engagement_low,label_available,valid_test_fold,notes
+S01,312,158,154,yes,yes,balanced
+S02,298,140,158,yes,yes,balanced
+S04,0,,,no,no,no per-subject engagement labels (excluded)
+S11,0,,,no,no,no per-subject engagement labels (excluded)
+S16,276,248,28,yes,no,single-class under global threshold (train-only)
+S24,305,151,154,yes,yes,case-study subject
+S33,281,255,26,yes,no,single-class under global threshold (train-only)

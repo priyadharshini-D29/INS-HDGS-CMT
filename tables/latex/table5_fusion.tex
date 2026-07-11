@@ -1,0 +1,19 @@
+\begin{table}[t]
+  \caption{Multimodal fusion comparison under LOSOCV (modality-information analysis; mean $\pm$ s.d.). The full model attains the best ROC-AUC and calibration; the threshold-metric leaders benefit from gaze-derived labels.}
+  \label{tab:fusion}
+  \centering
+  \small
+  \begin{tabular}{@{}lcccccc@{}}
+    \toprule
+    Model & BalAcc & Macro-F1 & MCC & ROC-AUC & PR-AUC & ECE \\
+    \midrule
+    Dual Transformer                  & 0.79$\pm$0.16 & 0.71$\pm$0.29 & 0.50$\pm$0.35 & 0.81$\pm$0.23 & 0.86$\pm$0.26 & 0.52$\pm$0.26 \\
+    DynamicGAT $+$ ET Transformer     & 0.78$\pm$0.18 & 0.72$\pm$0.28 & 0.46$\pm$0.38 & 0.78$\pm$0.23 & 0.83$\pm$0.26 & 0.52$\pm$0.27 \\
+    Cross-Attention                   & 0.74$\pm$0.20 & 0.68$\pm$0.29 & 0.41$\pm$0.39 & 0.81$\pm$0.20 & 0.85$\pm$0.24 & 0.51$\pm$0.27 \\
+    INS-HDGS-CMT (w/o neuro-symbolic)  & 0.74$\pm$0.17 & 0.67$\pm$0.30 & 0.48$\pm$0.34 & 0.88$\pm$0.18 & 0.90$\pm$0.17 & 0.42$\pm$0.13 \\
+    Multimodal Transformer            & 0.74$\pm$0.19 & 0.69$\pm$0.27 & 0.41$\pm$0.39 & 0.77$\pm$0.22 & 0.82$\pm$0.24 & 0.51$\pm$0.27 \\
+    \textbf{INS-HDGS-CMT (full)}       & 0.74$\pm$0.19 & 0.69$\pm$0.28 & 0.46$\pm$0.36 & \textbf{0.90$\pm$0.14} & \textbf{0.91$\pm$0.16} & \textbf{0.42$\pm$0.14} \\
+    Late Fusion (CNN-LSTM $+$ ET-LSTM) & 0.63$\pm$0.21 & 0.57$\pm$0.28 & 0.19$\pm$0.39 & 0.65$\pm$0.23 & 0.73$\pm$0.27 & 0.50$\pm$0.24 \\
+    \botrule
+  \end{tabular}
+\end{table}

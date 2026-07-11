@@ -1,0 +1,81 @@
+# =============================================================================
+# Consolidated hyperparameter reference (single flat view).
+# This is a convenience summary of every tunable value; the authoritative,
+# modular definitions live in the other configs/ files and in
+# src/model/config/settings.py. Values here are the paper headline settings.
+# =============================================================================
+
+# ---- Reproducibility --------------------------------------------------------
+seed: 42
+
+# ---- Data -------------------------------------------------------------------
+eeg_sampling_rate: 300
+eeg_epoch_len: 5.0
+eeg_channels: 19
+et_sampling_rate: 120
+et_input_dim: 3
+n_windows: 10
+epoch_overlap: 0.75
+n_rois: 10
+
+# ---- Graph / GAT ------------------------------------------------------------
+connectivity_method: pearson
+connectivity_threshold: 0.30
+embed_dim: 128
+gat_layer1_heads: 4
+gat_layer1_head_dim: 32
+gat_layer2_dim: 128
+gat_dropout: 0.20
+gat_alpha: 0.20
+
+# ---- SNN --------------------------------------------------------------------
+snn_time_steps: 10
+snn_threshold: 1.0
+snn_decay: 0.90
+snn_hidden_dim: 128
+
+# ---- Temporal Transformer ---------------------------------------------------
+transformer_heads: 4
+transformer_layers: 3
+transformer_ff_dim: 512
+transformer_dropout: 0.10
+transformer_max_len: 200
+
+# ---- ET encoder / ROI -------------------------------------------------------
+et_lstm_hidden: 64
+et_lstm_layers: 2
+et_dropout: 0.20
+roi_hidden_dim: 64
+
+# ---- Fusion -----------------------------------------------------------------
+fusion_heads: 4
+
+# ---- Neuro-Symbolic ---------------------------------------------------------
+ns_n_rules: 8
+ns_hidden_dim: 64
+ns_temperature: 1.0
+
+# ---- Classifier -------------------------------------------------------------
+cls_hidden: 64
+n_classes: 2
+
+# ---- Training ---------------------------------------------------------------
+batch_size: 32
+epochs: 250
+lr: 0.0005
+weight_decay: 0.0
+patience: 50
+dropout: 0.25
+use_amp: true
+n_ensemble: 7
+
+# ---- Loss -------------------------------------------------------------------
+focal_alpha: 1.0
+focal_gamma: 2.0           # paper headline sweep-selected value: 3.0
+contrastive_temperature: 0.07
+lambda_cls: 5.00
+lambda_contrast: 0.05
+lambda_roi: 0.05
+lambda_connectivity: 0.02
+lambda_mmd: 0.10
+lambda_secondary: 0.15

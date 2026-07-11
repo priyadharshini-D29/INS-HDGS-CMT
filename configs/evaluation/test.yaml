@@ -1,0 +1,19 @@
+# -----------------------------------------------------------------------------
+# Inference / evaluation-only configuration. Loads trained checkpoints and
+# scores held-out folds without any training.
+# -----------------------------------------------------------------------------
+evaluation:
+  scheme: test_only
+  checkpoint_dir: checkpoints/ins_hdgs_cmt_headline
+  ensemble_average: true          # average probabilities across ensemble members
+  threshold_strategy: foldwise_optimal
+  save_predictions: true
+  save_probabilities: true
+  metrics:
+    - balanced_accuracy
+    - accuracy
+    - mcc
+    - roc_auc
+    - pr_auc
+    - cohen_kappa
+    - f1

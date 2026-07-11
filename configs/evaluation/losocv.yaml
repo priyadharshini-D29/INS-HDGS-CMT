@@ -1,0 +1,23 @@
+# -----------------------------------------------------------------------------
+# Leave-One-Subject-Out Cross-Validation (LOSOCV) — the primary, subject-
+# independent evaluation protocol reported in the paper.
+# -----------------------------------------------------------------------------
+evaluation:
+  scheme: losocv
+  # 44 subjects total -> 42 valid (minus S04, S11 which lack per-subject
+  # labels) -> 37 valid test folds (S16, S31, S33, S41, S44 are single-class
+  # under the global threshold: kept for training, skipped as test folds).
+  n_subjects: 44
+  excluded_subjects: [S04, S11]
+  single_class_test_skip: [S16, S31, S33, S41, S44]
+  threshold_strategy: foldwise_optimal   # per-fold optimal operating point
+  default_threshold: 0.38                 # fold-22 optimum used in case study
+  imbalance_skip_ratio: 0.00              # 0.0 = evaluate all valid folds
+  metrics:
+    - balanced_accuracy
+    - accuracy
+    - mcc
+    - roc_auc
+    - pr_auc
+    - cohen_kappa
+    - f1

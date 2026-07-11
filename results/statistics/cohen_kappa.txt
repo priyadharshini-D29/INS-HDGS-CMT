@@ -1,0 +1,2 @@
+Full multimodal model        (n=37)  raw=0.4264  calibrated=0.4724  pooled@0.5=0.5964
+EEG branch (leakage-free)    (n=37)  raw=0.3578  calibrated=0.4314  pooled@0.5=0.4992

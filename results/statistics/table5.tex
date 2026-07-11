@@ -1,0 +1,15 @@
+\begin{table}[t]
+\centering
+\caption{Statistical significance of INS-HDGS-CMT vs.\ the strongest baseline under LOSOCV (Wilcoxon signed-rank, Holm--Bonferroni corrected; Cliff's $\delta$ effect size; 95\% bootstrap CI of the paired difference).}
+\label{tab:significance}
+\begin{tabular}{l c c c c c}
+\hline
+Metric & Full & Strongest baseline & Median $\Delta$ (95\% CI) & $p_{\mathrm{Holm}}$ & Cliff's $\delta$ \\
+\hline
+balanced acc & 0.740 & Dual Transformer (0.782) & +0.000 [-0.099, +0.014] & 1.0000 & -0.125 \\
+mcc & 0.463 & Dual Transformer (0.565) & +0.000 [-0.211, +0.003] & 1.0000 & -0.153 \\
+roc auc & 0.901 & ET-LSTM (0.905) & +0.000 [-0.052, +0.041] & 0.9878 & -0.031 \\
+\hline
+\multicolumn{6}{l}{\footnotesize $^{*}$ $p_{\mathrm{Holm}}<0.05$.} \\
+\end{tabular}
+\end{table}

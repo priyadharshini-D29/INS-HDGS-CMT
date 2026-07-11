@@ -1,0 +1,10 @@
+numpy
+pandas
+matplotlib
+scipy
+opencv-python
+pyxdf
+seaborn
+openpyxl
+jupyter
+mne
