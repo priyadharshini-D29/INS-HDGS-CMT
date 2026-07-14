@@ -34,7 +34,7 @@ setup(
     ),
     long_description=long_description,
     long_description_content_type="text/markdown",
-    author="Priyadharshini D. and the INS-HDGS-CMT authors",
+    author="Priyadharshini Dhanapalan and the INS-HDGS-CMT authors",
     url="https://github.com/priyadharshini-D29/INS-HDGS-CMT",
     license="MIT",
     package_dir={"": "src"},

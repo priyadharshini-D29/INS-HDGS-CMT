@@ -6,7 +6,7 @@ title: >-
   Tracking
 type: software
 authors:
-  - family-names: "D"
+  - family-names: "Dhanapalan"
     given-names: "Priyadharshini"
     affiliation: "Vellore Institute of Technology (VIT), Chennai, India"
   - family-names: "S"
@@ -33,7 +33,7 @@ preferred-citation:
     An Interpretable Neuro-Symbolic Hybrid Dynamic Graph Spiking Cross-Modal
     Transformer for Consumer Engagement Prediction Using EEG and Eye Tracking
   authors:
-    - family-names: "D"
+    - family-names: "Dhanapalan"
       given-names: "Priyadharshini"
     - family-names: "S"
       given-names: "Shridevi"

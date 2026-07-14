@@ -185,7 +185,7 @@ If you use this code or results, please cite the paper (see
 @article{inshdgscmt2026,
   title   = {An Interpretable Neuro-Symbolic Hybrid Dynamic Graph Spiking Cross-Modal
              Transformer for Consumer Engagement Prediction Using EEG and Eye Tracking},
-  author  = {Priyadharshini, D. and Shridevi, S.},
+  author  = {Dhanapalan, Priyadharshini and Shridevi, S.},
   journal = {Brain Informatics},
   year    = {2026},
   note    = {Under review}
@@ -204,7 +204,7 @@ ecosystems.
 
 ## Contact
 
-- **Authors:** Priyadharshini D. and Shridevi S. (corresponding author),
+- **Authors:** Priyadharshini Dhanapalan and Shridevi S. (corresponding author),
   Vellore Institute of Technology (VIT), Chennai, India.
 - For code questions, open a
   [GitHub issue](https://github.com/priyadharshini-D29/INS-HDGS-CMT/issues); for
