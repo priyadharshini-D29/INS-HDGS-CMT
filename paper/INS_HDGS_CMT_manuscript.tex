@@ -4,6 +4,10 @@
 \graphicspath{{figures/}}
 \usepackage{multirow}
 \usepackage{amsmath,amssymb,amsfonts}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage[title]{appendix}
+\usepackage{xcolor}
 \usepackage{textcomp}
 \usepackage{manyfoot}
 \usepackage{booktabs}
@@ -11,7 +15,6 @@
 \usepackage{algorithmicx}
 \usepackage{algpseudocode}
 \usepackage{listings}
-\usepackage{xcolor}
 \usepackage{placeins}
 
 \theoremstyle{thmstyleone}%
@@ -35,7 +38,7 @@
 \affil*[1]{\orgdiv{Centre for Neuroinformatics}, \orgname{Vellore Institute of Technology}, \orgaddress{\city{Chennai}, \country{India}}}
 
 \abstract{
-Consumer engagement is fundamental to advertising effectiveness, yet conventional self-report measures are retrospective and susceptible to recall and social-desirability bias. Electroencephalography (EEG) and eye tracking (ET) provide complementary objective measures; however, existing frameworks often rely on simple fusion, subject-mixed evaluation protocols that overestimate generalisation, and static within-trial connectivity. We propose the Interpretable Neuro-Symbolic Hybrid Dynamic Graph Spiking Cross-Modal Transformer (INS-HDGS-CMT), a subject-independent framework that represents each EEG epoch as a sequence of dynamic functional-connectivity graphs (windowed Pearson correlation) encoded with hierarchical graph-attention and spiking modules, and integrates EEG and eye tracking through a cross-modal transformer with a soft-rule module for rule-activation inspection. Performance was evaluated on the publicly available NeuMa dataset using leave-one-subject-out cross-validation (LOSOCV). Because the engagement labels are derived from eye-tracking gaze features, the leakage-independent assessment rests on the EEG-only branch, which never accesses gaze: it achieved a mean area under the receiver-operating-characteristic curve (ROC-AUC) of 0.82 and outperformed the eight evaluated EEG baseline architectures on ROC-AUC and Matthews correlation coefficient (MCC) (Holm-corrected Wilcoxon, $p<0.05$). Ablation identified dynamic functional-graph modelling as the component whose removal most degraded performance, and the only ablation to remain significant after Holm--Bonferroni correction (on MCC). The full multimodal model reached an ROC-AUC of 0.90; however, because eye tracking both defines the labels and serves as a model input, this is reported as a secondary, label-coupled multimodal analysis of the consistency between neural activity and the gaze-derived engagement phenotype rather than an independent prediction of engagement.
+Consumer engagement is central to advertising effectiveness, yet self-report measures are retrospective and biased. Electroencephalography (EEG) and eye tracking provide complementary objective measures, but existing frameworks often rely on simple fusion, subject-mixed evaluation that overstates generalisation, and static within-trial connectivity. We propose the Interpretable Neuro-Symbolic Hybrid Dynamic Graph Spiking Cross-Modal Transformer (INS-HDGS-CMT), a subject-independent framework that represents each EEG epoch as a sequence of dynamic functional-connectivity graphs encoded with hierarchical graph-attention and spiking modules, and integrates EEG and eye tracking through a cross-modal transformer with a soft-rule inspection module. Performance was evaluated on the public NeuMa dataset using leave-one-subject-out cross-validation. Because engagement labels are derived from gaze features, the leakage-independent assessment rests on the EEG-only branch, which never accesses gaze: it reached a mean ROC-AUC of 0.82 and significantly outperformed eight EEG baseline architectures on ROC-AUC and Matthews correlation coefficient after Holm correction. Ablation identified dynamic functional-graph modelling as the component whose removal most degraded performance and the only ablation remaining significant after correction. The full multimodal model reached ROC-AUC 0.90; because eye tracking both defines the labels and serves as an input, this is reported as a secondary, label-coupled analysis rather than independent prediction of engagement.
 }
 
 \keywords{Consumer engagement, Neuromarketing, Electroencephalography, Eye tracking, Graph neural networks, Multimodal learning, Dynamic functional connectivity}
@@ -73,12 +76,12 @@ The contributions above are realised through a single end-to-end framework, the 
 
 The publicly described NeuMa dataset of synchronously acquired EEG and eye-tracking recordings, collected while participants viewed marketing stimuli, was analysed \cite{ref35}. The public release contains 44 participants; the $N=42$ participants for whom per-subject engagement labels are available were retained (two participants without such labels were excluded), with the sex and age distributions as reported in the original dataset publication \cite{ref35}.
 
-EEG was recorded with a Wearable Sensing DSI-24 headset at 300~Hz. Of its 24 physical channels, 19 correspond to scalp EEG electrodes positioned according to the international 10--20 system (Fp1, Fp2, F3, F4, C3, C4, P3, P4, O1, O2, F7, F8, T3, T4, T5, T6, Fz, Cz, Pz), whereas the remaining channels do not carry cortical signals: three auxiliary/EOG channels, one mastoid reference channel (A2, recorded separately for optional re-referencing; the primary reference, A1, is applied in hardware and is not itself a digitised channel), and one trigger channel. In line with all prior analyses of this dataset, those of the dataset authors \cite{ref18} and subsequent multimodal and graph-neural-network studies \cite{ref36} alike, the 19 scalp electrodes are treated as graph nodes and the reference and auxiliary channels discarded, as the latter would otherwise inject non-neural (in particular trigger-related) information into the connectivity graph. During each session a participant viewed a structured sequence of marketing stimuli, brochure pages partitioned into a fixed grid of regions of interest (ROIs) corresponding to individual product placements, while EEG and ET were recorded concurrently. A representative recorded epoch is shown in Fig.~\ref{fig1} for subject S24, the participant examined as the HIGH-engagement exemplar in the case study of Section~\ref{subsec3.11}: the ROI grid defined over the stimulus, the corresponding gaze scanpath, a subset of the retained EEG channels, and the concurrent gaze-position and pupil-diameter traces jointly illustrate the synchronised, multimodal recording that underlies both the dynamic-graph EEG encoding (Section~\ref{subsec2.5.2}) and the ROI-based engagement labelling (Table~\ref{tab10}). The dataset characteristics used here are listed in Table~\ref{tab1}.
+EEG was recorded with a Wearable Sensing DSI-24 headset at 300~Hz. Of its 24 physical channels, 19 correspond to scalp EEG electrodes positioned according to the international 10--20 system (Fp1, Fp2, F3, F4, C3, C4, P3, P4, O1, O2, F7, F8, T3, T4, T5, T6, Fz, Cz, Pz), whereas the remaining channels do not carry cortical signals: three auxiliary/EOG channels, one mastoid reference channel (A2, recorded separately for optional re-referencing; the primary reference, A1, is applied in hardware and is not itself a digitised channel), and one trigger channel. In line with all prior analyses of this dataset, those of the dataset authors \cite{ref18} and subsequent multimodal and graph-neural-network studies \cite{ref36} alike, the 19 scalp electrodes are treated as graph nodes and the reference and auxiliary channels discarded, as the latter would otherwise inject non-neural (in particular trigger-related) information into the connectivity graph. During each session a participant viewed a structured sequence of marketing stimuli, brochure pages partitioned into a fixed grid of regions of interest (ROIs) corresponding to individual product placements, while EEG and ET were recorded concurrently. A representative recorded epoch is shown in Fig.~\ref{fig1} for subject S24, the participant examined as the HIGH-engagement exemplar in the case study of Section~\ref{subsec3.11}: the ROI grid defined over the stimulus, the corresponding gaze scanpath, a subset of the retained EEG channels, and the concurrent gaze-position and pupil-diameter traces jointly illustrate the synchronised, multimodal recording that underlies both the dynamic-graph EEG encoding (Section~\ref{subsec2.5.2}) and the ROI-based engagement labelling (Supplementary Table~S5). The dataset characteristics used here are listed in Table~\ref{tab1}.
 
 \begin{figure*}[htbp]
 \centering
 \includegraphics[width=\textwidth]{fig1_real_overlay.pdf}
-\caption{Representative synchronised multimodal (EEG, gaze, pupil) epoch.}
+\caption{Representative synchronised multimodal (EEG, gaze, pupil) epoch for subject S24. Left: the ROI grid defined over the marketing stimulus, with the overlaid gaze scanpath (start and end marked). Top right: a subset of the retained scalp-EEG channels. Bottom right: the concurrent gaze-position and pupil-diameter traces. All streams are time-aligned within the same 5\,s epoch.}
 \label{fig1}
 \end{figure*}
 
@@ -111,9 +114,9 @@ Raw gaze coordinates and pupil diameters were cleaned by discarding samples lost
 
 \subsection{EEG--Eye Tracking Synchronisation and Epoch Generation}\label{subsec2.4}
 
-The two modalities were temporally aligned using shared stimulus-onset markers and timestamps, with each stream kept at its native sampling rate (EEG 300~Hz, ET 120~Hz) rather than resampled to a common base. The synchronised recordings were segmented into non-overlapping 5.0~s epochs, each carrying paired EEG and ET tensors. Fixed-length windows were chosen over the gaze-defined, variable-duration epochs of prior NeuMa work \cite{ref18} for two reasons. First, fixed windows produce equal-shape EEG and ET tensors, a requirement for batched dynamic-graph construction and transformer encoding without length-dependent padding. Second, because the engagement labels are derived in part from gaze-dwell features (Table~\ref{tab10}), gaze-defined epoch durations would tie epoch length to the label, whereas a fixed 5~s window removes this confound. The 5~s span also accommodates the sequence of sliding sub-windows from which the dynamic functional graphs are built, leaving enough samples per window for phase-synchrony estimation while preserving within-trial temporal resolution.
+The two modalities were temporally aligned using shared stimulus-onset markers and timestamps, with each stream kept at its native sampling rate (EEG 300~Hz, ET 120~Hz) rather than resampled to a common base. The synchronised recordings were segmented into non-overlapping 5.0~s epochs, each carrying paired EEG and ET tensors. Fixed-length windows were chosen over the gaze-defined, variable-duration epochs of prior NeuMa work \cite{ref18} for two reasons. First, fixed windows produce equal-shape EEG and ET tensors, a requirement for batched dynamic-graph construction and transformer encoding without length-dependent padding. Second, because the engagement labels are derived in part from gaze-dwell features (Supplementary Table~S5), gaze-defined epoch durations would tie epoch length to the label, whereas a fixed 5~s window removes this confound. The 5~s span also accommodates the sequence of sliding sub-windows from which the dynamic functional graphs are built, leaving enough samples per window for phase-synchrony estimation while preserving within-trial temporal resolution.
 
-Engagement labels were recomputed directly on the new fixed 5~s epochs rather than inherited from the original variable-length product epochs: for each 5~s window, the same six gaze/pupil features used in the composite score (Table~\ref{tab10}, fixation ratio, mean dwell time, ROI density, pupil dilation, revisit count, gaze entropy) are extracted fresh from that window's own raw gaze sequence and combined with the same fixed weights, then binarised by the dataset-level median split (global regime) or by each subject's own median (subject-median regime, Section~\ref{subsec3.9}). No labels are aggregated or otherwise transferred from the original product-epoch boundaries.
+Engagement labels were recomputed directly on the new fixed 5~s epochs rather than inherited from the original variable-length product epochs: for each 5~s window, the same six gaze/pupil features used in the composite score (Supplementary Table~S5, fixation ratio, mean dwell time, ROI density, pupil dilation, revisit count, gaze entropy) are extracted fresh from that window's own raw gaze sequence and combined with the same fixed weights, then binarised by the dataset-level median split (global regime) or by each subject's own median (subject-median regime, Section~\ref{subsec3.9}). No labels are aggregated or otherwise transferred from the original product-epoch boundaries.
 
 Each epoch received a binary consumer engagement label (High vs. Low), and two complementary labelling regimes are considered. The primary regime applies a single global engagement threshold consistently across subjects, giving an absolute, cross-subject-coherent notion of engagement; under it, five subjects (S16, S31, S33, S41, and S44) carry only one class and are therefore excluded from the test folds (37 of 42 subjects evaluable) while remaining in every training fold. As a complementary coverage regime, each subject is additionally split at their own rank-based median, which guarantees both classes for every participant and renders all 42 subjects evaluable; this captures within-subject relative engagement rather than an absolute level. The global threshold is treated as the headline definition, an unconstrained per-subject threshold defines engagement only relative to each individual and destabilises cross-subject labelling, and the all-42 subject-median evaluation is reported as a robustness and subject-coverage analysis in Section~\ref{subsec3.9}.
 
@@ -121,17 +124,17 @@ Each epoch received a binary consumer engagement label (High vs. Low), and two c
 
 \subsubsection{Overview of the Proposed Framework}\label{subsec2.5.1}
 
-INS-HDGS-CMT is an end-to-end multimodal architecture of six interacting components, shown in Fig.~\ref{fig2}. The EEG stream is converted into a sequence of dynamic functional graphs, encoded by a spiking neural front-end, and then processed by hierarchical dynamic graph attention and a temporal transformer. In parallel, the ET stream is encoded into behavioural attention representations. A cross-modal transformer integrates the two representations, and a neuro-symbolic reasoning module refines the fused representation before the final engagement prediction. Implementation details are listed in Table~\ref{tab2}, and a summary of the mathematical notation used throughout this section is given in Supplementary Table~\ref{tabS5}. Five loss components shape training---focal class-balanced classification, supervised contrastive, ROI-guidance, MMD subject-alignment, and rule regularisation---as described in Section~\ref{subsec2.5.9}. The dynamic functional graphs are precomputed per window and are not updated by gradients, so no graph-regularisation term enters the effective training objective. The ROI-modulation pathway shown with a dashed arrow is active only in this full multimodal configuration; the EEG-only branch used for the leakage-free ranking (Table~\ref{tab3}) disables it entirely and receives no eye-tracking-derived input. The cross-modal fusion and neuro-symbolic reasoning stages are shown in overview here and detailed separately in Fig.~\ref{fig4}. A step-by-step summary of the pipeline, with the operation and rationale of each stage, is given in Table~\ref{tab_pipeline}.
+INS-HDGS-CMT is an end-to-end multimodal architecture of six interacting components, shown in Fig.~\ref{fig2}. The EEG stream is converted into a sequence of dynamic functional graphs, encoded by a spiking neural front-end, and then processed by hierarchical dynamic graph attention and a temporal transformer. In parallel, the ET stream is encoded into behavioural attention representations. A cross-modal transformer integrates the two representations, and a neuro-symbolic reasoning module refines the fused representation before the final engagement prediction. Implementation details are listed in Table~\ref{tab2}, and a summary of the mathematical notation used throughout this section is given in Supplementary Table~S4. Five loss components shape training---focal class-balanced classification, supervised contrastive, ROI-guidance, MMD subject-alignment, and rule regularisation---as described in Section~\ref{subsec2.5.9}. The dynamic functional graphs are precomputed per window and are not updated by gradients, so no graph-regularisation term enters the effective training objective. The ROI-modulation pathway shown with a dashed arrow is active only in this full multimodal configuration; the EEG-only branch used for the leakage-free ranking (Table~\ref{tab3}) disables it entirely and receives no eye-tracking-derived input. The cross-modal fusion and neuro-symbolic reasoning stages are shown in overview here and detailed separately in Fig.~\ref{fig4}. A step-by-step summary of the pipeline, with the operation and rationale of each stage, is given in Table~\ref{tab_pipeline}.
 
 \begin{figure*}[htbp]
 \centering
-\includegraphics[width=\textwidth]{fig2_architecture.png}
+\includegraphics[width=\textwidth]{figures/fig_2Architecture.jpeg}
 \caption{Overview of the INS-HDGS-CMT architecture. The EEG graph--spiking pathway (A) and the eye-tracking attention pathway (B) are integrated by the NeuroFusion Transformer (C); the neuro-symbolic decision layer (D) then yields the final engagement prediction (E). The EEG-only branch used for the leakage-free ranking (Table~\ref{tab3}) disables all eye-tracking-derived input and ROI modulation.}
 \label{fig2}
 \end{figure*}
 
 \begin{table*}[htbp]
-\caption{INS-HDGS-CMT processing pipeline.}\label{tab_pipeline}
+\caption{INS-HDGS-CMT processing pipeline: the operation and purpose of each of the eight stages, with the relevant Methods section.}\label{tab_pipeline}
 \footnotesize
 \begin{tabular}{@{}p{0.3cm}p{2.9cm}p{5.2cm}p{5.2cm}@{}}
 \toprule
@@ -178,7 +181,7 @@ where $c_{ij}(t)$ is the chosen connectivity measure (Pearson correlation, Eq.~\
 \begin{figure*}[htbp]
 \centering
 \includegraphics[width=\textwidth]{fig_graph.pdf}
-\caption{Dynamic EEG functional-graph construction.}
+\caption{Dynamic EEG functional-graph construction. (A) EEG epoch; (B) instantaneous phase of two electrodes; (C) PLV adjacency matrix; (D) functional graph ($\tau=0.30$). PLV illustrated; results use Pearson correlation (Eq.~\eqref{eq2pearson}).}
 \label{fig3}
 \end{figure*}
 
@@ -244,8 +247,8 @@ retaining modality-specific evidence while adding the learned conditional depend
 
 \begin{figure*}[htbp]
 \centering
-\includegraphics[width=\textwidth]{fig4_corrected.png}
-\caption{Cross-modal fusion and neuro-symbolic reasoning. Self-attention over the EEG, graph, and eye-tracking tokens is followed by directed cross-attention, in which the EEG representation queries the graph-connectivity and eye-tracking contexts; a gated residual fusion forms the joint multimodal representation. The neuro-symbolic reasoning module then matches eight soft rules and aggregates their activations. In the reported configuration this module is run in an explanation-only mode: the decoded rule activations are exploratory latent-space traces rather than neurophysiological explanations, and the final decision is taken by the standard classifier.}
+\includegraphics[width=\textwidth]{{fig4.Cross-modal}.jpeg}
+\caption{Cross-modal fusion and neuro-symbolic reasoning. Self-attention over the EEG, graph, and eye-tracking tokens is followed by directed cross-attention (the EEG representation queries the graph and eye-tracking contexts) and a gated residual fusion that forms the joint representation. The neuro-symbolic module then matches eight soft rules and aggregates their activations; it runs in explanation-only mode, so the decoded activations are exploratory traces rather than neurophysiological explanations, and the final decision is taken by the standard classifier.}
 \label{fig4}
 \end{figure*}
 
@@ -333,7 +336,7 @@ The overall computational cost is dominated by three operations. Dynamic functio
 To characterise deployment-time cost concretely, single-epoch inference latency was separately benchmarked for the full 1.72-million-parameter model (100 forward passes, after 10 warm-up passes, wall-clock timed) on a commodity CPU (AMD Ryzen~7, 8 cores/16 threads, 3.3~GHz; PyTorch 2.11, no GPU), distinct from the GPU environment used for training. At batch size 1, matching a real-time single-epoch inference scenario, latency was $14.9\pm1.3$~ms per epoch (67 epochs/s); batching improved throughput to 156 epochs/s at batch size 32. This CPU figure is arguably more informative for the low-power, on-device deployment scenario discussed in Section~\ref{subsec4.5} than a data-centre GPU figure would be, since it does not rely on GPU acceleration being available at inference time.
 
 \begin{table*}[htbp]
-\caption{Implementation details.}\label{tab2}
+\caption{Implementation details: architecture, optimiser, and training hyperparameters held fixed across all folds.}\label{tab2}
 \small
 \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}ll@{}}
 \toprule
@@ -380,14 +383,14 @@ Under LOSOCV, INS-HDGS-CMT reached a mean accuracy of $75.32\pm18.43\%$, precisi
 
 \subsection{Comparison with Internal Baseline Models}\label{subsec3.2}
 
-A deliberate evaluation design governs the comparisons that follow. The NeuMa engagement labels are defined from a weighted composite of eye-tracking gaze features (Table~\ref{tab10}); the EEG encoders are independent of that definition and therefore supply the primary, leakage-controlled subject-independent ranking (Table~\ref{tab3}), whereas the eye-tracking and multimodal fusion comparisons (Tables~\ref{tab4}--\ref{tab5}) quantify the complementary information each modality contributes. All models were trained under identical LOSOCV folds, using the same dataset, preprocessing, and leakage-free post-hoc calibration procedure (Section~\ref{subsec2.6}); the sixteen internal baselines share one common, fixed training budget across architectures rather than an architecture-specific hyperparameter search or the early-stopping criterion applied to INS-HDGS-CMT (Section~\ref{subsec2.6}). Unless stated otherwise, metrics in Tables~\ref{tab3}--\ref{tab5} are given at the uncalibrated operating point, with ECE as the pooled reliability error (Section~\ref{subsec2.6}); the ablation analysis (Table~\ref{tab7}) instead uses the calibrated operating point.
+A deliberate evaluation design governs the comparisons that follow. The NeuMa engagement labels are defined from a weighted composite of eye-tracking gaze features (Supplementary Table~S5); the EEG encoders are independent of that definition and therefore supply the primary, leakage-controlled subject-independent ranking (Table~\ref{tab3}), whereas the eye-tracking and multimodal fusion comparisons (Tables~\ref{tab4}--\ref{tab5}) quantify the complementary information each modality contributes. All models were trained under identical LOSOCV folds, using the same dataset, preprocessing, and leakage-free post-hoc calibration procedure (Section~\ref{subsec2.6}); the sixteen internal baselines share one common, fixed training budget across architectures rather than an architecture-specific hyperparameter search or the early-stopping criterion applied to INS-HDGS-CMT (Section~\ref{subsec2.6}). Unless stated otherwise, metrics in Tables~\ref{tab3}--\ref{tab5} are given at the uncalibrated operating point, with ECE as the pooled reliability error (Section~\ref{subsec2.6}); the ablation analysis (Table~\ref{tab7}) instead uses the calibrated operating point.
 
-Among EEG encoders (Table~\ref{tab3}), the proposed EEG branch, dynamic graph attention with leaky integrate-and-fire spiking encoding, placed first of the nine encoders (balanced accuracy 0.70, ROC-AUC 0.82, MCC 0.40), against at most 0.62 balanced accuracy and 0.66 ROC-AUC for the strongest convolutional baseline. A Friedman omnibus test rejected equality of the nine EEG models on balanced accuracy, MCC, and ROC-AUC ($p<10^{-4}$ in each case), and Holm-corrected Wilcoxon signed-rank tests confirmed that the proposed branch exceeded every EEG baseline on MCC and ROC-AUC (Supplementary Table~\ref{tabS6}), and seven of the eight on balanced accuracy (all but ShallowConvNet; Table~\ref{tab8}); the corresponding critical-difference diagram and pooled ROC/PR curves are shown in Fig.~\ref{fig6}.
+Among EEG encoders (Table~\ref{tab3}), the proposed EEG branch, dynamic graph attention with leaky integrate-and-fire spiking encoding, placed first of the nine encoders (balanced accuracy 0.70, ROC-AUC 0.82, MCC 0.40), against at most 0.62 balanced accuracy and 0.66 ROC-AUC for the strongest convolutional baseline. A Friedman omnibus test rejected equality of the nine EEG models on balanced accuracy, MCC, and ROC-AUC ($p<10^{-4}$ in each case), and Holm-corrected Wilcoxon signed-rank tests confirmed that the proposed branch exceeded every EEG baseline on MCC and ROC-AUC (Supplementary Table~S6), and seven of the eight on balanced accuracy (all but ShallowConvNet; Table~\ref{tab8}); the corresponding critical-difference diagram and pooled ROC/PR curves are shown in Fig.~\ref{fig6}.
 
 The eye-tracking-only encoders (Table~\ref{tab4}) and multimodal fusion architectures (Table~\ref{tab5}) are considered next. Because the labels are gaze-defined, these models lead on threshold-dependent scores; within this modality-information view, the full INS-HDGS-CMT attains the highest ranking quality (ROC-AUC 0.90) and the lowest calibration error (ECE 0.16) among the multimodal models evaluated, placing its contribution in calibrated, well-ranked confidence.
 
 \begin{table*}[htbp]
-\caption{EEG-encoder comparison (LOSOCV, leakage-free).}\label{tab3}
+\caption{EEG-encoder comparison under leakage-free LOSOCV. As the EEG encoders never access the gaze-derived labels, this is the primary subject-independent ranking; the proposed EEG branch is listed first, with metrics at the uncalibrated operating point.}\label{tab3}
 \footnotesize
 \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lllllll@{}}
 \toprule
@@ -443,7 +446,7 @@ Late Fusion (CNN-LSTM + ET-LSTM) & 0.63$\pm$0.21 & 0.57$\pm$0.28 & 0.19$\pm$0.39
 The controlled quantitative claims rest on the internal baselines evaluated under identical folds and labels (Section~\ref{subsec3.2}); because no prior study reports subject-independent engagement decoding on NeuMa, a strict head-to-head is not possible. For context, Table~\ref{tab6} situates the proposed model relative to the only published decoding study on the same dataset, the graph-signal-processing hybrid of Kalaganis et al.\ \cite{ref18}, through Cohen's $\kappa$, the agreement-beyond-chance metric used in that work for this class-imbalanced setting. The two studies are not directly commensurable, differing in several respects: the prediction target (Buy/NoBuy purchase intent, labelled from mouse clicks, versus the present HIGH/LOW engagement), the EEG preprocessing (an 8--30~Hz band versus the 1--45~Hz band used here), the epoch construction (gaze-defined, variable-length epochs versus fixed 5~s windows), and the evaluation protocol (within-subject leave-one-epoch-out over all 42 subjects versus the stricter subject-independent LOSOCV over the 37 globally-evaluable subjects here). The comparison is therefore presented as positioning on the shared NeuMa data, not as a like-for-like ranking. Within these caveats, the prior graph-hybrid attains $\kappa=0.35$, whereas the leakage-free EEG branch reaches $\kappa=0.36$ (0.43 calibrated) and the full multimodal model $\kappa=0.43$ (0.47 calibrated), comparable-to-higher chance-corrected agreement obtained under a substantially harder subject-independent protocol.
 
 \begin{table*}[htbp]
-\caption{Contextual Cohen's $\kappa$ positioning on NeuMa.}\label{tab6}
+\caption{Contextual Cohen's $\kappa$ positioning against prior NeuMa work. The prediction target and evaluation protocol differ, so this is contextual positioning on the shared dataset rather than a like-for-like comparison.}\label{tab6}
 \small
 \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}ll@{}}
 \toprule
@@ -496,12 +499,12 @@ $-$ Neuro-symbolic module & $+0.019$ & 0.794 & 1.00 & $+0.050$ & 0.627 & 1.00 \\
 
 \subsection{Statistical Validation}\label{subsec3.5}
 
-Table~\ref{tab8} presents the leakage-controlled significance analysis: the proposed EEG branch against each EEG baseline on balanced accuracy, using paired Wilcoxon signed-rank tests with Holm--Bonferroni correction and Cliff's $\delta$ effect size. Seven of the eight comparisons stayed significant after correction ($p_{\mathrm{Holm}}<0.05$), with small-to-large effect sizes; only ShallowConvNet failed to survive Holm correction on balanced accuracy ($p_{\mathrm{Holm}}=0.075$). On MCC and ROC-AUC all eight baselines remained significant after correction (Supplementary Table~\ref{tabS6}; Friedman $p<10^{-4}$ throughout). A complementary within-fold label-permutation test (5000 shuffles) confirmed that every headline metric falls to chance under shuffling ($p=2\times10^{-4}$; the AUC, balanced-accuracy, and MCC null distributions centred on 0.50, 0.50, and 0.00). The critical-difference diagram (Fig.~\ref{fig6}A) places the proposed branch at the best average rank, and the pooled ROC/PR curves (Fig.~\ref{fig6}B) show clear separation from the strongest baselines. Two clarifications on how these views relate. First, the Nemenyi critical-difference test (Fig.~\ref{fig6}A) is an omnibus, rank-based procedure that corrects simultaneously across all pairs of the nine encoders and is correspondingly more conservative than the targeted, per-baseline Holm--Wilcoxon tests (Table~\ref{tab8}); the two therefore need not flag the same baselines, and the diagram can place a baseline within one critical difference of the proposed branch even where the direct pairwise test is significant. Second, average ranks reflect per-fold win/loss patterns under the high inter-subject variance of LOSOCV and need not follow the ordering of mean balanced accuracy in Table~\ref{tab3}: a baseline with a higher mean but also higher variance can be out-ranked across folds by a lower-mean but steadier one. Both are expected properties of rank-based omnibus testing rather than data-processing errors, and the per-baseline Wilcoxon results (Table~\ref{tab8}) are taken as the primary significance statement.
+Table~\ref{tab8} presents the leakage-controlled significance analysis: the proposed EEG branch against each EEG baseline on balanced accuracy, using paired Wilcoxon signed-rank tests with Holm--Bonferroni correction and Cliff's $\delta$ effect size. Seven of the eight comparisons stayed significant after correction ($p_{\mathrm{Holm}}<0.05$), with small-to-large effect sizes; only ShallowConvNet failed to survive Holm correction on balanced accuracy ($p_{\mathrm{Holm}}=0.075$). On MCC and ROC-AUC all eight baselines remained significant after correction (Supplementary Table~S6; Friedman $p<10^{-4}$ throughout). A complementary within-fold label-permutation test (5000 shuffles) confirmed that every headline metric falls to chance under shuffling ($p=2\times10^{-4}$; the AUC, balanced-accuracy, and MCC null distributions centred on 0.50, 0.50, and 0.00). The critical-difference diagram (Fig.~\ref{fig6}A) places the proposed branch at the best average rank, and the pooled ROC/PR curves (Fig.~\ref{fig6}B) show clear separation from the strongest baselines. Two clarifications on how these views relate. First, the Nemenyi critical-difference test (Fig.~\ref{fig6}A) is an omnibus, rank-based procedure that corrects simultaneously across all pairs of the nine encoders and is correspondingly more conservative than the targeted, per-baseline Holm--Wilcoxon tests (Table~\ref{tab8}); the two therefore need not flag the same baselines, and the diagram can place a baseline within one critical difference of the proposed branch even where the direct pairwise test is significant. Second, average ranks reflect per-fold win/loss patterns under the high inter-subject variance of LOSOCV and need not follow the ordering of mean balanced accuracy in Table~\ref{tab3}: a baseline with a higher mean but also higher variance can be out-ranked across folds by a lower-mean but steadier one. Both are expected properties of rank-based omnibus testing rather than data-processing errors, and the per-baseline Wilcoxon results (Table~\ref{tab8}) are taken as the primary significance statement.
 
 To reduce the likelihood of spurious findings, statistical conclusions are supported using paired non-parametric hypothesis testing, multiple-comparison correction, bootstrap confidence intervals, effect-size estimation, and permutation analysis wherever appropriate.
 
 \begin{table*}[htbp]
-\caption{Proposed EEG branch versus each baseline (Holm-corrected Wilcoxon).}\label{tab8}
+\caption{Proposed EEG branch versus each baseline on balanced accuracy (paired Wilcoxon signed-rank tests, Holm--Bonferroni-corrected, with Cliff's $\delta$ effect size).}\label{tab8}
 \small
 \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lllll@{}}
 \toprule
@@ -539,7 +542,7 @@ To test whether engagement on NeuMa is carried by the canonical univariate EEG m
 
 \subsection{Subject-Wise LOSOCV Performance}\label{subsec3.7}
 
-Supplementary Fig.~\ref{figS1} reports fold-wise (subject-wise) performance. Most held-out subjects were decoded well above chance, but a minority of folds showed markedly lower accuracy, reflecting genuine inter-individual variability in the neural and behavioural correlates of engagement. These hard subjects, marked by per-subject probability-scale shifts and, in isolated cases, ranking inversion, account for most of the gap between mean and best-case performance and motivate the future directions of Section~\ref{subsec4.6}.
+Supplementary Fig.~S1 reports fold-wise (subject-wise) performance. Most held-out subjects were decoded well above chance, but a minority of folds showed markedly lower accuracy, reflecting genuine inter-individual variability in the neural and behavioural correlates of engagement. These hard subjects, marked by per-subject probability-scale shifts and, in isolated cases, ranking inversion, account for most of the gap between mean and best-case performance and motivate the future directions of Section~\ref{subsec4.6}.
 
 These probability-scale shifts are a calibration effect rather than a ranking failure: the model's ROC-AUC (0.90) comfortably exceeds what its fixed-threshold balanced accuracy (0.74) would imply. Applying a leakage-free, prevalence-matched decision threshold per held-out subject, derived only from the subject's predicted-probability distribution and the training-set class prior, never the test labels, raised mean balanced accuracy to 0.778 and MCC to 0.50, recovering most of this gap and bringing the full model level with the strongest fusion baselines. The improvement was heterogeneous across subjects (median $\Delta\approx0$; Wilcoxon $p=0.33$), so it is reported as a calibration analysis rather than as the headline operating point; it nonetheless shows that the residual balanced-accuracy gap reflects per-subject threshold transfer rather than a shortcoming of the learned representation. To avoid conflation, three balanced-accuracy operating points are reported for the same model, differing only in the decision threshold and never in the underlying ranking (ROC-AUC 0.90): 0.74 at the uncalibrated fixed $0.5$ cut-off (the value tabulated throughout), 0.75 after the leakage-free post-hoc calibration of Section~\ref{subsec2.6}, and 0.778 under the prevalence-matched per-subject threshold analysed here; these are complementary threshold choices, not conflicting results.
 
@@ -549,17 +552,17 @@ To understand the lower tail of the fold distribution, a per-subject diagnostic 
 
 \subsection{Robustness to Label Definition and Connectivity Measure}\label{subsec3.9}
 
-The global-threshold headline excludes five single-class subjects (S16, S31, S33, S41, S44) from the test folds, leaving 37 of 42 subjects evaluable (Section~\ref{subsec2.6}). To confirm that this exclusion does not bias the conclusions, and to obtain complete subject coverage, the EEG branch was re-evaluated under an identical model, preprocessing, channel montage, and LOSOCV protocol, altering only the label definition to a per-subject rank-based median. This split guarantees both classes for every participant and thereby renders all 42 subjects evaluable. Because subject-median labels define engagement relative to each individual's own distribution, they pose a within-subject discrimination task distinct from the absolute, cross-subject task of the global regime; the two are therefore regarded as complementary rather than interchangeable, with the global regime remaining the headline. Supplementary Table~\ref{tabS1} lists both regimes side by side. The all-42 subject-median evaluation corroborates the 37-fold headline: balanced accuracy is comparable across regimes (0.69 over 42 subjects versus 0.70 over 37), and ranking quality stays high (ROC-AUC 0.80 versus 0.82). The modest reduction under the subject-median regime is expected, since it poses a harder, purely within-subject discrimination and additionally includes the five subjects that the global threshold leaves single-class, so the central conclusion of strong subject-independent EEG decoding holds under both label definitions and complete subject coverage.
+The global-threshold headline excludes five single-class subjects (S16, S31, S33, S41, S44) from the test folds, leaving 37 of 42 subjects evaluable (Section~\ref{subsec2.6}). To confirm that this exclusion does not bias the conclusions, and to obtain complete subject coverage, the EEG branch was re-evaluated under an identical model, preprocessing, channel montage, and LOSOCV protocol, altering only the label definition to a per-subject rank-based median. This split guarantees both classes for every participant and thereby renders all 42 subjects evaluable. Because subject-median labels define engagement relative to each individual's own distribution, they pose a within-subject discrimination task distinct from the absolute, cross-subject task of the global regime; the two are therefore regarded as complementary rather than interchangeable, with the global regime remaining the headline. Supplementary Table~S1 lists both regimes side by side. The all-42 subject-median evaluation corroborates the 37-fold headline: balanced accuracy is comparable across regimes (0.69 over 42 subjects versus 0.70 over 37), and ranking quality stays high (ROC-AUC 0.80 versus 0.82). The modest reduction under the subject-median regime is expected, since it poses a harder, purely within-subject discrimination and additionally includes the five subjects that the global threshold leaves single-class, so the central conclusion of strong subject-independent EEG decoding holds under both label definitions and complete subject coverage.
 
-To assess sensitivity to the connectivity measure underlying the dynamic functional graph (Section~\ref{subsec2.5.2}), the EEG-only branch was re-evaluated under phase-locking value (broadband and five canonical-band variants: delta, theta, alpha, beta, gamma) in place of Pearson correlation, using a reduced subject subset ($N=16$) and reduced ensemble/epoch budget for computational tractability. Under this reduced-scale protocol, all seven connectivity measures, including Pearson, which achieves ROC-AUC 0.82 at full 37-subject scale (Table~\ref{tab3}), showed near-chance discrimination (mean per-subject ROC-AUC 0.47--0.60, MCC clustered near zero across all seven measures; Supplementary Table~\ref{tabS4}), indicating that LOSOCV at this reduced subject count is itself underpowered to distinguish connectivity measures, independent of which measure is used. A full-scale, 37-subject comparison across connectivity measures is identified as future work (Section~\ref{subsec4.6}); the present results should be read as establishing that Pearson correlation is sufficient to recover strong subject-independent discrimination (Table~\ref{tab3}), not as evidence that it outperforms phase-locking value.
+To assess sensitivity to the connectivity measure underlying the dynamic functional graph (Section~\ref{subsec2.5.2}), the EEG-only branch was re-evaluated under phase-locking value (broadband and five canonical-band variants: delta, theta, alpha, beta, gamma) in place of Pearson correlation, using a reduced subject subset ($N=16$) and reduced ensemble/epoch budget for computational tractability. Under this reduced-scale protocol, all seven connectivity measures, including Pearson, which achieves ROC-AUC 0.82 at full 37-subject scale (Table~\ref{tab3}), showed near-chance discrimination (mean per-subject ROC-AUC 0.47--0.60, MCC clustered near zero across all seven measures; Supplementary Table~S3), indicating that LOSOCV at this reduced subject count is itself underpowered to distinguish connectivity measures, independent of which measure is used. A full-scale, 37-subject comparison across connectivity measures is identified as future work (Section~\ref{subsec4.6}); the present results should be read as establishing that Pearson correlation is sufficient to recover strong subject-independent discrimination (Table~\ref{tab3}), not as evidence that it outperforms phase-locking value.
 
 \subsection{Explainability Analysis}\label{subsec3.10}
 
-A defining aim of INS-HDGS-CMT is interpretability, increasingly seen as essential for trustworthy neural decoding \cite{ref53}. The model's internal evidence is therefore inspected at several complementary levels, summarised in Figs.~\ref{fig8}--\ref{fig9} and Supplementary Table~\ref{tabS2}. Throughout, attributions are read as associations learned by the model rather than as causal claims about neural mechanism.
+A defining aim of INS-HDGS-CMT is interpretability, increasingly seen as essential for trustworthy neural decoding \cite{ref53}. The model's internal evidence is therefore inspected at several complementary levels, summarised in Figs.~\ref{fig8}--\ref{fig9} and Supplementary Table~S2. Throughout, attributions are read as associations learned by the model rather than as causal claims about neural mechanism.
 
 \subsubsection{EEG Graph-Attention and Importance Analysis}
 
-EEG electrode and connection importance was estimated from the dynamic graph-attention coefficients (Fig.~\ref{fig8}A,B) and from integrated gradients (Section~\ref{subsec3.10.4}). The per-electrode attention received (Fig.~\ref{fig8}A) and the full electrode-by-electrode attention matrix (Fig.~\ref{fig8}B) concentrate on frontal and parietal electrodes and their functional connections, in line with the established roles of frontal theta and parietal alpha dynamics in attention and engagement \cite{ref1,ref8}, and consistent with the integrated-gradients attribution that ranks frontal-theta and posterior-alpha power among the leading EEG inputs (Supplementary Table~\ref{tabS2}).
+EEG electrode and connection importance was estimated from the dynamic graph-attention coefficients (Fig.~\ref{fig8}A,B) and from integrated gradients (Section~\ref{subsec3.10.4}). The per-electrode attention received (Fig.~\ref{fig8}A) and the full electrode-by-electrode attention matrix (Fig.~\ref{fig8}B) concentrate on frontal and parietal electrodes and their functional connections, in line with the established roles of frontal theta and parietal alpha dynamics in attention and engagement \cite{ref1,ref8}, and consistent with the integrated-gradients attribution that ranks frontal-theta and posterior-alpha power among the leading EEG inputs (Supplementary Table~S2).
 
 \begin{figure*}[htbp]
 \centering
@@ -570,7 +573,7 @@ EEG electrode and connection importance was estimated from the dynamic graph-att
 
 \subsubsection{Eye-Tracking Attention Analysis}
 
-The gaze evidence that drives high- versus low-engagement predictions was characterised behaviourally and at the population level by analysing the raw gaze and pupil streams across all 385 epochs (Fig.~\ref{fig9}). High-engagement epochs are set apart by markedly broader, more exploratory gaze, with greater spatial dispersion (Cohen's $d=1.02$), longer scan-paths, and faster gaze kinematics (both $d=0.44$), together with modestly larger pupil dilation ($d=0.30$) and sustained dwell on salient regions documented in the case studies (Section~\ref{subsec3.11}); low-engagement epochs show spatially confined gaze concentrated in a narrow region. Because the engagement label is itself derived from gaze features (Table~\ref{tab10}), these descriptors capture the behavioural signature of the label rather than independently predicting it, which is why the leakage-free ranking is anchored on the EEG encoders, which never observe the gaze stream.
+The gaze evidence that drives high- versus low-engagement predictions was characterised behaviourally and at the population level by analysing the raw gaze and pupil streams across all 385 epochs (Fig.~\ref{fig9}). High-engagement epochs are set apart by markedly broader, more exploratory gaze, with greater spatial dispersion (Cohen's $d=1.02$), longer scan-paths, and faster gaze kinematics (both $d=0.44$), together with modestly larger pupil dilation ($d=0.30$) and sustained dwell on salient regions documented in the case studies (Section~\ref{subsec3.11}); low-engagement epochs show spatially confined gaze concentrated in a narrow region. Because the engagement label is itself derived from gaze features (Supplementary Table~S5), these descriptors capture the behavioural signature of the label rather than independently predicting it, which is why the leakage-free ranking is anchored on the EEG encoders, which never observe the gaze stream.
 
 \begin{figure*}[htbp]
 \centering
@@ -589,11 +592,11 @@ Feature attributions were computed with integrated gradients \cite{ref54}, which
 \begin{equation}
 \mathrm{IG}_i(x) = (x_i - x_i') \int_0^1 \frac{\partial F\bigl(x' + \alpha(x-x')\bigr)}{\partial x_i}\, d\alpha, \label{eq27}
 \end{equation}
-where $F$ is the model output and $\alpha$ parameterises the interpolation path. Integrated gradients satisfy sensitivity and implementation-invariance axioms, providing axiom-consistent per-feature importance scores that were aggregated across folds to rank the most influential EEG and ET features (Supplementary Table~\ref{tabS2}). The resulting ranking is dominated by the ROI saliency vector (0.52), with posterior alpha (0.18) and frontal theta (0.16) the leading EEG contributors and gaze position (0.13) the leading raw eye-tracking feature.
+where $F$ is the model output and $\alpha$ parameterises the interpolation path. Integrated gradients satisfy sensitivity and implementation-invariance axioms, providing axiom-consistent per-feature importance scores that were aggregated across folds to rank the most influential EEG and ET features (Supplementary Table~S2). The resulting ranking is dominated by the ROI saliency vector (0.52), with posterior alpha (0.18) and frontal theta (0.16) the leading EEG contributors and gaze position (0.13) the leading raw eye-tracking feature.
 
 \subsection{Case Studies of High and Low Engagement}\label{subsec3.11}
 
-To make the end-to-end decision process concrete, two representative held-out epochs are traced through the same trained ensemble: one HIGH-engagement exemplar and one LOW-engagement exemplar. Each is the most-confident, correctly-classified epoch of its class for that subject. The gaze/ROI dynamics, decision, and attribution appear in Fig.~\ref{fig10}, and the regional EEG signatures in Supplementary Figs.~\ref{figS2} and~\ref{figS3}; the two workflows are compared in detail in the text below.
+To make the end-to-end decision process concrete, two representative held-out epochs are traced through the same trained ensemble: one HIGH-engagement exemplar and one LOW-engagement exemplar. Each is the most-confident, correctly-classified epoch of its class for that subject. The gaze/ROI dynamics, decision, and attribution appear in Fig.~\ref{fig10}, and the regional EEG signatures in Supplementary Figs.~S2 and~S3; the two workflows are compared in detail in the text below.
 
 \begin{figure*}[htbp]
 \centering
@@ -604,11 +607,11 @@ To make the end-to-end decision process concrete, two representative held-out ep
 
 \subsubsection{High-Engagement Workflow}
 
-For the HIGH exemplar, frontal-theta power is higher in the HIGH epochs than in the LOW epochs within the same subject, in keeping with a frontal attentional-control signature. The ROI-saliency trajectory is sustained into the later windows and the gaze ranges over a wide spatial extent, signalling continued attention to salient content; the sustained, wide-ranging fixation pattern is consistent with the population-level attribution ranking (Table~\ref{tabS2}), in which posterior alpha power, a marker of visual attention allocation via alpha suppression, is the second-most influential EEG feature after ROI saliency itself. Integrated-gradients attribution is distributed across modalities: the HIGH decision emerges from temporally coherent agreement between covert (EEG) and overt (gaze/ROI) attention.
+For the HIGH exemplar, frontal-theta power is higher in the HIGH epochs than in the LOW epochs within the same subject, in keeping with a frontal attentional-control signature. The ROI-saliency trajectory is sustained into the later windows and the gaze ranges over a wide spatial extent, signalling continued attention to salient content; the sustained, wide-ranging fixation pattern is consistent with the population-level attribution ranking (Supplementary Table~S2), in which posterior alpha power, a marker of visual attention allocation via alpha suppression, is the second-most influential EEG feature after ROI saliency itself. Integrated-gradients attribution is distributed across modalities: the HIGH decision emerges from temporally coherent agreement between covert (EEG) and overt (gaze/ROI) attention.
 
 \subsubsection{Low-Engagement Workflow}
 
-For the LOW exemplar, the within-subject frontal-theta contrast is weaker and posterior alpha is inconsistent, echoing the population-level finding that alpha is the weaker univariate marker. The defining feature is temporal: ROI saliency is concentrated in the first few windows and then collapses to zero, while gaze stays confined to a narrow band, an early attentional drop-off. Attribution is accordingly dominated by the ROI trajectory: the LOW decision is driven chiefly by the decay of sustained salient fixation, mirroring the population-level attribution ranking (Table~\ref{tabS2}), in which the ROI-saliency vector alone accounts for roughly half of total attributed importance (0.52), more than the next five features combined. Taken together, the two cases portray HIGH engagement as sustained, multimodally-coherent attention and LOW engagement as early attentional disengagement, with frontal-theta the consistent modality-independent EEG correlate and ROI saliency the dominant single feature at both the population and case-study level.
+For the LOW exemplar, the within-subject frontal-theta contrast is weaker and posterior alpha is inconsistent, echoing the population-level finding that alpha is the weaker univariate marker. The defining feature is temporal: ROI saliency is concentrated in the first few windows and then collapses to zero, while gaze stays confined to a narrow band, an early attentional drop-off. Attribution is accordingly dominated by the ROI trajectory: the LOW decision is driven chiefly by the decay of sustained salient fixation, mirroring the population-level attribution ranking (Supplementary Table~S2), in which the ROI-saliency vector alone accounts for roughly half of total attributed importance (0.52), more than the next five features combined. Taken together, the two cases portray HIGH engagement as sustained, multimodally-coherent attention and LOW engagement as early attentional disengagement, with frontal-theta the consistent modality-independent EEG correlate and ROI saliency the dominant single feature at both the population and case-study level.
 
 \section{Discussion}\label{sec4}
 
@@ -642,13 +645,13 @@ Beyond advertising evaluation itself, the same combination of properties, subjec
 
 \subsection{Scope and Future Directions}\label{subsec4.6}
 
-This section closes by setting out the study's scope and the directions it opens. The engagement labels follow the dataset's gaze-composite definition, a weighted combination of six eye-tracking gaze features (Table~\ref{tab10}: fixation ratio, dwell time, ROI density, pupil dilation, revisit count, and gaze entropy), which is why the evaluation is leakage-controlled by design: the EEG encoders are independent of that definition and provide the primary subject-independent ranking, while the gaze and fusion results characterise each modality's information. Anchoring engagement in behaviourally grounded targets such as purchase intent or self-report is a natural next step. The framework is validated on the NeuMa dataset alone, so cross-dataset validation on independent EEG--ET corpora is the principal route toward broad generalisability. Subject-independent decoding under LOSOCV is strong on average, but a minority of hard-to-decode participants drives the per-fold variability; reliability- and subject-aware adaptation offers a concrete way to lift these cases. The reduced-scale connectivity-measure comparison of Section~\ref{subsec3.9} was inconclusive at $N=16$ subjects; a full-scale, 37-subject comparison between Pearson correlation and phase-locking value (broadband and band-limited variants) is identified as a specific direction for future work. Finally, the dynamic-graph, spiking, transformer, and symbolic stack is expressive, and lighter-weight encoders would extend it toward real-time deployment. Future work will therefore pursue behaviourally grounded labels, cross-dataset validation, reliability- and subject-aware adaptation, deployment-efficient encoders, richer symbolic knowledge bases, full-scale connectivity-measure comparison, and extension to graded or continuous engagement targets.
+This section closes by setting out the study's scope and the directions it opens. The engagement labels follow the dataset's gaze-composite definition, a weighted combination of six eye-tracking gaze features (Supplementary Table~S5: fixation ratio, dwell time, ROI density, pupil dilation, revisit count, and gaze entropy), which is why the evaluation is leakage-controlled by design: the EEG encoders are independent of that definition and provide the primary subject-independent ranking, while the gaze and fusion results characterise each modality's information. Anchoring engagement in behaviourally grounded targets such as purchase intent or self-report is a natural next step. The framework is validated on the NeuMa dataset alone, so cross-dataset validation on independent EEG--ET corpora is the principal route toward broad generalisability. Subject-independent decoding under LOSOCV is strong on average, but a minority of hard-to-decode participants drives the per-fold variability; reliability- and subject-aware adaptation offers a concrete way to lift these cases. The reduced-scale connectivity-measure comparison of Section~\ref{subsec3.9} was inconclusive at $N=16$ subjects; a full-scale, 37-subject comparison between Pearson correlation and phase-locking value (broadband and band-limited variants) is identified as a specific direction for future work. Finally, the dynamic-graph, spiking, transformer, and symbolic stack is expressive, and lighter-weight encoders would extend it toward real-time deployment. Future work will therefore pursue behaviourally grounded labels, cross-dataset validation, reliability- and subject-aware adaptation, deployment-efficient encoders, richer symbolic knowledge bases, full-scale connectivity-measure comparison, and extension to graded or continuous engagement targets.
 
 \subsection{Limitations}\label{subsec4.7}
 
 Although external validation would further strengthen the evidence for generalisability, comparable public datasets for subject-independent consumer engagement prediction using synchronised EEG and eye tracking are currently unavailable. To the best of our knowledge, NeuMa is the only publicly available multimodal neuromarketing dataset that combines synchronised EEG, eye-tracking recordings, and consumer engagement annotations acquired during a realistic consumer decision-making task. Evaluation was therefore performed under strict leave-one-subject-out cross-validation to provide the strongest subject-independent assessment possible within the available benchmark, and future work will validate the proposed framework on additional datasets as comparable multimodal neuromarketing resources become available.
 
-Several further limitations qualify these conclusions. First, because the engagement label is a weighted composite of gaze features (Table~\ref{tab10}), the leakage-free ranking is anchored on the EEG encoders (Table~\ref{tab3}), whereas the eye-tracking and fusion scores are optimistically biased by this shared definition. Second, LOSOCV gives a small per-fold test set (about nine epochs per subject), so single-fold and hard-subject metrics are indicative rather than precise, and the reduced-scale robustness checks of Section~\ref{subsec3.9} are correspondingly limited. Third, the comparison models were trained under a common, fixed budget rather than individually optimised per architecture (Section~\ref{subsec2.6}); their scores are therefore lower bounds on individually-tuned performance, and the reported margins should be read as a controlled, non-cherry-picked comparison rather than a best-versus-best ranking. Finally, the full model is more complex than any single baseline, so simpler configurations may suffice when only the leakage-free EEG ranking is required; as a consumer-neuroscience study, no clinical validity is claimed.
+Several further limitations qualify these conclusions. First, because the engagement label is a weighted composite of gaze features (Supplementary Table~S5), the leakage-free ranking is anchored on the EEG encoders (Table~\ref{tab3}), whereas the eye-tracking and fusion scores are optimistically biased by this shared definition. Second, LOSOCV gives a small per-fold test set (about nine epochs per subject), so single-fold and hard-subject metrics are indicative rather than precise, and the reduced-scale robustness checks of Section~\ref{subsec3.9} are correspondingly limited. Third, the comparison models were trained under a common, fixed budget rather than individually optimised per architecture (Section~\ref{subsec2.6}); their scores are therefore lower bounds on individually-tuned performance, and the reported margins should be read as a controlled, non-cherry-picked comparison rather than a best-versus-best ranking. Finally, the full model is more complex than any single baseline, so simpler configurations may suffice when only the leakage-free EEG ranking is required; as a consumer-neuroscience study, no clinical validity is claimed.
 
 The dual-use character of engagement decoding from neurophysiological signals also warrants explicit acknowledgement. A model capable of estimating covert engagement from EEG and gaze could, in principle, be applied not only to evaluate advertising material but to optimise it for persuasive effect on individuals who have not consented to such profiling, or to infer engagement in contexts, such as political messaging, outside the commercial evaluation setting for which the NeuMa data were collected \cite{ref35}. The present study did not, and does not, evaluate any such application; the model is trained and assessed exclusively on anonymised, consent-collected data (Section~\ref{subsec2.1}) for retrospective group-level analysis, and no individual-level, real-time, or covert deployment is proposed or endorsed. Responsible use of this class of methodology in applied neuromarketing settings requires informed participant consent, transparent disclosure of neurophysiological monitoring, and independent ethical oversight of any deployment beyond the retrospective research setting evaluated here, consistent with prior calls for ethical governance of consumer neuroscience \cite{ref33}.
 
@@ -662,17 +665,27 @@ The proposed framework is intended to provide a reproducible baseline for subjec
 
 \backmatter
 
-\bmhead{Author contributions}
-All authors contributed to the study conception and design. PD performed data processing, model development, analysis, and drafting of the manuscript; SS supervised the work and reviewed the manuscript. All authors read and approved the final manuscript.
+\bmhead{Supplementary information}
+The online version contains supplementary material.
+
+\noindent\textbf{Additional file~1:} \textbf{Figure~S1.} Subject-wise LOSOCV performance. \textbf{Figure~S2.} Regional EEG signatures for the case-study exemplars (S24 HIGH, S30 LOW): band power by region (frontal vs.\ posterior), the off-diagonal functional-connectivity matrix, and the within-subject HIGH$-$LOW band-power difference for frontal theta and posterior alpha. \textbf{Figure~S3.} Dwell-time/ROI-saliency time course for the case-study exemplars. \textbf{Table~S1.} EEG branch under both labelling regimes (robustness check). \textbf{Table~S2.} Top integrated-gradients input attributions. \textbf{Table~S3.} Connectivity-measure comparison ($N=16$, reduced scale). \textbf{Table~S4.} Summary of the mathematical notation used in the Methods of the main text, in order of first use. \textbf{Table~S5.} Composition of the engagement label (full weighted gaze-composite definition). \textbf{Table~S6.} Proposed EEG branch versus each baseline on MCC and ROC-AUC (Holm-corrected Wilcoxon, 37 folds).
+
+\bmhead{Acknowledgements}
+All experiments were run on NVIDIA A100 GPUs provided through the NVIDIA Academic Grant Program, awarded to the second author (Shridevi S.). Research supported by the NVIDIA Academic Grant Program.
+
+\bmhead{Author contribution}
+Priyadharshini D: Conceptualization, Methodology, Software, Data curation, Formal analysis, Investigation, Visualization, Writing---original draft. Shridevi S: Conceptualization, Supervision, Project administration, Funding acquisition, Resources, Writing---review \& editing. All authors read and approved the final manuscript.
 
 \bmhead{Funding}
 The authors did not receive any specific funding for this work.
 
 \bmhead{Data availability}
-The dataset analysed during the current study is available in the Scientific Data repository, described by Georgiadis et al.\ \cite{ref35}. \url{https://doi.org/10.1038/s41597-023-02392-9}. No new data were generated in this work.
+The dataset analysed during the current study is available in the Scientific Data repository, described by Georgiadis et al.\ \cite{ref35}, \url{https://doi.org/10.1038/s41597-023-02392-9}. No new data were generated in this work.
 
 \bmhead{Code availability}
 The code supporting the findings of this study is available at \url{https://github.com/priyadharshini-D29/INS-HDGS-CMT}. All experiments use a base random seed (seed~$=42$, Table~\ref{tab2}) applied to the Python, NumPy, and PyTorch generators, with each fold's prediction averaged over a 15-member ensemble; hyperparameters, optimiser configuration, and training schedule are listed in full in Table~\ref{tab2}; software versions (Python 3.12, PyTorch 2.7.1, CUDA 12.6) are as stated in Section~\ref{subsec2.5.10}.
+
+\section*{Declarations}
 
 \bmhead{Ethics approval and consent to participate}
 The NeuMa data were collected in accordance with the Declaration of Helsinki under the ethical approval reported in the original dataset publication \cite{ref35}; the present study constitutes a secondary analysis.
@@ -680,19 +693,15 @@ The NeuMa data were collected in accordance with the Declaration of Helsinki und
 \bmhead{Consent for publication}
 Not applicable.
 
-\bmhead{Acknowledgements}
-All experiments were run on NVIDIA A100 GPUs provided through the NVIDIA Academic Grant Program, awarded to the second author (Shridevi S.). Research supported by the NVIDIA Academic Grant Program.
-
-\bmhead{Use of AI}
-Generative AI was used solely for language editing and grammar improvement during manuscript preparation. All content was reviewed and approved by the authors, who are fully responsible for the final manuscript.
-
-\section*{Declarations}
-
 \bmhead{Competing interests}
 The authors declare that they have no financial or non-financial competing interests.
 
+\bmhead{Use of generative AI}
+Generative AI was used solely for language editing and grammar improvement during manuscript preparation. All content was reviewed and approved by the authors, who are fully responsible for the final manuscript.
+
 \begin{thebibliography}{53}
 \small
+\setlength{\itemsep}{-1.5pt}\setlength{\parsep}{0pt}
 
 \bibitem{ref1} Alsharif AH, Mohd Isa S (2025) Electroencephalography studies on marketing stimuli: a literature review and future research agenda. International Journal of Consumer Studies 49(1):70015. \url{https://doi.org/10.1111/ijcs.70015}
 
@@ -801,189 +810,5 @@ The authors declare that they have no financial or non-financial competing inter
 \bibitem{ref54} Sundararajan M, Taly A, Yan Q (2017) Axiomatic attribution for deep networks. In: Proceedings of the 34th International Conference on Machine Learning, vol 70, pp 3319-3328. \url{https://proceedings.mlr.press/v70/sundararajan17a.html}
 
 \end{thebibliography}
-
-\clearpage
-\onecolumn
-\renewcommand{\topfraction}{0.9}
-\renewcommand{\textfraction}{0.05}
-\renewcommand{\floatpagefraction}{0.75}
-\setcounter{totalnumber}{6}
-\begin{appendices}
-
-% Supplementary figures and tables use S-numbering (S1, S2, ...)
-\renewcommand{\thefigure}{S\arabic{figure}}
-\renewcommand{\thetable}{S\arabic{table}}
-\setcounter{figure}{0}
-\setcounter{table}{0}
-
-\section{Subject-wise LOSOCV performance}\label{secA0}
-
-This appendix reports two supplementary views of subject-level performance referenced from the main text. Fig.~\ref{figS1} gives the per-subject balanced accuracy underlying the summary statistics of Section~\ref{subsec3.7}, and Figs.~\ref{figS2} and~\ref{figS3} give the regional EEG and temporal ROI-saliency detail underlying the case studies of Section~\ref{subsec3.11}.
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\textwidth]{fig_losocv.pdf}
-\caption{Subject-wise LOSOCV performance.}
-\label{figS1}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\textwidth]{fig_regions.pdf}
-\caption{Regional EEG signatures for the case-study exemplars (S24 HIGH, S30 LOW). For each exemplar, from left to right: band power by region (frontal vs.\ posterior), the off-diagonal functional-connectivity matrix, and the within-subject HIGH$-$LOW band-power difference for frontal theta and posterior alpha.}
-\label{figS2}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\textwidth]{fig_roi_timecourse.png}
-\caption{Dwell-time / ROI-saliency time course for the case-study exemplars.}
-\label{figS3}
-\end{figure}
-
-\FloatBarrier
-\section{Robustness across labelling regimes}\label{secA1}
-
-Table~\ref{tabS1} lists the EEG-branch performance under both labelling regimes discussed in Section~\ref{subsec3.9} side by side, confirming that the global-threshold headline is not an artefact of the five excluded single-class subjects.
-
-\begin{table}[htbp]
-\caption{EEG branch under both labelling regimes.}\label{tabS1}
-\small
-\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}llll@{}}
-\toprule
-Labelling regime & Subjects evaluable & Balanced acc. & ROC-AUC \\
-\midrule
-Global threshold (headline) & 37 & 0.70$\pm$0.16 & 0.82$\pm$0.19 \\
-Subject-median (coverage) & 42 & 0.69$\pm$0.18 & 0.80$\pm$0.18 \\
-\botrule
-\end{tabular*}
-\end{table}
-
-\FloatBarrier
-\section{Integrated-gradients feature attributions}\label{secA2}
-
-Table~\ref{tabS2} lists the full integrated-gradients feature ranking summarised in Section~\ref{subsec3.10.4} and referenced throughout the case studies of Section~\ref{subsec3.11}.
-
-\begin{table}[htbp]
-\caption{Top integrated-gradients input attributions.}\label{tabS2}
-\small
-\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lllp{4cm}@{}}
-\toprule
-Modality & Feature & Importance & Interpretation \\
-\midrule
-ROI & ROI saliency vector & 0.52 & Attended stimulus region \\
-EEG & Posterior alpha power & 0.18 & Visual attention allocation (alpha suppression) \\
-EEG & Frontal theta power & 0.16 & Attentional control / engagement \\
-ET & Gaze position & 0.13 & Overt fixation location \\
-ET & Pupil dynamics & 0.01 & Arousal / cognitive load \\
-EEG & Frontal functional connectivity & $<0.01$ & Network integration (see ablation) \\
-\botrule
-\end{tabular*}
-\end{table}
-
-\FloatBarrier
-\section{Connectivity-measure sensitivity (reduced-scale robustness check)}\label{secA4}
-
-Table~\ref{tabS4} lists the full per-measure results of the reduced-scale ($N=16$) connectivity-measure comparison discussed in Section~\ref{subsec3.9}, included here for completeness alongside the headline Pearson-correlation results of Table~\ref{tab3}.
-
-\begin{table}[htbp]
-\caption{Connectivity-measure comparison ($N=16$, reduced scale).}\label{tabS4}
-\small
-\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lllll@{}}
-\toprule
-Connectivity measure & $n$ folds & Mean subj.\ AUC & Pooled AUC & Mean MCC \\
-\midrule
-Pearson & 15 & 0.535 & 0.506 & $-0.014$ \\
-PLV (broadband) & 15 & 0.568 & 0.502 & $+0.021$ \\
-PLV (delta) & 13 & 0.596 & 0.527 & $+0.141$ \\
-PLV (theta) & 14 & 0.517 & 0.457 & $-0.007$ \\
-PLV (alpha) & 15 & 0.573 & 0.527 & $-0.032$ \\
-PLV (beta) & 15 & 0.490 & 0.480 & $-0.055$ \\
-PLV (gamma) & 15 & 0.466 & 0.469 & $-0.029$ \\
-\botrule
-\end{tabular*}
-\end{table}
-
-\FloatBarrier
-\section{Composition of the engagement label}\label{secA5}
-
-Table~\ref{tab10} lists the full weighted composition of the gaze-derived engagement label referenced in Sections~\ref{subsec2.4} and~\ref{subsec4.6}.
-
-\begin{table}[htbp]
-\caption{Engagement-label composition.}\label{tab10}
-\small
-\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}llp{4cm}@{}}
-\toprule
-Gaze feature & Weight & Behavioural role \\
-\midrule
-Fixation ratio & $+0.30$ & sustained vs.\ dispersed looking \\
-Mean dwell time & $+0.25$ & total attention on the product \\
-ROI density & $+0.20$ & focus on the attended region \\
-Pupil dilation (norm.) & $+0.15$ & arousal / cognitive load \\
-Revisit count & $+0.10$ & re-engagement with the product \\
-Gaze entropy & $-0.30$ & scanning / disengagement \\
-\botrule
-\end{tabular*}
-\end{table}
-
-\FloatBarrier
-\section{Summary of mathematical notation}\label{secA6}
-
-Table~\ref{tabS5} summarises, for reference, every symbol introduced in the Methods (Section~\ref{subsec2.5}), in order of first use.
-
-\begin{table}[htbp]
-\caption{Mathematical notation.}\label{tabS5}
-\small
-\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}llp{6cm}@{}}
-\toprule
-Symbol & Defined & Meaning \\
-\midrule
-$G_t=(V,E_t,A_t)$ & Eq.~\eqref{eq1} & Dynamic EEG functional graph at window $t$ \\
-$\rho_{ij}(t)$ & Eq.~\eqref{eq2pearson} & Windowed Pearson connectivity between electrodes $i,j$ \\
-$\mathrm{PLV}_{ij}$ & Eq.~\eqref{eq2} & Phase-locking value connectivity (alternative measure) \\
-$\tau$ & Eq.~\eqref{eq3} & Connectivity threshold sparsifying $A_t$ \\
-$\alpha_{ij}$ & Eqs.~\eqref{eq9}--\eqref{eq10} & Graph-attention coefficient between nodes $i,j$ \\
-$Z_{\mathrm{EEG}\to\mathrm{ET}}$ & Eq.~\eqref{eq12} & EEG-to-ET cross-attention output \\
-$Z_{\mathrm{fusion}}$ & Eq.~\eqref{eq13} & Fused multimodal representation \\
-$g$ & Sec.~\ref{subsec2.5.7} & Gated residual fusion weight \\
-$a_r$ & Eq.~\eqref{eq15} & Neuro-symbolic rule activation \\
-$R$ & Eq.~\eqref{eq17} & Aggregated rule evidence \\
-$\alpha$ (bypass gate) & Eq.~\eqref{eq18} & Rule/bypass blend weight (distinct from $\alpha_{ij}$ above) \\
-$L_{\mathrm{div}}, L_{\mathrm{sparse}}$ & Eqs.~\eqref{eq19}--\eqref{eq20} & Rule diversity / sparsity regularisers \\
-$L_{\mathrm{mmd}}$ & Eq.~\eqref{eq21} & Subject-embedding alignment penalty \\
-$L_{\mathrm{con}}$ & Eq.~\eqref{eq22} & Supervised contrastive loss \\
-$L_{\mathrm{roi}}$ & Eq.~\eqref{eq23} & ROI-attention guidance loss \\
-$L_{\mathrm{total}}$ & Eq.~\eqref{eq26} & Combined training objective \\
-\botrule
-\end{tabular*}
-\end{table}
-
-\FloatBarrier
-\section{Significance of the EEG branch on MCC and ROC-AUC}\label{secA7}
-Table~\ref{tabS6} reports the per-baseline Holm--Bonferroni-corrected Wilcoxon results underlying the abstract and Section~\ref{subsec3.5} statement that the leakage-free EEG branch outperforms all eight EEG encoders on MCC and ROC-AUC. It complements the balanced-accuracy analysis of Table~\ref{tab8}, using the identical paired procedure across the 37 LOSOCV folds at the uncalibrated operating point, with Cliff's $\delta$ as the effect size.
-
-\begin{table}[htbp]
-\caption{Proposed EEG branch versus each baseline on MCC and ROC-AUC (Holm-corrected Wilcoxon, 37 folds). All eight comparisons remain significant after correction on both metrics.}\label{tabS6}
-\small
-\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lcccccc@{}}
-\toprule
-& \multicolumn{3}{c}{MCC} & \multicolumn{3}{c}{ROC-AUC} \\
-\cmidrule(lr){2-4}\cmidrule(lr){5-7}
-Baseline & Median $\Delta$ & $p_{\mathrm{Holm}}$ & Cliff's $\delta$ & Median $\Delta$ & $p_{\mathrm{Holm}}$ & Cliff's $\delta$ \\
-\midrule
-GAT & +0.354 & $<0.001$ & +0.69 & +0.333 & $<0.001$ & +0.69 \\
-EEG Transformer & +0.354 & 0.003 & +0.53 & +0.300 & $<0.001$ & +0.62 \\
-CNN--LSTM & +0.316 & 0.006 & +0.48 & +0.222 & 0.002 & +0.51 \\
-TSception & +0.227 & 0.004 & +0.45 & +0.224 & 0.001 & +0.51 \\
-CNN--BiLSTM & +0.354 & 0.013 & +0.43 & +0.102 & 0.002 & +0.44 \\
-DeepConvNet & +0.338 & 0.009 & +0.43 & +0.208 & 0.001 & +0.55 \\
-EEGNet & +0.250 & 0.030 & +0.31 & +0.200 & 0.002 & +0.45 \\
-ShallowConvNet & +0.192 & 0.040 & +0.24 & +0.100 & 0.006 & +0.38 \\
-\botrule
-\end{tabular*}
-\end{table}
-
-\FloatBarrier
-\end{appendices}
 
 \end{document}

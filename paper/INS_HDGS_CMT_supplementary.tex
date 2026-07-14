@@ -1,0 +1,166 @@
+\documentclass[pdflatex,sn-basic]{sn-jnl}
+
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{booktabs}
+\usepackage{placeins}
+
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\thetable}{S\arabic{table}}
+
+\raggedbottom
+
+\begin{document}
+
+\title[Supplementary Information]{Supplementary Information for ``Dynamic Functional Graph Learning for Subject-Independent Consumer Engagement Decoding from EEG and Eye Tracking: A Leakage-Aware NeuMa Study''}
+
+\author[1]{\fnm{Priyadharshini} \sur{D}}\email{priyadharshini.2024b@vitstudent.ac.in}
+\author*[1]{\fnm{Shridevi} \sur{S}}\email{shridevi.s@vit.ac.in}
+
+\affil*[1]{\orgdiv{Centre for Neuroinformatics}, \orgname{Vellore Institute of Technology}, \orgaddress{\city{Chennai}, \country{India}}}
+
+\maketitle
+
+This document (Additional file~1) collects all supplementary figures and tables referenced in the main manuscript. Each caption states, in parentheses, the section of the main manuscript from which the item is referenced, so that every table and figure can be read together with the corresponding part of the main text. Figures and tables are numbered with an ``S'' prefix; section numbers (e.g., Section~3.7) refer to the main manuscript.
+
+\section*{Supplementary Figures}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{fig_losocv.pdf}
+\caption{Subject-wise LOSOCV performance (Section~3.7 of the main manuscript). Balanced accuracy for each held-out subject, sorted in descending order, with the cohort mean ($0.74$) and the chance level marked. Most held-out subjects are decoded well above chance, while a minority of hard-to-decode folds account for most of the gap between mean and best-case performance, motivating the subject-aware calibration discussed in the main text.}
+\label{figS1}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{fig_regions.pdf}
+\caption{Regional EEG signatures for the two case-study exemplars (S24 HIGH, S30 LOW), supporting the case studies of Section~3.11 of the main manuscript. For each exemplar, from left to right: band power by region (frontal vs.\ posterior) across the five canonical bands, the off-diagonal functional-connectivity matrix, and the within-subject HIGH$-$LOW band-power difference for frontal theta and posterior alpha. The HIGH exemplar shows elevated frontal-theta power relative to its own LOW epochs, consistent with a frontal attentional-control signature.}
+\label{figS2}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{fig_roi_timecourse.png}
+\caption{Dwell-time / ROI-saliency time course for the case-study exemplars (S24 HIGH, S30 LOW), supporting Section~3.11 of the main manuscript. The HIGH exemplar sustains ROI saliency into the later dwell windows, whereas the LOW exemplar peaks early and then collapses to zero, reflecting the early attentional drop-off described in the case studies.}
+\label{figS3}
+\end{figure}
+
+\FloatBarrier
+\section*{Supplementary Tables}
+
+\begin{table}[htbp]
+\caption{EEG branch under both labelling regimes (robustness check for Section~3.9 of the main manuscript). The global-threshold headline (37 evaluable subjects) is placed beside the subject-median coverage regime (all 42 subjects) to confirm that excluding the five single-class subjects does not bias the conclusions; performance is comparable across regimes.}\label{tabS1}
+\small
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}llll@{}}
+\toprule
+Labelling regime & Subjects evaluable & Balanced acc. & ROC-AUC \\
+\midrule
+Global threshold (headline) & 37 & 0.70$\pm$0.16 & 0.82$\pm$0.19 \\
+Subject-median (coverage) & 42 & 0.69$\pm$0.18 & 0.80$\pm$0.18 \\
+\botrule
+\end{tabular*}
+\end{table}
+
+\begin{table}[htbp]
+\caption{Top integrated-gradients input attributions, aggregated across folds (Sections~3.10.1 and~3.10.4 of the main manuscript). The ROI-saliency vector dominates the ranking, followed by posterior-alpha and frontal-theta EEG power; the values are normalised importance scores.}\label{tabS2}
+\small
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lllp{5cm}@{}}
+\toprule
+Modality & Feature & Importance & Interpretation \\
+\midrule
+ROI & ROI saliency vector & 0.52 & Attended stimulus region \\
+EEG & Posterior alpha power & 0.18 & Visual attention allocation (alpha suppression) \\
+EEG & Frontal theta power & 0.16 & Attentional control / engagement \\
+ET & Gaze position & 0.13 & Overt fixation location \\
+ET & Pupil dynamics & 0.01 & Arousal / cognitive load \\
+EEG & Frontal functional connectivity & $<0.01$ & Network integration (see ablation) \\
+\botrule
+\end{tabular*}
+\end{table}
+
+\begin{table}[htbp]
+\caption{Connectivity-measure comparison at reduced scale ($N=16$; Section~3.9 of the main manuscript). All seven measures, including the Pearson correlation used for the main results, show near-chance discrimination, indicating that LOSOCV at this reduced subject count is itself underpowered to separate connectivity measures rather than that any one measure is superior.}\label{tabS3}
+\small
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lllll@{}}
+\toprule
+Connectivity measure & $n$ folds & Mean subj.\ AUC & Pooled AUC & Mean MCC \\
+\midrule
+Pearson & 15 & 0.535 & 0.506 & $-0.014$ \\
+PLV (broadband) & 15 & 0.568 & 0.502 & $+0.021$ \\
+PLV (delta) & 13 & 0.596 & 0.527 & $+0.141$ \\
+PLV (theta) & 14 & 0.517 & 0.457 & $-0.007$ \\
+PLV (alpha) & 15 & 0.573 & 0.527 & $-0.032$ \\
+PLV (beta) & 15 & 0.490 & 0.480 & $-0.055$ \\
+PLV (gamma) & 15 & 0.466 & 0.469 & $-0.029$ \\
+\botrule
+\end{tabular*}
+\end{table}
+
+\begin{table}[htbp]
+\caption{Summary of the mathematical notation used in the Methods (Section~2.5 of the main manuscript), listed in order of first use, provided here as a quick reference for the symbols introduced across the architecture and training-objective equations.}\label{tabS4}
+\small
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lp{9cm}@{}}
+\toprule
+Symbol & Meaning \\
+\midrule
+$G_t=(V,E_t,A_t)$ & Dynamic EEG functional graph at window $t$ \\
+$\rho_{ij}(t)$ & Windowed Pearson connectivity between electrodes $i,j$ \\
+$\mathrm{PLV}_{ij}$ & Phase-locking value connectivity (alternative measure) \\
+$\tau$ & Connectivity threshold sparsifying $A_t$ \\
+$\alpha_{ij}$ & Graph-attention coefficient between nodes $i,j$ \\
+$Z_{\mathrm{EEG}\to\mathrm{ET}}$ & EEG-to-ET cross-attention output \\
+$Z_{\mathrm{fusion}}$ & Fused multimodal representation \\
+$g$ & Gated residual fusion weight \\
+$a_r$ & Neuro-symbolic rule activation \\
+$R$ & Aggregated rule evidence \\
+$\alpha$ (bypass gate) & Rule/bypass blend weight (distinct from $\alpha_{ij}$ above) \\
+$L_{\mathrm{div}}, L_{\mathrm{sparse}}$ & Rule diversity / sparsity regularisers \\
+$L_{\mathrm{mmd}}$ & Subject-embedding alignment penalty \\
+$L_{\mathrm{con}}$ & Supervised contrastive loss \\
+$L_{\mathrm{roi}}$ & ROI-attention guidance loss \\
+$L_{\mathrm{total}}$ & Combined training objective \\
+\botrule
+\end{tabular*}
+\end{table}
+
+\begin{table}[htbp]
+\caption{Composition of the gaze-derived engagement label (Sections~2.4 and~4.6 of the main manuscript). The six weighted gaze/pupil features and their behavioural roles define the engagement target; because the label is gaze-derived, the leakage-independent evaluation in the main text is anchored on the EEG-only branch.}\label{tabS5}
+\small
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}llp{5cm}@{}}
+\toprule
+Gaze feature & Weight & Behavioural role \\
+\midrule
+Fixation ratio & $+0.30$ & sustained vs.\ dispersed looking \\
+Mean dwell time & $+0.25$ & total attention on the product \\
+ROI density & $+0.20$ & focus on the attended region \\
+Pupil dilation (norm.) & $+0.15$ & arousal / cognitive load \\
+Revisit count & $+0.10$ & re-engagement with the product \\
+Gaze entropy & $-0.30$ & scanning / disengagement \\
+\botrule
+\end{tabular*}
+\end{table}
+
+\begin{table}[htbp]
+\caption{Proposed EEG branch versus each baseline on MCC and ROC-AUC (Holm-corrected Wilcoxon signed-rank tests, 37 folds; Section~3.5 of the main manuscript). This complements the balanced-accuracy analysis of Table~9 in the main text and substantiates the abstract's statement that the leakage-free EEG branch outperforms all eight EEG encoders; all eight comparisons remain significant after correction on both metrics.}\label{tabS6}
+\small
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lcccccc@{}}
+\toprule
+& \multicolumn{3}{c}{MCC} & \multicolumn{3}{c}{ROC-AUC} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+Baseline & Median $\Delta$ & $p_{\mathrm{Holm}}$ & Cliff's $\delta$ & Median $\Delta$ & $p_{\mathrm{Holm}}$ & Cliff's $\delta$ \\
+\midrule
+GAT & +0.354 & $<0.001$ & +0.69 & +0.333 & $<0.001$ & +0.69 \\
+EEG Transformer & +0.354 & 0.003 & +0.53 & +0.300 & $<0.001$ & +0.62 \\
+CNN--LSTM & +0.316 & 0.006 & +0.48 & +0.222 & 0.002 & +0.51 \\
+TSception & +0.227 & 0.004 & +0.45 & +0.224 & 0.001 & +0.51 \\
+CNN--BiLSTM & +0.354 & 0.013 & +0.43 & +0.102 & 0.002 & +0.44 \\
+DeepConvNet & +0.338 & 0.009 & +0.43 & +0.208 & 0.001 & +0.55 \\
+EEGNet & +0.250 & 0.030 & +0.31 & +0.200 & 0.002 & +0.45 \\
+ShallowConvNet & +0.192 & 0.040 & +0.24 & +0.100 & 0.006 & +0.38 \\
+\botrule
+\end{tabular*}
+\end{table}
+
+\end{document}
