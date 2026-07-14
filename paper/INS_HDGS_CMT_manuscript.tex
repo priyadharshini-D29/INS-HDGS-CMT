@@ -128,7 +128,7 @@ INS-HDGS-CMT is an end-to-end multimodal architecture of six interacting compone
 
 \begin{figure*}[htbp]
 \centering
-\includegraphics[width=\textwidth]{figures/fig_2Architecture.jpeg}
+\includegraphics[width=\textwidth]{figures/fig2_Architecture.pdf}
 \caption{Overview of the INS-HDGS-CMT architecture. The EEG graph--spiking pathway (A) and the eye-tracking attention pathway (B) are integrated by the NeuroFusion Transformer (C); the neuro-symbolic decision layer (D) then yields the final engagement prediction (E). The EEG-only branch used for the leakage-free ranking (Table~\ref{tab3}) disables all eye-tracking-derived input and ROI modulation.}
 \label{fig2}
 \end{figure*}
@@ -247,7 +247,7 @@ retaining modality-specific evidence while adding the learned conditional depend
 
 \begin{figure*}[htbp]
 \centering
-\includegraphics[width=\textwidth]{{fig4.Cross-modal}.jpeg}
+\includegraphics[width=\textwidth]{figures/fig4_cross-modal.pdf}
 \caption{Cross-modal fusion and neuro-symbolic reasoning. Self-attention over the EEG, graph, and eye-tracking tokens is followed by directed cross-attention (the EEG representation queries the graph and eye-tracking contexts) and a gated residual fusion that forms the joint representation. The neuro-symbolic module then matches eight soft rules and aggregates their activations; it runs in explanation-only mode, so the decoded activations are exploratory traces rather than neurophysiological explanations, and the final decision is taken by the standard classifier.}
 \label{fig4}
 \end{figure*}
