@@ -183,9 +183,9 @@ If you use this code or results, please cite the paper (see
 
 ```bibtex
 @article{inshdgscmt2026,
-  title   = {An Interpretable Neuro-Symbolic Hybrid Dynamic Graph Spiking Cross-Modal
-             Transformer for Consumer Engagement Prediction Using EEG and Eye Tracking},
-  author  = {Dhanapalan, Priyadharshini and Shridevi, S.},
+  title   = {Dynamic Functional Graph Learning for Subject-Independent Consumer
+             Engagement Decoding from EEG and Eye Tracking: A Leakage-Aware NeuMa Study},
+  author  = {D, Priyadharshini and S, Shridevi},
   journal = {Brain Informatics},
   year    = {2026},
   note    = {Under review}

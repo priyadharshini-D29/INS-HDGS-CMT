@@ -1,12 +1,11 @@
 cff-version: 1.2.0
 message: "If you use this software or its results, please cite the paper below."
 title: >-
-  INS-HDGS-CMT: An Interpretable Neuro-Symbolic Hybrid Dynamic Graph Spiking
-  Cross-Modal Transformer for Consumer Engagement Prediction Using EEG and Eye
-  Tracking
+  Dynamic Functional Graph Learning for Subject-Independent Consumer Engagement
+  Decoding from EEG and Eye Tracking: A Leakage-Aware NeuMa Study
 type: software
 authors:
-  - family-names: "Dhanapalan"
+  - family-names: "D"
     given-names: "Priyadharshini"
     affiliation: "Vellore Institute of Technology (VIT), Chennai, India"
   - family-names: "S"
@@ -30,10 +29,10 @@ keywords:
 preferred-citation:
   type: article
   title: >-
-    An Interpretable Neuro-Symbolic Hybrid Dynamic Graph Spiking Cross-Modal
-    Transformer for Consumer Engagement Prediction Using EEG and Eye Tracking
+    Dynamic Functional Graph Learning for Subject-Independent Consumer Engagement
+    Decoding from EEG and Eye Tracking: A Leakage-Aware NeuMa Study
   authors:
-    - family-names: "Dhanapalan"
+    - family-names: "D"
       given-names: "Priyadharshini"
     - family-names: "S"
       given-names: "Shridevi"
