@@ -13,7 +13,8 @@ def test_repo_layout():
     """Core folders required by the reproducibility pipeline exist."""
     for d in [
         "src/model", "src/data_pipeline", "configs", "reproducibility",
-        "ablation", "results", "tables", "figures", "paper", "docs", "datasets",
+        "ablation", "results", "tables", "paper/figures", "paper", "docs",
+        "datasets",
     ]:
         assert (ROOT / d).is_dir(), f"missing folder: {d}"
 

@@ -2,67 +2,123 @@
 
 # INS-HDGS-CMT
 
-### An Interpretable Neuro-Symbolic Hybrid Dynamic Graph Spiking Cross-Modal Transformer for Consumer Engagement Prediction Using EEG and Eye Tracking
+### Dynamic Functional Graph Learning for Subject-Independent Consumer Engagement Decoding from EEG and Eye Tracking: A Leakage-Aware NeuMa Study
 
 [![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.x-EE4C2C?logo=pytorch&logoColor=white)](https://pytorch.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![DOI](https://img.shields.io/badge/DOI-pending-blue.svg)](https://doi.org/)
 [![Paper](https://img.shields.io/badge/Paper-Brain%20Informatics-b31b1b.svg)](paper/)
-[![Journal](https://img.shields.io/badge/Journal-Springer%20Nature-0057B8.svg)](https://braininformatics.springeropen.com/)
-[![Reproducible](https://img.shields.io/badge/Reproducible-LOSOCV-brightgreen.svg)](reproducibility/)
+[![Status](https://img.shields.io/badge/Status-Under%20review-orange.svg)](#citation)
+[![Evaluation](https://img.shields.io/badge/Evaluation-LOSOCV-brightgreen.svg)](reproducibility/)
+
+**Priyadharshini D** · **Shridevi S**
+School of Computer Science and Engineering, Vellore Institute of Technology, Chennai, India
 
 </div>
 
 ---
 
-Official code, results, figures and manuscript for the paper **"An Interpretable
-Neuro-Symbolic Hybrid Dynamic Graph Spiking Cross-Modal Transformer for Consumer
-Engagement Prediction Using EEG and Eye Tracking"** (submitted to *Brain
-Informatics*).
+Official code, results, figures and manuscript sources for **"Dynamic Functional
+Graph Learning for Subject-Independent Consumer Engagement Decoding from EEG and
+Eye Tracking: A Leakage-Aware NeuMa Study"**, submitted to *Brain Informatics*
+(Springer Nature).
 
 ## Overview
 
-INS-HDGS-CMT predicts consumer engagement (**HIGH** vs **LOW**) from synchronized
-EEG and eye-tracking recordings, evaluated under **leave-one-subject-out
-cross-validation (LOSOCV)** — the strict, subject-independent protocol. The
-architecture:
+Consumer engagement is central to advertising effectiveness, yet self-report
+measures are retrospective and biased. EEG and eye tracking provide
+complementary objective measures, but existing frameworks often rely on simple
+fusion, subject-mixed evaluation that overstates generalisation, and static
+within-trial connectivity.
 
-1. represents EEG as a sequence of **dynamic functional graphs** (Pearson/PLV
-   connectivity), encoded with a **graph attention network (GAT)** and a
-   **spiking (LIF) encoder** for energy-efficient temporal coding;
-2. encodes eye-tracking gaze/pupil dynamics with a recurrent + **ROI-attention**
-   branch;
-3. **fuses** the modalities with a **cross-modal transformer** (EEG ← Graph,
-   EEG ← Eye-Tracking); and
-4. refines the decision with a **differentiable neuro-symbolic rule layer** that
-   makes the prediction *interpretable* — each decision is attributable to a
-   small set of human-readable rule activations.
+**INS-HDGS-CMT** — the Interpretable Neuro-Symbolic Hybrid Dynamic Graph Spiking
+Cross-Modal Transformer — is a subject-independent framework that:
 
-## Motivation
+1. represents each EEG epoch as a **sequence of dynamic functional-connectivity
+   graphs**, encoded with hierarchical **graph-attention** and **spiking (LIF)**
+   modules;
+2. encodes gaze/pupil dynamics with a recurrent + **ROI-attention** branch;
+3. **fuses** the modalities with a **cross-modal transformer**; and
+4. exposes each decision through a **soft-rule inspection module**.
 
-Neuromarketing needs models that generalise **across people** and **explain
-themselves**. Most EEG engagement models are evaluated with subject-mixed splits
-(which leak identity and inflate accuracy) and act as black boxes. INS-HDGS-CMT
-targets both gaps: a subject-independent LOSOCV protocol and built-in
-neuro-symbolic interpretability, while remaining efficient through spiking
-temporal encoding.
-
-## Architecture
+Evaluation uses **leave-one-subject-out cross-validation (LOSOCV)** on the public
+**NeuMa** dataset — the strict, subject-independent protocol.
 
 <div align="center">
-<img src="figures/Figure2_Architecture/fig2_architecture_preview.png" alt="INS-HDGS-CMT architecture" width="720"/>
+<img src="assets/architecture.png" alt="INS-HDGS-CMT architecture" width="760"/>
 </div>
 
-Full-resolution vector figure: [`figures/Figure2_Architecture/fig2_architecture.pdf`](figures/Figure2_Architecture/fig2_architecture.pdf).
-Editable source: [`figures/Figure2_Architecture/fig2_architecture_source.py`](figures/Figure2_Architecture/fig2_architecture_source.py).
+Full-resolution vector figure: [`paper/figures/fig2_Architecture.pdf`](paper/figures/fig2_Architecture.pdf).
+
+## Leakage-aware evaluation — please read first
+
+Engagement labels in NeuMa are **derived from gaze features**. Any model that
+receives eye tracking as input is therefore partly reconstructing its own label
+source. This repository follows the manuscript in keeping the two claims
+strictly separate:
+
+| Claim | Branch | ROC-AUC | Status |
+|---|---|---|---|
+| **Leakage-independent (headline)** | **EEG-only** — never accesses gaze | **0.82** | Primary result |
+| Label-coupled (secondary) | Full multimodal (EEG + ET) | 0.90 | Secondary analysis, **not** independent prediction |
+
+The EEG-only branch significantly outperformed **eight** EEG baseline
+architectures on ROC-AUC and MCC after Holm correction. Ablation identified
+**dynamic functional-graph modelling** as the component whose removal most
+degraded performance, and the only ablation remaining significant after
+correction.
+
+## Figures — paper → repository
+
+Manuscript figures live in [`paper/figures/`](paper/figures/). Filenames are kept
+exactly as the manuscript sources reference them so the paper still compiles;
+this table maps them to the paper's numbering.
+
+| Paper | Caption (abridged) | File |
+|---|---|---|
+| Fig. 1 | Representative synchronised multimodal (EEG, gaze, pupil) epoch, subject S24 | [`fig1_real_overlay.pdf`](paper/figures/fig1_real_overlay.pdf) |
+| Fig. 2 | Overview of the INS-HDGS-CMT architecture | [`fig2_Architecture.pdf`](paper/figures/fig2_Architecture.pdf) |
+| Fig. 3 | Dynamic EEG functional-graph construction | [`fig_graph.pdf`](paper/figures/fig_graph.pdf) |
+| Fig. 4 | Cross-modal fusion and neuro-symbolic reasoning | [`fig4_cross-modal.pdf`](paper/figures/fig4_cross-modal.pdf) |
+| Fig. 5 | Classification performance under LOSOCV | [`fig3_losocv_results.pdf`](paper/figures/fig3_losocv_results.pdf) |
+| Fig. 6 | EEG leakage-controlled comparison (Nemenyi critical difference) | [`fig6_combined.pdf`](paper/figures/fig6_combined.pdf) |
+| Fig. 7 | Engagement is encoded multivariately, not by any single marker | [`fig_concordance_depth.pdf`](paper/figures/fig_concordance_depth.pdf) |
+| Fig. 8 | Explainability for one held-out subject (S01) | [`fig5_explainability.pdf`](paper/figures/fig5_explainability.pdf) |
+| Fig. 9 | Eye-tracking phenotype of engagement (385 epochs) | [`fig_et_phenotype.pdf`](paper/figures/fig_et_phenotype.pdf) |
+| Fig. 10 | Gaze, ROI-saliency, decision and attribution (S24 / S30) | [`fig_gaze_pred.pdf`](paper/figures/fig_gaze_pred.pdf) |
+
+> **Note:** figure *filenames* do not follow the paper's figure *numbers* — e.g.
+> `fig3_losocv_results.pdf` is **Figure 5** and `fig5_explainability.pdf` is
+> **Figure 8**. Use this table or [`paper/FIGURES.md`](paper/FIGURES.md).
+
+## Tables — paper → repository
+
+Typeset fragments in [`tables/latex/`](tables/latex/); machine-readable values in
+[`tables/`](tables/).
+
+| Paper | Subject | Typeset | Data |
+|---|---|---|---|
+| Table 1 | NeuMa dataset characteristics | [`table1_dataset.tex`](tables/latex/table1_dataset.tex) | — |
+| Table 2 | Implementation details / hyperparameters | [`table2_implementation.tex`](tables/latex/table2_implementation.tex) | — |
+| Table 3 | EEG-encoder comparison (leakage-free headline) | [`table3_eeg_encoders.tex`](tables/latex/table3_eeg_encoders.tex) | [`table1_eeg_encoders.csv`](tables/table1_eeg_encoders.csv) |
+| Table 4 | Eye-tracking encoders | [`table4_et_encoders.tex`](tables/latex/table4_et_encoders.tex) | [`table2_et_encoders.csv`](tables/table2_et_encoders.csv) |
+| Table 5 | Multimodal fusion (label-coupled) | [`table5_fusion.tex`](tables/latex/table5_fusion.tex) | [`table3_fusion.csv`](tables/table3_fusion.csv) |
+| Table 6 | Contextual Cohen's κ vs prior NeuMa work | *manuscript only* | — |
+| Table 7 | Component ablation | [`table6_ablation.tex`](tables/latex/table6_ablation.tex) | — |
+| Table 8 | Proposed EEG branch vs each baseline (Wilcoxon, Holm) | [`table7_significance.tex`](tables/latex/table7_significance.tex) | [`ranks_eeg_mcc.csv`](tables/ranks_eeg_mcc.csv) |
+| Pipeline table | Eight-stage processing pipeline | *manuscript only* | — |
+
+> **Note:** the last two typeset filenames are offset from the paper's numbering —
+> `table6_ablation.tex` is **Table 7**, `table7_significance.tex` is **Table 8**.
+> `table8_ig_features.tex` and `table9_case_study.tex` support the supplementary
+> material.
 
 ## Dataset
 
-We use the public third-party **NeuMa** neuromarketing dataset (EEG + eye
-tracking). It is **not redistributed** here. See
-[`datasets/README.md`](datasets/README.md) for how to download it, the expected
-folder layout, and the required preprocessing.
+This study analyses the **publicly available NeuMa dataset** (EEG + eye
+tracking). **No new data were generated in this work**, and raw recordings are
+**not redistributed** here. See [`datasets/README.md`](datasets/README.md) for
+how to download it, the expected folder layout and the required preprocessing.
 
 > Georgiadis, K., Kalaganis, F.P., Riskos, K. *et al.* NeuMa — the absolute
 > neuromarketing dataset en route to a holistic understanding of consumer
@@ -71,13 +127,18 @@ folder layout, and the required preprocessing.
 
 ## Requirements
 
-- Python ≥ 3.11
-- PyTorch 2.x (install separately, matching your CUDA version)
+- Python ≥ 3.11 (the paper used Python 3.12)
+- PyTorch 2.x — install separately, matching your CUDA version (paper: PyTorch
+  2.7.1 / CUDA 12.6)
 - See [`requirements.txt`](requirements.txt) / [`environment.yml`](environment.yml)
 
 ## Installation
 
+Large binary artifacts (figures, PDFs, logs, checkpoints) are tracked with **Git
+LFS** — run `git lfs install` once *before* cloning to fetch them.
+
 ```bash
+git lfs install
 git clone https://github.com/priyadharshini-D29/INS-HDGS-CMT.git
 cd INS-HDGS-CMT
 
@@ -89,10 +150,7 @@ pip install -r requirements.txt          # or:  conda env create -f environment.
 pip install -e .                         # installs the `ins_hdgs_cmt` package (optional)
 ```
 
-Large binary artifacts (figures, PDFs, logs, checkpoints) are tracked with
-**Git LFS** — run `git lfs install` once before cloning to fetch them.
-
-## Quick Start
+## Quick start
 
 ```bash
 # Smoke test on a single held-out subject
@@ -110,36 +168,56 @@ python src/model/main.py \
   --mmd-mode marginal --norm-mode zscore
 ```
 
-## Testing
-
-```bash
-pytest -q                      # unit / smoke tests (see tests/)
-```
-
 ## Evaluation
 
 ```bash
 bash reproducibility/evaluate.sh
 ```
+
 Writes balanced accuracy, MCC, ROC-AUC, PR-AUC, Cohen's κ and F1 to `results/`.
 
-## Ablation Studies
+## Ablation studies
 
 ```bash
-bash reproducibility/run_ablation.sh              # all variants (Table 6)
+bash reproducibility/run_ablation.sh              # all variants (paper Table 7)
 bash reproducibility/run_ablation.sh no_snn       # a single variant
 ```
+
 See [`ablation/README.md`](ablation/README.md) for the full variant list.
 
-## Reproducing Paper Results
+## Reproducing the paper
 
 ```bash
-bash reproducibility/run_all.sh        # env check + train + eval + ablation + tables + figures
+bash reproducibility/reproduce_paper.sh   # full pipeline
+bash reproducibility/run_all.sh           # env check + train + eval + ablation + tables + figures
 ```
+
+Or stage by stage:
+
+```bash
+bash reproducibility/train.sh              # LOSOCV training
+bash reproducibility/evaluate.sh           # metrics
+bash reproducibility/run_ablation.sh       # ablation
+bash reproducibility/generate_tables.sh    # tables/
+bash reproducibility/generate_figures.sh   # paper/figures/
+```
+
+All experiments use a fixed base random seed (**42**) applied identically to the
+Python, NumPy and PyTorch generators across folds. Hyperparameters, optimiser
+configuration and training schedule are listed in full in **paper Table 2**.
 Measured runtimes and expected metric values:
 [`docs/REPRODUCIBILITY_CHECKLIST.md`](docs/REPRODUCIBILITY_CHECKLIST.md).
 
-## Repository Layout
+> LOSOCV over all subjects is GPU-intensive. CI runs only the smoke tests in
+> [`tests/`](tests/); it does not train.
+
+## Testing
+
+```bash
+pytest -q                      # smoke tests (see tests/)
+```
+
+## Repository layout
 
 ```
 INS-HDGS-CMT/
@@ -152,8 +230,8 @@ INS-HDGS-CMT/
 ├── scripts/             Figure + analysis/statistics generators
 ├── results/             Metrics, ROC/PR, confusion, calibration, subject-wise, ablation
 ├── tables/              Every paper table (CSV / Markdown / LaTeX)
-├── figures/             Every paper figure (PDF / PNG + editable source)
 ├── paper/               Manuscript LaTeX sources, bibliography, compiled PDF
+│   └── figures/         Every manuscript figure, as referenced by the .tex
 ├── supplementary/       Additional tables/figures, extended analyses
 ├── docs/                Architecture, checklists (reproducibility / publication / release)
 ├── datasets/            How to obtain & preprocess NeuMa (no raw data redistributed)
@@ -161,25 +239,25 @@ INS-HDGS-CMT/
 ├── logs/                Training / ablation logs
 ├── notebooks/           Exploratory notebooks
 ├── examples/            Small example outputs
-├── tests/               Unit / smoke tests (run in CI)
+├── tests/               Smoke tests (run in CI)
 └── assets/              Static images used by docs
 ```
+
 Each folder contains its own `README.md` explaining what belongs there.
 
-## Expected Outputs
+## Expected outputs
 
 - Per-fold LOSOCV metric CSVs in `results/losocv_metrics/`
 - ROC / PR / confusion / calibration plots in `results/`
-- Ablation comparison in `tables/table4_ablation.csv`
-- Regenerated manuscript tables/figures in `tables/` and `figures/`
+- Regenerated manuscript tables in `tables/` and figures in `paper/figures/`
 
 Reference numbers for a correct run are listed in
 [`docs/REPRODUCIBILITY_CHECKLIST.md`](docs/REPRODUCIBILITY_CHECKLIST.md).
 
 ## Citation
 
-If you use this code or results, please cite the paper (see
-[`CITATION.cff`](CITATION.cff)):
+If you use this code or results, please cite the paper (machine-readable
+metadata in [`CITATION.cff`](CITATION.cff)):
 
 ```bibtex
 @article{inshdgscmt2026,
@@ -192,21 +270,30 @@ If you use this code or results, please cite the paper (see
 }
 ```
 
+Please also cite the **NeuMa dataset** (Georgiadis et al., 2023).
+
 ## License
 
-Released under the [MIT License](LICENSE).
+Released under the [MIT License](LICENSE). The NeuMa dataset is subject to its
+own licence and terms.
 
 ## Acknowledgements
 
-We thank the authors of the **NeuMa** dataset for making it publicly available.
-This work builds on the open-source PyTorch, MNE-Python and scientific-Python
-ecosystems.
+We thank the authors of the **NeuMa** dataset for making it publicly available,
+and **NVIDIA Corporation** for GPU computing resources provided through the
+NVIDIA Brev platform, which accelerated training, hyperparameter optimisation and
+subject-independent evaluation. This work builds on the open-source PyTorch,
+MNE-Python and scientific-Python ecosystems.
 
 ## Contact
 
-- **Authors:** Priyadharshini Dhanapalan and Shridevi S. (corresponding author),
-  Vellore Institute of Technology (VIT), Chennai, India.
-- For code questions, open a
-  [GitHub issue](https://github.com/priyadharshini-D29/INS-HDGS-CMT/issues); for
-  research questions, use
-  [Discussions](https://github.com/priyadharshini-D29/INS-HDGS-CMT/discussions).
+- **Priyadharshini D** — priyadharshini.2024b@vitstudent.ac.in (corresponding author)
+- **Shridevi S** — shridevi.s@vit.ac.in
+
+School of Computer Science and Engineering, Vellore Institute of Technology,
+Chennai, India.
+
+For code questions, open a
+[GitHub issue](https://github.com/priyadharshini-D29/INS-HDGS-CMT/issues); for
+research questions, use
+[Discussions](https://github.com/priyadharshini-D29/INS-HDGS-CMT/discussions).
