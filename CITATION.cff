@@ -1,41 +1,28 @@
 cff-version: 1.2.0
-message: "If you use this software or its results, please cite the paper below."
-title: >-
-  Dynamic Functional Graph Learning for Subject-Independent Consumer Engagement
-  Decoding from EEG and Eye Tracking: A Leakage-Aware NeuMa Study
-type: software
+message: "If you use this software or dataset, please cite the article below."
+title: "INS-HDGS-CMT"
+abstract: "Code for subject-independent consumer engagement decoding from EEG and eye tracking using dynamic functional graph learning (NeuMa)."
 authors:
   - family-names: "D"
     given-names: "Priyadharshini"
-    affiliation: "Vellore Institute of Technology (VIT), Chennai, India"
+    email: "priyadharshini.2024b@vitstudent.ac.in"
+    affiliation: "School of Computer Science and Engineering, Vellore Institute of Technology, Chennai, India"
   - family-names: "S"
     given-names: "Shridevi"
-    affiliation: "Vellore Institute of Technology (VIT), Chennai, India"
+    email: "shridevi.s@vit.ac.in"
+    affiliation: "School of Computer Science and Engineering, Vellore Institute of Technology, Chennai, India"
 repository-code: "https://github.com/priyadharshini-D29/INS-HDGS-CMT"
 license: MIT
-version: "1.0.0"
-date-released: "2026-07-11"
-keywords:
-  - EEG
-  - eye-tracking
-  - neuromarketing
-  - consumer engagement
-  - graph neural network
-  - spiking neural network
-  - cross-modal transformer
-  - neuro-symbolic AI
-  - interpretability
-  - LOSOCV
 preferred-citation:
   type: article
-  title: >-
-    Dynamic Functional Graph Learning for Subject-Independent Consumer Engagement
-    Decoding from EEG and Eye Tracking: A Leakage-Aware NeuMa Study
+  title: "Dynamic Functional Graph Learning for Subject-Independent Consumer Engagement Decoding from EEG and Eye Tracking: A Leakage-Aware NeuMa Study"
   authors:
     - family-names: "D"
       given-names: "Priyadharshini"
+      affiliation: "School of Computer Science and Engineering, Vellore Institute of Technology, Chennai, India"
     - family-names: "S"
       given-names: "Shridevi"
+      affiliation: "School of Computer Science and Engineering, Vellore Institute of Technology, Chennai, India"
   journal: "Brain Informatics"
   year: 2026
-  notes: "Under review. DOI to be added on publication."
+  notes: "Under review"
