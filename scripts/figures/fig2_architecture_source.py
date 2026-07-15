@@ -1,7 +1,10 @@
 """
-INS-HDGS-CMT architecture figure — publication-quality vector diagram.
-Outputs fig2_architecture_v2.pdf (vector) and .png (preview).
+INS-HDGS-CMT architecture figure (paper Fig. 2) — publication-quality vector
+diagram. Writes fig2_Architecture.pdf (vector, used by the manuscript) and
+assets/architecture.png (raster preview, used by the README).
 """
+from pathlib import Path
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -157,7 +160,15 @@ ax.text(8.0, 0.28,
         ha="center", va="center", fontsize=6.8, style="italic", color=SUB)
 
 plt.subplots_adjust(left=0.01, right=0.99, top=0.99, bottom=0.01)
-out = r"C:\Users\mail2\AppData\Local\Temp\claude\d--Neuma-Research\7ac09d05-9422-4b2f-90ed-e476e9657b15\scratchpad\fig2_architecture_v2"
-fig.savefig(out + ".pdf")
-fig.savefig(out + ".png", dpi=200)
-print("saved", out)
+
+# Repo-relative outputs: the manuscript reads the PDF, the README the PNG.
+ROOT = Path(__file__).resolve().parents[2]
+pdf_out = ROOT / "paper" / "figures" / "fig2_Architecture.pdf"
+png_out = ROOT / "assets" / "architecture.png"
+pdf_out.parent.mkdir(parents=True, exist_ok=True)
+png_out.parent.mkdir(parents=True, exist_ok=True)
+
+fig.savefig(pdf_out)
+fig.savefig(png_out, dpi=200)
+print("saved", pdf_out)
+print("saved", png_out)
