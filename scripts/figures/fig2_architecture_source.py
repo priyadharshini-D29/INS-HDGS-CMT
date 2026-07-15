@@ -1,7 +1,13 @@
 """
-INS-HDGS-CMT architecture figure (paper Fig. 2) — publication-quality vector
-diagram. Writes fig2_Architecture.pdf (vector, used by the manuscript) and
-assets/architecture.png (raster preview, used by the README).
+Early matplotlib draft of the INS-HDGS-CMT architecture diagram.
+
+NOT the manuscript figure. Paper Fig. 2 is maintained separately (draw.io) and
+lives at paper/figures/fig2_Architecture.pdf; the README preview
+assets/architecture.png is rendered from that PDF. This draft still carries the
+superseded wording ("eight interpretable rules", "Constraint Aggregation"),
+which the manuscript no longer uses -- it says "soft-rule" throughout. Kept for
+provenance only; outputs go to a scratch directory so it cannot overwrite the
+real figure.
 """
 from pathlib import Path
 
@@ -161,14 +167,14 @@ ax.text(8.0, 0.28,
 
 plt.subplots_adjust(left=0.01, right=0.99, top=0.99, bottom=0.01)
 
-# Repo-relative outputs: the manuscript reads the PDF, the README the PNG.
-ROOT = Path(__file__).resolve().parents[2]
-pdf_out = ROOT / "paper" / "figures" / "fig2_Architecture.pdf"
-png_out = ROOT / "assets" / "architecture.png"
-pdf_out.parent.mkdir(parents=True, exist_ok=True)
-png_out.parent.mkdir(parents=True, exist_ok=True)
+# Scratch output only — deliberately NOT paper/figures/, so this superseded
+# draft can never overwrite the manuscript's Fig. 2.
+out_dir = Path(__file__).resolve().parent / "_out"
+out_dir.mkdir(parents=True, exist_ok=True)
+stem = out_dir / "fig2_architecture_draft"
 
-fig.savefig(pdf_out)
-fig.savefig(png_out, dpi=200)
-print("saved", pdf_out)
-print("saved", png_out)
+fig.savefig(stem.with_suffix(".pdf"))
+fig.savefig(stem.with_suffix(".png"), dpi=200)
+print("saved", stem.with_suffix(".pdf"))
+print("saved", stem.with_suffix(".png"))
+print("NOTE: draft only — paper Fig. 2 is paper/figures/fig2_Architecture.pdf")

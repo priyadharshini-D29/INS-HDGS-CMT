@@ -85,3 +85,6 @@ paper/*.toc
 paper/*.synctex.gz
 paper/*.fls
 paper/*.fdb_latexmk
+
+# Draft figure output (scripts/figures/_out)
+scripts/figures/_out/
