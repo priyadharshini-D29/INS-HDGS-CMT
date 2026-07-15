@@ -32,16 +32,19 @@ their figure number:
 | `fig5_explainability.pdf` | Figure 5 | **Figure 8** |
 | `fig_graph.pdf` | — | **Figure 3** |
 
-## Not referenced by the manuscript
+## Supplementary figures
 
-These files are present in [`figures/`](figures/) but are **not** included by
-`INS_HDGS_CMT_manuscript.tex`. They are earlier or alternative versions, kept for
-provenance:
+Not in the main paper, but **required** — these are included by
+`INS_HDGS_CMT_supplementary.tex`. Do not delete them:
 
-- `fig_losocv.pdf`
-- `fig_regions.pdf`
-- `fig_roi_timecourse.png`
-- `fig1_dataflow_corrected.tex`
+| File | Used by |
+|---|---|
+| [`fig_losocv.pdf`](figures/fig_losocv.pdf) | `INS_HDGS_CMT_supplementary.tex` |
+| [`fig_regions.pdf`](figures/fig_regions.pdf) | `INS_HDGS_CMT_supplementary.tex` |
+| [`fig_roi_timecourse.png`](figures/fig_roi_timecourse.png) | `INS_HDGS_CMT_supplementary.tex` |
+
+Every file in [`figures/`](figures/) is therefore live: 10 for the manuscript,
+3 for the supplementary.
 
 ## Regenerating
 
