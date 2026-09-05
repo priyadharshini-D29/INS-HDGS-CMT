@@ -52,7 +52,9 @@ datasets/raw/
 datasets/**/*.xdf
 datasets/**/*.xlsx
 datasets/**/*.tif
-data/
+# Root-level scratch data folder only: the bare pattern `data/` used to hide
+# src/model/data/ (the dataset loader) from the public repository.
+/data/
 DataSource/
 *.xdf
 
@@ -88,3 +90,6 @@ paper/*.fdb_latexmk
 
 # Draft figure output (scripts/figures/_out)
 scripts/figures/_out/
+
+# local data bundles for the GPU server (never commit)
+/dist/

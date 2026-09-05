@@ -86,13 +86,28 @@ class NeuroSymbolicRuleLayer(nn.Module):
         temperature   : float = 1.0,
         dropout       : float = 0.10,
         feature_names : Optional[List[str]] = None,
+        alpha_mode    : str   = "learned",
     ):
+        """
+        alpha_mode controls the bypass gate of Eq. (18):
+          "learned"     : alpha = sigmoid(alpha_0) is a trainable parameter
+                          (default; the configuration reported in the paper).
+          "rule_only"   : alpha is fixed at 0 — the prediction is the soft-rule
+                          evidence R alone (Reviewer 2, comment 5). The bypass
+                          classifier is still constructed so checkpoints stay
+                          key-compatible, but it receives no gradient.
+          "bypass_only" : alpha fixed at 1 — plain classifier, rules are
+                          computed for inspection only (explanation-only).
+        """
         super().__init__()
+        if alpha_mode not in ("learned", "rule_only", "bypass_only"):
+            raise ValueError(f"alpha_mode must be learned|rule_only|bypass_only, got {alpha_mode!r}")
         self.embed_dim    = embed_dim
         self.n_rules      = n_rules
         self.n_classes    = n_classes
         self.temperature  = temperature
         self.feature_names = feature_names
+        self.alpha_mode   = alpha_mode
 
         # Rule premise embeddings (each rule is a query vector)
         self.rule_queries = nn.Parameter(
@@ -156,16 +171,27 @@ class NeuroSymbolicRuleLayer(nn.Module):
         agg = (acts.unsqueeze(-1) * rule_logits).sum(dim=1)         # (B, C)
 
         # Mix with bypass
-        alpha  = torch.sigmoid(self.bypass_alpha)
-        logits = alpha * self.bypass(z) + (1.0 - alpha) * agg       # (B, C)
+        alpha  = self.effective_alpha()
+        bypass_logits = self.bypass(z)                               # (B, C)
+        logits = alpha * bypass_logits + (1.0 - alpha) * agg         # (B, C)
 
         rule_info = {
-            "activations" : acts,                   # (B, n_rules)
-            "rule_logits" : rule_logits,            # (B, n_rules, C)
-            "keys"        : keys,                   # (B, hidden_dim)
-            "bypass_alpha": float(alpha.item()),
+            "activations"  : acts,                   # (B, n_rules)
+            "rule_logits"  : rule_logits,            # (B, n_rules, C)
+            "keys"         : keys,                   # (B, hidden_dim)
+            "rule_evidence": agg,                    # (B, C)  R of Eq. (17)
+            "bypass_logits": bypass_logits,          # (B, C)  W_b z + b_b
+            "bypass_alpha" : float(alpha.item()),
         }
         return logits, rule_info
+
+    def effective_alpha(self) -> torch.Tensor:
+        """Bypass weight actually used by forward(), honouring alpha_mode."""
+        if self.alpha_mode == "rule_only":
+            return torch.zeros((), device=self.bypass_alpha.device)
+        if self.alpha_mode == "bypass_only":
+            return torch.ones((), device=self.bypass_alpha.device)
+        return torch.sigmoid(self.bypass_alpha)
 
     def regularisation_loss(
         self,

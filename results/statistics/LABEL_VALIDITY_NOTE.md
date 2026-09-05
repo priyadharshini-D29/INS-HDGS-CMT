@@ -1,3 +1,14 @@
+> **Correction (2026-09-05).** The code audit below is superseded. The labels of the
+> reported run are produced by `src/data_pipeline/04_segmentation/engagement_phase3d.py`
+> (five frontal-EEG band-power terms + five gaze statistics, fixed weights, pooled
+> median); this reproduces the `y_true` of all 37 held-out folds exactly (347/347).
+> The six-feature pupil composite described below is `src/model/labeling/engagement_labeler.py`,
+> which is only the on-the-fly fallback of the dataset loader and was **not** used.
+> Consequently the EEG encoders are *not* independent of the label; see
+> `label_leakage_audit.md` (produced by `scripts/analysis/label_leakage_audit.py`)
+> for the per-modality recoverability floors, and Section 2.4 / Table S5 / Table S15
+> of the revised manuscript.
+
 # Label-validity note & reframed claims (LOSOCV study)
 
 ## Finding (confirmed by code audit)

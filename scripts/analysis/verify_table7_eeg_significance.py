@@ -9,6 +9,7 @@ exactly as evaluation/make_tables.py::_eeg_significance computes it.
 Writes results/statistics/table7_eeg_significance.csv and prints a comparison
 against the values currently printed in the manuscript.
 """
+import argparse
 from pathlib import Path
 import numpy as np
 import pandas as pd
@@ -72,6 +73,23 @@ def load(name):
 
 
 def main():
+    global BASE, OUT, METRIC
+    ap = argparse.ArgumentParser(description="Table 7 / S6 significance: reference EEG branch vs EEG baselines")
+    ap.add_argument("--baseline-dir", default=str(BASE), help="results/baselines/dl (common budget) or dl_tuned")
+    ap.add_argument("--ref-csv", default=str(SRC[REF]), help="per-fold CSV of the reference EEG branch "
+                    "(default abl_no_et = ROI-retained; use results/ablation/abl_eeg_only/losocv_abl_eeg_only.csv "
+                    "for the strictly gaze-free branch)")
+    ap.add_argument("--metric", default=METRIC, help="balanced_acc | mcc | roc_auc (raw, uncalibrated)")
+    ap.add_argument("--out", default=str(OUT))
+    args = ap.parse_args()
+    BASE, OUT, METRIC = Path(args.baseline_dir), Path(args.out), args.metric
+    SRC[REF] = Path(args.ref_csv)
+    for k in list(SRC):
+        if k != REF:
+            SRC[k] = BASE / SRC[k].name
+    missing = [k for k, v in SRC.items() if not Path(v).exists()]
+    if missing:
+        raise SystemExit(f"missing per-fold CSVs: {missing}")
     series = {n: load(n) for n in SRC}
     common = sorted(set.intersection(*[set(s.index) for s in series.values()]))
     ref = series[REF].loc[common].to_numpy(float)
@@ -108,7 +126,7 @@ def main():
             ok = "OK" if (okd and okc) else "DIFF"
         print(f"{b:16s} {r['median_delta']:+8.3f} {r['wilcoxon_p']:9.4f} "
               f"{r['p_holm']:9.4f} {r['cliffs_delta']:+7.2f}   |  {ms_str:>28s}   {ok}")
-    print(f"\nwrote {OUT.relative_to(ROOT)}")
+    print(f"\nwrote {OUT}")
 
 
 if __name__ == "__main__":

@@ -113,6 +113,34 @@ Typeset fragments in [`tables/latex/`](tables/latex/); machine-readable values i
 > `table8_ig_features.tex` and `table9_case_study.tex` support the supplementary
 > material.
 
+
+## Revision analyses (reviewer response)
+
+Server runbook: [`docs/BREV_RUNBOOK.md`](docs/BREV_RUNBOOK.md) — `bash scripts/revision/run_revision.sh all` runs every revision stage and `scripts/revision/verify_revision.py` re-checks the outputs.
+
+The revision for *Brain Informatics* added the following, all under
+[`scripts/analysis/`](scripts/analysis/) with outputs in [`results/`](results/);
+the point-by-point letter is [`docs/RESPONSE_TO_REVIEWERS.md`](docs/RESPONSE_TO_REVIEWERS.md)
+and the list of GPU-server runs still to execute is
+[`docs/REVISION_RUNS.md`](docs/REVISION_RUNS.md).
+
+| Script | Reviewer point | What it does |
+|---|---|---|
+| `cross_modal_contribution.py` | R1-1/2/3 | paired Wilcoxon/Holm/Cliff's δ: full vs. no-gaze-sequence, no-ROI, no-fusion, EEG-only, ET-only |
+| `deployment_threshold.py` | R2-8 | label-free per-subject thresholds, transductive and strictly causal (online) |
+| `tau_sensitivity.py` | R2-2 | graph density / fragmentation vs. τ over all windows; merges the downstream τ sweep |
+| `roi_grid_sensitivity.py` | R2-9 | ROI-saliency, label and model sensitivity to the spatial grid |
+| `rule_fidelity.py` | R2-5 | learned bypass gate α, rule/decision agreement, post-hoc α = 0 / 1, rule-only-trained model |
+| `ground_rules_to_electrodes.py` | R2-7 | integrated-gradient projection of each soft rule onto electrodes × bands (replaces latent z_k indices) |
+| `snn_energy_measured.py` | R2-4 | measured latency / GPU power of the LIF encoder vs. a dense twin, next to the neuromorphic projection |
+| `learning_curve.py` | R2-6 | LOSOCV on random subject subsets of increasing size |
+| `src/model/baselines/run_baselines.py --tune N` | R2-3 | nested per-architecture hyper-parameter search with early stopping on the validation subject |
+
+Supporting code changes: `NeuroSymbolicRuleLayer(alpha_mode=...)`,
+`AblationConfig.ns_rule_only()/ns_explain_only()`, env overrides
+`NEUMA_NS_ALPHA_MODE`, `NEUMA_GRID_COLS`, `NEUMA_GRID_ROWS`; the dataset loader
+`src/model/data/` (previously missing from the public tree) is restored.
+
 ## Dataset
 
 This study analyses the **publicly available NeuMa dataset** (EEG + eye

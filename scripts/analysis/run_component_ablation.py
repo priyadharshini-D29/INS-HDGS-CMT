@@ -25,8 +25,14 @@ Run (full run uses all visible GPUs, ~2.5–3 h each on 8×A100):
     python analysis/run_component_ablation.py --variant no_snn
 
 Variants:
-    full no_snn no_graph no_neuro_symbolic no_et no_roi
+    full no_snn no_graph no_neuro_symbolic ns_explain_only ns_rule_only
+    no_et no_roi eeg_only
     no_contrastive no_mmd no_fusion_transformer baseline_linear
+
+Revision runs (same pinned configuration, see docs/REVISION_RUNS.md):
+    python analysis/run_component_ablation.py --variant eeg_only            # true EEG-only branch
+    python analysis/run_component_ablation.py --variant ns_rule_only        # rule gate closed
+    NEUMA_GRID_COLS=6 NEUMA_GRID_ROWS=4 python analysis/run_component_ablation.py         --variant full --label grid_6x4 --results-root output/metrics       # ROI-grid run
 """
 from __future__ import annotations
 
@@ -37,8 +43,8 @@ from pathlib import Path
 
 # ── Parse args FIRST, then pin ET env BEFORE importing config.settings ───────
 VARIANTS = [
-    "full", "no_snn", "no_graph", "no_neuro_symbolic", "ns_explain_only",
-    "no_et", "no_roi",
+    "full", "no_snn", "no_graph", "no_neuro_symbolic", "ns_explain_only", "ns_rule_only",
+    "no_et", "no_roi", "eeg_only",
     "no_contrastive", "no_mmd", "no_fusion_transformer", "baseline_linear",
 ]
 
@@ -55,6 +61,10 @@ ap.add_argument("--n-ensemble", type=int, default=5,
 ap.add_argument("--lambda-dann", type=float, default=0.10)
 ap.add_argument("--lambda-mmd",  type=float, default=0.10)
 ap.add_argument("--results-root", type=str, default=None)
+ap.add_argument("--label", type=str, default=None,
+                help="run label / output folder name (default abl_<variant>); e.g. grid_6x4 "
+                     "when NEUMA_GRID_COLS/ROWS are set, so every revision run shares the "
+                     "production-pinned configuration above")
 fp = ap.add_mutually_exclusive_group()
 fp.add_argument("--fold-parallel",    dest="fold_parallel", action="store_true")
 fp.add_argument("--no-fold-parallel", dest="fold_parallel", action="store_false")
@@ -92,7 +102,9 @@ _FACTORY = {
     "no_graph":             AblationConfig.no_graph,
     "no_neuro_symbolic":    AblationConfig.no_neuro_symbolic,
     "ns_explain_only":      AblationConfig.ns_explain_only,
+    "ns_rule_only":         AblationConfig.ns_rule_only,
     "no_et":                AblationConfig.no_et,
+    "eeg_only":             AblationConfig.eeg_only,      # no gaze-derived input at all
     "no_roi":               AblationConfig.no_roi,
     "no_contrastive":       AblationConfig.no_contrastive,
     "no_mmd":               AblationConfig.no_mmd,
@@ -102,7 +114,7 @@ _FACTORY = {
 
 
 def main():
-    label    = f"abl_{args.variant}"
+    label    = args.label or f"abl_{args.variant}"
     ablation = _FACTORY[args.variant]()
 
     print("=" * 75)
