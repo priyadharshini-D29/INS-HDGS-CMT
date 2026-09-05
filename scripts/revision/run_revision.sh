@@ -22,6 +22,13 @@
 #     stats      all paired statistics / tables / figures from the CSVs above
 #     verify     python scripts/revision/verify_revision.py  (what is done, what is missing)
 #
+#  Label tracks.  By default everything runs on the production rule-based label
+#  (NEUMA_LABEL_SOURCE=phase3d, results under results/, checkpoints under
+#  src/model/output/).  For the behavioural purchase-intent label run
+#     bash scripts/revision/run_revision.sh purchase_labels          # once
+#     NEUMA_LABEL_SOURCE=purchase bash scripts/revision/run_revision.sh full eeg_only_mmd no_et no_roi baselines purchase_stats
+#  which writes to results/label_purchase/ and src/model/output_purchase/.
+#
 #  Every stage is idempotent: it skips work whose output CSV already exists.
 #  Logs: logs/revision/<stage>.log.  Nothing here edits the manuscript.
 # =============================================================================
@@ -33,14 +40,18 @@ mkdir -p logs/revision
 NGPU="$(nvidia-smi -L 2>/dev/null | wc -l || echo 0)"
 SUBJECTS="$(cd src/model && python -c 'from config.settings import SUBJECT_IDS; print(",".join(SUBJECT_IDS))')"
 PROD_CSV="results/losocv_metrics/losocv_repro_focal_g3p0_effective_num_37.csv"
+LS="${NEUMA_LABEL_SOURCE:-phase3d}"; export NEUMA_LABEL_SOURCE="$LS"
+if [ "$LS" = phase3d ]; then RES_ROOT="results"; OUT="output"
+else RES_ROOT="results/label_${LS}"; OUT="output_${LS}"; export NEUMA_OUTPUT_DIR="$OUT"; fi
+mkdir -p "$RES_ROOT" "logs/revision/$LS"; LOGD="logs/revision/$LS"
 
 log() { printf '\n[%s] %s\n' "$(date +%H:%M:%S)" "$*"; }
 run_in_model() { ( cd src/model && "$@" ); }            # every training command runs from src/model
-abl() {  # abl <variant> [extra args]  -> results/ablation/abl_<variant>/losocv_abl_<variant>.csv
+abl() {  # abl <variant> [extra args]  -> $RES_ROOT/ablation/abl_<variant>/losocv_abl_<variant>.csv
   local v="$1"; shift
-  if [ -f "results/ablation/abl_${v}/losocv_abl_${v}.csv" ]; then log "abl_${v}: done — skip"; return; fi
-  log "abl_${v}: start (fold-parallel over ${NGPU} GPU(s))"
-  run_in_model python ../../scripts/analysis/run_component_ablation.py --variant "$v" "$@" 2>&1 | tee "logs/revision/abl_${v}.log"
+  if [ -f "$RES_ROOT/ablation/abl_${v}/losocv_abl_${v}.csv" ]; then log "abl_${v} [$LS]: done — skip"; return; fi
+  log "abl_${v} [label=$LS]: start (fold-parallel over ${NGPU} GPU(s)) -> $RES_ROOT/ablation/abl_${v}"
+  run_in_model python ../../scripts/analysis/run_component_ablation.py --variant "$v" --results-root "$ROOT/$RES_ROOT/ablation" "$@" 2>&1 | tee "$LOGD/abl_${v}.log"
 }
 
 stage_env() {
@@ -66,8 +77,31 @@ stage_data() {
 }
 
 stage_audit() {
-  log "label recoverability audit"
-  python scripts/analysis/label_leakage_audit.py 2>&1 | tee logs/revision/audit.log
+  log "label recoverability audit [label=$LS]"
+  python scripts/analysis/label_leakage_audit.py --label-source "$LS" --out-dir "$RES_ROOT/statistics" 2>&1 | tee "$LOGD/audit.log"
+}
+
+stage_purchase_labels() {   # behavioural label from the questionnaire (Q77) + gaze-on-product; needs DataSource/ (xlsx + Dependencies)
+  [ -d DataSource/Dependencies ] || { echo "DataSource/Dependencies (bounding boxes) not found at repo root"; exit 1; }
+  log "purchase-intent window labels -> S*/output/engagement_purchase/"
+  ( cd src/data_pipeline/04_segmentation && python purchase_labeling.py ) 2>&1 | tail -15 | tee logs/revision/purchase_labels.log
+}
+
+stage_no_et()  { abl no_et; }
+stage_no_roi() { abl no_roi; }
+
+stage_purchase_stats() {   # paired comparisons within the current label track (all CSVs must come from this track)
+  local A="$RES_ROOT/ablation"
+  log "summary of every LOSOCV run under $A"
+  python - "$A" <<'PY'
+import sys, glob, pandas as pd
+from pathlib import Path
+for f in sorted(glob.glob(f"{sys.argv[1]}/abl_*/losocv_*.csv")):
+    d = pd.read_csv(f); print(f"{Path(f).parent.name:22s} n={len(d):2d}  BalAcc {d.balanced_acc.mean():.3f}±{d.balanced_acc.std():.3f}  AUC {d.roc_auc.mean():.3f}±{d.roc_auc.std():.3f}  MCC {d.mcc.mean():.3f}")
+PY
+  if [ -f "$A/abl_full/losocv_abl_full.csv" ]; then
+    python scripts/analysis/cross_modal_contribution.py --full-csv "$A/abl_full/losocv_abl_full.csv"       --no-et-csv "$A/abl_no_et/losocv_abl_no_et.csv" --no-roi-csv "$A/abl_no_roi/losocv_abl_no_roi.csv"       --no-fusion-csv "$A/abl_no_fusion_transformer/losocv_abl_no_fusion_transformer.csv"       $( [ -f "$A/abl_eeg_only_mmd/losocv_abl_eeg_only_mmd.csv" ] && echo "--eeg-only-csv $A/abl_eeg_only_mmd/losocv_abl_eeg_only_mmd.csv" )       --et-only-probs "$RES_ROOT/baselines/dl_tuned/fold_probs/probs_et_lstm.csv" --out-dir "$RES_ROOT/statistics" 2>&1 | tail -30 || true
+  fi
 }
 
 stage_full()      { abl full; }
@@ -79,15 +113,15 @@ stage_baselines() {
   local models="eegnet shallow deep cnn_lstm cnn_bilstm eeg_transformer tsception gat brain_gcn fusion_mlp et_lstm et_gru et_transformer late_fusion dual_transformer cross_attention mm_transformer dynamicgat_et"
   local i=0 pids=()
   for m in $models; do
-    if [ -f "results/baselines/dl_tuned/losocv_${m}.csv" ]; then log "baseline ${m}: done — skip"; continue; fi
+    if [ -f "$RES_ROOT/baselines/dl_tuned/losocv_${m}.csv" ]; then log "baseline ${m} [$LS]: done — skip"; continue; fi
     local gpu=$(( NGPU > 0 ? i % NGPU : 0 ))
     log "baseline ${m} -> GPU ${gpu}"
-    ( cd src/model && CUDA_VISIBLE_DEVICES="$gpu" python baselines/run_baselines.py --models "$m" --tune 12 --epochs 250 --patience 30 --early-stop --device cuda ) > "logs/revision/baseline_${m}.log" 2>&1 &
+    ( cd src/model && CUDA_VISIBLE_DEVICES="$gpu" python baselines/run_baselines.py --models "$m" --tune 12 --epochs 250 --patience 30 --early-stop --device cuda --out-dir "$ROOT/$RES_ROOT/baselines/dl_tuned" ) > "$LOGD/baseline_${m}.log" 2>&1 &
     pids+=($!); i=$((i+1))
     if [ "$NGPU" -gt 0 ] && [ $(( i % NGPU )) -eq 0 ]; then wait "${pids[@]}"; pids=(); fi
   done
   [ ${#pids[@]} -gt 0 ] && wait "${pids[@]}"
-  log "baselines finished; per-fold CSVs in results/baselines/dl_tuned/"
+  log "baselines finished; per-fold CSVs in $RES_ROOT/baselines/dl_tuned/"
 }
 
 stage_tau() {
@@ -110,13 +144,13 @@ stage_lc() {
 }
 
 stage_ckpt() {
-  local ck="src/model/output/checkpoints/abl_full"
+  local ck="src/model/$OUT/checkpoints/abl_full"
   [ -d "$ck" ] || { echo "no checkpoints in $ck — run stage 'full' first"; exit 1; }
   local fold1; fold1="$(ls "$ck"/abl_full_fold01_e*.pt | head -1)"
   log "rule fidelity (all folds)"
-  ( cd src/model && CUDA_VISIBLE_DEVICES="" python ../../scripts/analysis/rule_fidelity.py --ckpt-dir output/checkpoints/abl_full --label abl_full \
-      --fold-csv ../../results/ablation/abl_full/losocv_abl_full.csv \
-      $( [ -f results/ablation/abl_ns_rule_only/losocv_abl_ns_rule_only.csv ] && echo "--rule-only-csv ../../results/ablation/abl_ns_rule_only/losocv_abl_ns_rule_only.csv" ) ) 2>&1 | tee logs/revision/rule_fidelity.log
+  ( cd src/model && CUDA_VISIBLE_DEVICES="" python ../../scripts/analysis/rule_fidelity.py --ckpt-dir "$OUT/checkpoints/abl_full" --label abl_full \
+      --fold-csv "$ROOT/$RES_ROOT/ablation/abl_full/losocv_abl_full.csv" --out-dir "$ROOT/$RES_ROOT/statistics" \
+      $( [ -f "$RES_ROOT/ablation/abl_ns_rule_only/losocv_abl_ns_rule_only.csv" ] && echo "--rule-only-csv $ROOT/$RES_ROOT/ablation/abl_ns_rule_only/losocv_abl_ns_rule_only.csv" ) ) 2>&1 | tee "$LOGD/rule_fidelity.log"
   log "rule grounding (integrated gradients), single subject and population"
   ( cd src/model && CUDA_VISIBLE_DEVICES="" python ../../scripts/analysis/ground_rules_to_electrodes.py --ckpt "../../$fold1" --subjects S01 --label abl_full_S01 ) 2>&1 | tee logs/revision/grounding_S01.log
   ( cd src/model && CUDA_VISIBLE_DEVICES="" python ../../scripts/analysis/ground_rules_to_electrodes.py --ckpt "$ck"/abl_full_fold*_e0.pt --subjects all --label abl_full ) 2>&1 | tee logs/revision/grounding_all.log
@@ -152,6 +186,7 @@ stage_stats() {
 stage_verify() { python scripts/revision/verify_revision.py; }
 
 ALL="env data audit full eeg_only eeg_only_mmd rule_only baselines tau grid lc ckpt stats verify"
+# purchase track (after `purchase_labels`):  NEUMA_LABEL_SOURCE=purchase ... full eeg_only_mmd no_et no_roi baselines purchase_stats
 [ $# -gt 0 ] || { echo "usage: $0 <stage>...|all   (stages: $ALL)"; exit 1; }
 for st in "$@"; do
   if [ "$st" = all ]; then for s2 in $ALL; do "stage_$s2"; done

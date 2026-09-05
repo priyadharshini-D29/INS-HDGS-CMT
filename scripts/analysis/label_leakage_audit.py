@@ -116,6 +116,8 @@ def main():
                                              "losocv_repro_focal_g3p0_effective_num_37.csv"),
                     help="per-fold CSV whose test_subject column defines the evaluable folds")
     ap.add_argument("--out-dir", default=str(OUT))
+    ap.add_argument("--label-source", default="phase3d", choices=["phase3d", "purchase"],
+                    help="phase3d: the rule-based index (default); purchase: behavioural label from purchase_labeling.py")
     args = ap.parse_args()
 
     mod = _load_phase3d()
@@ -124,9 +126,27 @@ def main():
     feats, (n_ok, n_tot) = build_table(mod, subjects)
     print(f"[audit] {len(feats)} stimulus epochs from {feats.subject_id.nunique()} subjects; "
           f"HIGH={int(feats.label.sum())}; agreement with on-disk phase3d labels {n_ok}/{n_tot}")
+    suffix = ""
+    if args.label_source == "purchase":
+        # replace the rule-based label by the behavioural one (dominant fixated product bought)
+        parts = []
+        for s in subjects:
+            f = SEG / s / "output" / "engagement_purchase" / "engagement_metadata.csv"
+            if f.exists():
+                parts.append(pd.read_csv(f))
+        if not parts:
+            raise SystemExit("no engagement_purchase labels found — run 04_segmentation/purchase_labeling.py")
+        pl = pd.concat(parts, ignore_index=True)
+        pl = pl[pl.kept == 1][["subject_id", "epoch_idx", "label", "dom_frac", "gaze_on_bought_frac"]].rename(columns={"label": "label_purchase"})
+        feats = feats.merge(pl, on=["subject_id", "epoch_idx"], how="inner")
+        feats["label"] = feats["label_purchase"].astype(int)
+        suffix = "_purchase"
+        print(f"[audit] purchase label: {len(feats)} epochs, bought={int(feats.label.sum())} ({feats.label.mean():.3f})")
 
     ref = Path(args.ref_csv)
-    if ref.exists():
+    if args.label_source == "purchase":
+        ref = None                # evaluable folds are defined by the purchase label itself (both classes present)
+    if ref is not None and ref.exists():
         evaluable = sorted(pd.read_csv(ref)["test_subject"].astype(str).unique())
     else:
         evaluable = [s for s, g in feats.groupby("subject_id") if g.label.nunique() > 1]
@@ -134,6 +154,9 @@ def main():
 
     sets = {"EEG-5 (frontal band power)": EEG_TERMS, "ET-5 (gaze statistics)": ET_TERMS,
             "ALL-10": EEG_TERMS + ET_TERMS, "RULE score (upper bound)": ["score"]}
+    if args.label_source == "purchase":
+        sets["RULE score (old engagement index)"] = sets.pop("RULE score (upper bound)")
+        sets["Dominant-product dwell fraction"] = ["dom_frac"]
     summary, per_fold = [], []
     for name, cols in sets.items():
         per, agg = loso_probe(feats, cols, evaluable)
@@ -143,9 +166,9 @@ def main():
               f"fold BalAcc {agg['fold_balacc_mean']:.3f}")
 
     out = Path(args.out_dir); out.mkdir(parents=True, exist_ok=True)
-    pd.DataFrame(summary).to_csv(out / "label_leakage_audit.csv", index=False)
-    pd.concat(per_fold).to_csv(out / "label_leakage_audit_per_fold.csv", index=False)
-    lines = ["# Label-recoverability audit (engagement_phase3d label)", "",
+    pd.DataFrame(summary).to_csv(out / f"label_leakage_audit{suffix}.csv", index=False)
+    pd.concat(per_fold).to_csv(out / f"label_leakage_audit_per_fold{suffix}.csv", index=False)
+    lines = [f"# Label-recoverability audit ({'purchase-intent label' if suffix else 'engagement_phase3d label'})", "",
              f"{len(feats)} stimulus epochs, {feats.subject_id.nunique()} subjects; probes evaluated on the "
              f"{len(evaluable)} subjects with both classes (same folds as the deep models). "
              f"On-disk label agreement {n_ok}/{n_tot}.", "",
@@ -157,7 +180,7 @@ def main():
     lines += ["", "Interpretation: the EEG-5 and ET-5 rows are the linear floor that a model seeing only that modality's "
               "defining statistics attains; a learned model is informative beyond the label rule only where it exceeds "
               "the corresponding row. Fill Supplementary Table S15 and Sections 2.4 / 3.2 of the manuscript from this table."]
-    (out / "label_leakage_audit.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    (out / f"label_leakage_audit{suffix}.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     print("\n".join(lines))
 
 

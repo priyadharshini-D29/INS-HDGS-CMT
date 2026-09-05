@@ -1,0 +1,206 @@
+test_subject,n,roc_auc,balanced_acc,feature_set
+S01,15,0.2272727272727273,0.5,EEG-5 (frontal band power)
+S02,7,0.5,0.5,EEG-5 (frontal band power)
+S03,6,1.0,0.5,EEG-5 (frontal band power)
+S05,8,0.4285714285714286,0.5,EEG-5 (frontal band power)
+S06,8,0.41666666666666663,0.5,EEG-5 (frontal band power)
+S07,7,0.5,0.5,EEG-5 (frontal band power)
+S08,16,0.46875,0.5625,EEG-5 (frontal band power)
+S09,10,0.625,0.5,EEG-5 (frontal band power)
+S10,10,0.11111111111111116,0.5,EEG-5 (frontal band power)
+S12,7,0.5,0.5,EEG-5 (frontal band power)
+S13,6,0.125,0.5,EEG-5 (frontal band power)
+S14,8,1.0,0.5,EEG-5 (frontal band power)
+S15,6,0.875,0.5,EEG-5 (frontal band power)
+S16,8,0.4666666666666666,0.5,EEG-5 (frontal band power)
+S17,7,0.5,0.5,EEG-5 (frontal band power)
+S18,14,0.5151515151515151,0.5,EEG-5 (frontal band power)
+S19,17,0.42857142857142855,0.5,EEG-5 (frontal band power)
+S20,7,0.3333333333333333,0.5,EEG-5 (frontal band power)
+S21,6,0.888888888888889,0.5,EEG-5 (frontal band power)
+S22,14,0.45833333333333337,0.5,EEG-5 (frontal band power)
+S23,12,0.35000000000000003,0.5,EEG-5 (frontal band power)
+S24,13,0.08333333333333337,0.5,EEG-5 (frontal band power)
+S25,14,0.3076923076923077,0.5,EEG-5 (frontal band power)
+S26,7,0.5,0.5,EEG-5 (frontal band power)
+S27,7,0.5,0.5,EEG-5 (frontal band power)
+S28,7,0.0,0.5,EEG-5 (frontal band power)
+S29,20,0.640625,0.5,EEG-5 (frontal band power)
+S30,13,0.638888888888889,0.5,EEG-5 (frontal band power)
+S31,8,0.0,0.5,EEG-5 (frontal band power)
+S32,7,0.4,0.5,EEG-5 (frontal band power)
+S33,6,0.8,0.5,EEG-5 (frontal band power)
+S34,7,0.16666666666666663,0.5,EEG-5 (frontal band power)
+S35,6,0.0,0.5,EEG-5 (frontal band power)
+S36,7,0.8333333333333334,0.5,EEG-5 (frontal band power)
+S38,10,0.29166666666666663,0.5,EEG-5 (frontal band power)
+S39,7,0.5833333333333333,0.5,EEG-5 (frontal band power)
+S40,7,0.5,0.5,EEG-5 (frontal band power)
+S41,9,0.4285714285714286,0.5,EEG-5 (frontal band power)
+S42,7,0.16666666666666663,0.5,EEG-5 (frontal band power)
+S43,7,0.25,0.5,EEG-5 (frontal band power)
+S44,7,0.16666666666666666,0.5,EEG-5 (frontal band power)
+S01,15,0.6363636363636364,0.5,ET-5 (gaze statistics)
+S02,7,0.8333333333333334,0.5,ET-5 (gaze statistics)
+S03,6,0.8,0.5,ET-5 (gaze statistics)
+S05,8,1.0,0.5,ET-5 (gaze statistics)
+S06,8,0.7500000000000001,0.5,ET-5 (gaze statistics)
+S07,7,0.75,0.5,ET-5 (gaze statistics)
+S08,16,0.640625,0.5,ET-5 (gaze statistics)
+S09,10,0.8333333333333334,0.5,ET-5 (gaze statistics)
+S10,10,0.8888888888888888,0.5,ET-5 (gaze statistics)
+S12,7,0.08333333333333333,0.5,ET-5 (gaze statistics)
+S13,6,0.875,0.625,ET-5 (gaze statistics)
+S14,8,0.7142857142857143,0.5,ET-5 (gaze statistics)
+S15,6,0.5,0.75,ET-5 (gaze statistics)
+S16,8,0.8,0.5,ET-5 (gaze statistics)
+S17,7,0.5,0.4166666666666667,ET-5 (gaze statistics)
+S18,14,0.4545454545454545,0.45454545454545453,ET-5 (gaze statistics)
+S19,17,0.6142857142857143,0.5714285714285714,ET-5 (gaze statistics)
+S20,7,0.41666666666666663,0.5,ET-5 (gaze statistics)
+S21,6,0.5555555555555556,0.5,ET-5 (gaze statistics)
+S22,14,0.7916666666666667,0.5,ET-5 (gaze statistics)
+S23,12,0.7,0.5,ET-5 (gaze statistics)
+S24,13,0.0,0.375,ET-5 (gaze statistics)
+S25,14,1.0,1.0,ET-5 (gaze statistics)
+S26,7,0.5833333333333334,0.625,ET-5 (gaze statistics)
+S27,7,0.8333333333333334,0.4166666666666667,ET-5 (gaze statistics)
+S28,7,0.8,0.5,ET-5 (gaze statistics)
+S29,20,0.546875,0.40625,ET-5 (gaze statistics)
+S30,13,0.8888888888888888,0.4444444444444444,ET-5 (gaze statistics)
+S31,8,0.4,0.6,ET-5 (gaze statistics)
+S32,7,0.7,0.5,ET-5 (gaze statistics)
+S33,6,0.19999999999999996,0.3,ET-5 (gaze statistics)
+S34,7,0.33333333333333337,0.5,ET-5 (gaze statistics)
+S35,6,0.875,0.625,ET-5 (gaze statistics)
+S36,7,1.0,0.5,ET-5 (gaze statistics)
+S38,10,0.7500000000000001,0.5,ET-5 (gaze statistics)
+S39,7,0.3333333333333333,0.5,ET-5 (gaze statistics)
+S40,7,1.0,0.5,ET-5 (gaze statistics)
+S41,9,0.5714285714285714,0.5,ET-5 (gaze statistics)
+S42,7,1.0,0.5,ET-5 (gaze statistics)
+S43,7,0.75,0.5,ET-5 (gaze statistics)
+S44,7,0.9166666666666666,0.5,ET-5 (gaze statistics)
+S01,15,0.6136363636363635,0.5,ALL-10
+S02,7,0.8333333333333334,0.5,ALL-10
+S03,6,0.8,0.5,ALL-10
+S05,8,1.0,0.5,ALL-10
+S06,8,0.6666666666666667,0.5,ALL-10
+S07,7,0.8333333333333334,0.5,ALL-10
+S08,16,0.546875,0.5,ALL-10
+S09,10,0.8333333333333334,0.5,ALL-10
+S10,10,1.0,0.5,ALL-10
+S12,7,0.08333333333333333,0.5,ALL-10
+S13,6,0.875,0.5,ALL-10
+S14,8,0.5714285714285714,0.2857142857142857,ALL-10
+S15,6,0.5,0.5,ALL-10
+S16,8,0.8,0.5,ALL-10
+S17,7,0.5,0.5,ALL-10
+S18,14,0.5757575757575757,0.45454545454545453,ALL-10
+S19,17,0.6,0.5,ALL-10
+S20,7,0.41666666666666663,0.5,ALL-10
+S21,6,0.5555555555555556,0.5,ALL-10
+S22,14,0.7916666666666667,0.5,ALL-10
+S23,12,0.65,0.5,ALL-10
+S24,13,0.0,0.375,ALL-10
+S25,14,0.9230769230769231,0.9230769230769231,ALL-10
+S26,7,0.5,0.625,ALL-10
+S27,7,0.8333333333333334,0.5,ALL-10
+S28,7,0.6,0.5,ALL-10
+S29,20,0.59375,0.53125,ALL-10
+S30,13,0.8888888888888888,0.5,ALL-10
+S31,8,0.33333333333333337,0.5,ALL-10
+S32,7,0.7,0.5,ALL-10
+S33,6,0.19999999999999996,0.3,ALL-10
+S34,7,0.16666666666666663,0.5,ALL-10
+S35,6,0.875,0.625,ALL-10
+S36,7,0.9166666666666666,0.5,ALL-10
+S38,10,0.5416666666666667,0.5,ALL-10
+S39,7,0.3333333333333333,0.5,ALL-10
+S40,7,0.8333333333333334,0.4166666666666667,ALL-10
+S41,9,0.6428571428571428,0.5,ALL-10
+S42,7,1.0,0.5,ALL-10
+S43,7,0.75,0.5,ALL-10
+S44,7,0.9166666666666666,0.5,ALL-10
+S01,15,0.20454545454545453,0.5,RULE score (old engagement index)
+S02,7,0.5,0.5,RULE score (old engagement index)
+S03,6,0.4,0.5,RULE score (old engagement index)
+S05,8,0.1428571428571429,0.5,RULE score (old engagement index)
+S06,8,0.16666666666666669,0.5,RULE score (old engagement index)
+S07,7,0.3333333333333333,0.5,RULE score (old engagement index)
+S08,16,0.40625,0.5,RULE score (old engagement index)
+S09,10,0.5833333333333334,0.5,RULE score (old engagement index)
+S10,10,0.0,0.5,RULE score (old engagement index)
+S12,7,0.16666666666666666,0.5,RULE score (old engagement index)
+S13,6,0.5,0.5,RULE score (old engagement index)
+S14,8,0.1428571428571429,0.5,RULE score (old engagement index)
+S15,6,0.375,0.5,RULE score (old engagement index)
+S16,8,0.7333333333333333,0.5,RULE score (old engagement index)
+S17,7,0.0,0.5,RULE score (old engagement index)
+S18,14,0.06060606060606059,0.5,RULE score (old engagement index)
+S19,17,0.15714285714285708,0.5,RULE score (old engagement index)
+S20,7,0.3333333333333333,0.5,RULE score (old engagement index)
+S21,6,0.33333333333333337,0.5,RULE score (old engagement index)
+S22,14,0.6666666666666666,0.5,RULE score (old engagement index)
+S23,12,0.5,0.5,RULE score (old engagement index)
+S24,13,0.0,0.5,RULE score (old engagement index)
+S25,14,0.0,0.5,RULE score (old engagement index)
+S26,7,0.5,0.5,RULE score (old engagement index)
+S27,7,0.0,0.5,RULE score (old engagement index)
+S28,7,0.0,0.5,RULE score (old engagement index)
+S29,20,0.578125,0.5,RULE score (old engagement index)
+S30,13,0.4444444444444445,0.5,RULE score (old engagement index)
+S31,8,0.2,0.5,RULE score (old engagement index)
+S32,7,0.4,0.5,RULE score (old engagement index)
+S33,6,0.6,0.5,RULE score (old engagement index)
+S34,7,0.16666666666666663,0.5,RULE score (old engagement index)
+S35,6,0.625,0.5,RULE score (old engagement index)
+S36,7,0.41666666666666663,0.5,RULE score (old engagement index)
+S38,10,0.375,0.5,RULE score (old engagement index)
+S39,7,0.0,0.5,RULE score (old engagement index)
+S40,7,0.5,0.5,RULE score (old engagement index)
+S41,9,0.8571428571428572,0.5,RULE score (old engagement index)
+S42,7,0.0,0.5,RULE score (old engagement index)
+S43,7,0.25,0.5,RULE score (old engagement index)
+S44,7,0.41666666666666663,0.5,RULE score (old engagement index)
+S01,15,0.7045454545454546,0.5,Dominant-product dwell fraction
+S02,7,1.0,0.5,Dominant-product dwell fraction
+S03,6,1.0,0.5,Dominant-product dwell fraction
+S05,8,1.0,0.5,Dominant-product dwell fraction
+S06,8,0.9166666666666667,0.5,Dominant-product dwell fraction
+S07,7,0.6666666666666666,0.5,Dominant-product dwell fraction
+S08,16,0.890625,0.5,Dominant-product dwell fraction
+S09,10,0.7083333333333334,0.625,Dominant-product dwell fraction
+S10,10,0.0,0.5,Dominant-product dwell fraction
+S12,7,0.8333333333333334,0.5,Dominant-product dwell fraction
+S13,6,1.0,0.875,Dominant-product dwell fraction
+S14,8,0.4285714285714286,0.42857142857142855,Dominant-product dwell fraction
+S15,6,0.5,0.625,Dominant-product dwell fraction
+S16,8,0.4666666666666667,0.5,Dominant-product dwell fraction
+S17,7,1.0,1.0,Dominant-product dwell fraction
+S18,14,0.7272727272727272,0.5,Dominant-product dwell fraction
+S19,17,0.5714285714285714,0.5928571428571429,Dominant-product dwell fraction
+S20,7,0.41666666666666663,0.41666666666666663,Dominant-product dwell fraction
+S21,6,0.6666666666666667,0.6666666666666666,Dominant-product dwell fraction
+S22,14,0.75,0.5,Dominant-product dwell fraction
+S23,12,0.9,0.9,Dominant-product dwell fraction
+S24,13,0.41666666666666663,0.5,Dominant-product dwell fraction
+S25,14,0.9230769230769231,0.9615384615384616,Dominant-product dwell fraction
+S26,7,0.5833333333333333,0.625,Dominant-product dwell fraction
+S27,7,1.0,0.5,Dominant-product dwell fraction
+S28,7,1.0,0.5,Dominant-product dwell fraction
+S29,20,0.484375,0.5,Dominant-product dwell fraction
+S30,13,0.8333333333333334,0.5,Dominant-product dwell fraction
+S31,8,0.7333333333333334,0.5,Dominant-product dwell fraction
+S32,7,0.7,0.5,Dominant-product dwell fraction
+S33,6,0.4,0.5,Dominant-product dwell fraction
+S34,7,0.16666666666666663,0.16666666666666666,Dominant-product dwell fraction
+S35,6,0.75,0.875,Dominant-product dwell fraction
+S36,7,0.5,0.5,Dominant-product dwell fraction
+S38,10,0.8125,0.625,Dominant-product dwell fraction
+S39,7,0.75,0.5,Dominant-product dwell fraction
+S40,7,1.0,0.5,Dominant-product dwell fraction
+S41,9,1.0,0.5,Dominant-product dwell fraction
+S42,7,0.5,0.4166666666666667,Dominant-product dwell fraction
+S43,7,0.75,0.5,Dominant-product dwell fraction
+S44,7,0.8333333333333333,0.5,Dominant-product dwell fraction

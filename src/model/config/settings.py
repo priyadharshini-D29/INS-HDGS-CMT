@@ -208,7 +208,7 @@ N_ENSEMBLE       = 7    # v3 best-known-good (commit 6cdf306, accuracy=0.8063) �
 RANDOM_SEED      = 42
 
 # ── Output Directories ──────────────────────────────────────────────────────
-OUTPUT_DIR         = Path("output")
+OUTPUT_DIR         = Path(os.environ.get("NEUMA_OUTPUT_DIR", "output"))  # per-label-source outputs
 METRICS_DIR        = OUTPUT_DIR / "metrics"
 PLOTS_DIR          = OUTPUT_DIR / "plots"
 CKPT_DIR           = OUTPUT_DIR / "checkpoints"
@@ -240,3 +240,6 @@ CURRICULUM_HARD_SUBJECTS = ["S13", "S22", "S31", "S33"]
 # Stubs for future model-level features (not yet wired into architecture)
 USE_DYNAMIC_ADJACENCY    = False   # learnable A — requires DynamicGAT changes
 USE_GRAPH_MASKING        = False   # per-channel mask  — requires model changes
+
+# Label source used by data/dataset.py (informational; the loader reads the env itself)
+LABEL_SOURCE = os.environ.get("NEUMA_LABEL_SOURCE", "phase3d")

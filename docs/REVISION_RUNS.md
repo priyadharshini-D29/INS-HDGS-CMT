@@ -59,6 +59,27 @@ recoverable from five gaze statistics. Runs 6-13 are on hold until the author
 decides between (a) reframing around the gaze-dominated index or (b) relabelling
 with the questionnaire's per-product purchase (Q77) / liking (Q78) responses.
 
+
+## PURCHASE-INTENT TRACK (option B, started 2026-09-06)
+
+Behavioural label (independent of the model inputs): whether the product that
+received most gaze in the 5-s window was later selected for purchase (Q77 in
+`DataSource/S##.xlsx`; validated against mouse clicks inside the product boxes,
+752/754). Built by `src/data_pipeline/04_segmentation/purchase_labeling.py`
+(383/385 windows kept, 117 bought = 30.5 %, 41/42 subjects with both classes).
+`NEUMA_LABEL_SOURCE=purchase` switches the dataset loader; the driver then writes
+to `results/label_purchase/` and `src/model/output_purchase/`.
+
+Linear-probe audit on the new label (`results/statistics/label_leakage_audit_purchase.md`):
+EEG-5 pooled AUC 0.41, gaze-5 0.62, dominant-product dwell fraction 0.66, old
+engagement index 0.23 (inverse). The label is therefore not trivially recoverable
+from either modality's summary statistics.
+
+Server commands:
+    bash scripts/revision/run_revision.sh purchase_labels
+    NEUMA_LABEL_SOURCE=purchase bash scripts/revision/run_revision.sh full eeg_only_mmd no_et no_roi purchase_stats
+    NEUMA_LABEL_SOURCE=purchase bash scripts/revision/run_revision.sh baselines purchase_stats
+
 ## Notes on the code changes that support these runs
 
 * `src/model/data/` (dataset loader + channel harmoniser) was missing from the
