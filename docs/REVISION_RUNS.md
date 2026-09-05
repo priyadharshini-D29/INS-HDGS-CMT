@@ -38,6 +38,27 @@ Every changed Python file was checked with `python -m py_compile`; nothing was t
 (`ins_hdgs_cmt_ch19fix` per the project notes, or `repro_focal_g3p0_effective_num_37`
 for the numbers currently in the manuscript — use the same run for every analysis).
 
+
+## RESULT OF RUN 5 (2026-09-06, 8xA100, production configuration, production labels)
+
+| variant | folds | BalAcc | ROC-AUC | MCC |
+|---|---|---|---|---|
+| abl_eeg_only (no gaze input, MMD off) | 36 (S21 dropped, transient) | 0.554 ± 0.171 | 0.602 ± 0.258 | 0.097 |
+| **abl_eeg_only_mmd (no gaze input, MMD kept)** | **37** | **0.547 ± 0.169** | **0.592 ± 0.263** | **0.083** |
+| linear probe on the label's five EEG terms (audit) | 37 | 0.582 | 0.671 (pooled 0.605) | – |
+| best EEG baseline, ShallowConvNet (common budget) | 42 | 0.625 | 0.659 | 0.197 |
+| abl_no_et (ROI gaze vector retained; the old "EEG branch") | 37 | 0.697 | 0.819 | 0.398 |
+| full model (published) | 37 | 0.740 | 0.901 | 0.463 |
+| linear probe on the label's five gaze terms (audit) | 37 | 0.831 | 0.917 (pooled 0.939) | – |
+
+The strictly gaze-free EEG branch is at chance and below every EEG baseline;
+all of the old "EEG branch" performance came from the gaze-derived ROI vector.
+The manuscript's central claim (EEG branch decodes engagement and beats eight
+EEG encoders) does not hold under the production label, which is 94 % linearly
+recoverable from five gaze statistics. Runs 6-13 are on hold until the author
+decides between (a) reframing around the gaze-dominated index or (b) relabelling
+with the questionnaire's per-product purchase (Q77) / liking (Q78) responses.
+
 ## Notes on the code changes that support these runs
 
 * `src/model/data/` (dataset loader + channel harmoniser) was missing from the
