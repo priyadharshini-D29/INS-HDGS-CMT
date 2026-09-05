@@ -253,11 +253,17 @@ def main():
         ax[0].set_xscale("log"); ax[0].set_xticks(x); ax[0].set_xticklabels(sal.grid, rotation=45)
         ax[0].axvline(GRID_COLS * GRID_ROWS, ls="--", color="k", lw=1); ax[0].axvline(24, ls=":", color="gray", lw=1)
         ax[0].set_xlabel("ROI grid (cols×rows)"); ax[0].set_title("(A) ROI saliency vs. grid", fontweight="bold"); ax[0].legend(fontsize=7)
-        for name, mk in [("entropy_bins", "o"), ("revisit_grid", "s"), ("central_fraction", "^")]:
-            g = lab[lab.parameter == name]
-            ax[1].plot(range(len(g)), g.kappa_vs_ref, marker=mk, label=f"{name}: {list(g.value)}")
-        ax[1].set_ylim(0.5, 1.02); ax[1].set_xlabel("parameter setting (index)"); ax[1].set_ylabel("κ vs. published labels")
-        ax[1].set_title("(B) Label stability", fontweight="bold"); ax[1].legend(fontsize=6.5)
+        if len(lab):
+            for name, mk in [("entropy_bins", "o"), ("revisit_grid", "s"), ("central_fraction", "^")]:
+                g = lab[lab.parameter == name]
+                ax[1].plot(range(len(g)), g.kappa_vs_ref, marker=mk, label=f"{name}: {list(g.value)}")
+            ax[1].set_ylim(0.5, 1.02); ax[1].set_xlabel("parameter setting (index)"); ax[1].set_ylabel("κ vs. published labels")
+            ax[1].set_title("(B-legacy) Label stability, superseded labeller", fontweight="bold"); ax[1].legend(fontsize=6.5)
+        else:
+            ax[1].axis("off")
+            ax[1].text(0.5, 0.5, "The production label (engagement_phase3d)\ncontains no spatial grid:\nno label-side sensitivity exists.",
+                       ha="center", va="center", fontsize=9)
+            ax[1].set_title("(B) Label side", fontweight="bold")
         if len(ms):
             xm = ms.grid.map(lambda g: int(g.split("x")[0]) * int(g.split("x")[1])).values
             for m, lab_ in [("balanced_acc", "balanced accuracy"), ("roc_auc", "ROC-AUC"), ("mcc", "MCC")]:

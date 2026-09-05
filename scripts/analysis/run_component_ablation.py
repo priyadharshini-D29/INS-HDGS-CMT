@@ -45,7 +45,7 @@ from pathlib import Path
 # ── Parse args FIRST, then pin ET env BEFORE importing config.settings ───────
 VARIANTS = [
     "full", "no_snn", "no_graph", "no_neuro_symbolic", "ns_explain_only", "ns_rule_only",
-    "no_et", "no_roi", "eeg_only",
+    "no_et", "no_roi", "eeg_only", "eeg_only_mmd",
     "no_contrastive", "no_mmd", "no_fusion_transformer", "baseline_linear",
 ]
 
@@ -106,7 +106,8 @@ _FACTORY = {
     "ns_explain_only":      AblationConfig.ns_explain_only,
     "ns_rule_only":         AblationConfig.ns_rule_only,
     "no_et":                AblationConfig.no_et,
-    "eeg_only":             AblationConfig.eeg_only,      # no gaze-derived input at all
+    "eeg_only":             AblationConfig.eeg_only,      # no gaze-derived input at all (MMD also off)
+    "eeg_only_mmd":         AblationConfig.eeg_only_mmd,  # no gaze-derived input, MMD kept (fair "full minus gaze")
     "no_roi":               AblationConfig.no_roi,
     "no_contrastive":       AblationConfig.no_contrastive,
     "no_mmd":               AblationConfig.no_mmd,

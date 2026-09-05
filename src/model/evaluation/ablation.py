@@ -40,6 +40,7 @@ ABLATION_CONFIGS = {
     "ns_explain_only"     : AblationConfig.ns_explain_only(),
     "no_fusion_transformer": AblationConfig.no_fusion_transformer(),
     "eeg_only"            : AblationConfig.eeg_only(),
+    "eeg_only_mmd"        : AblationConfig.eeg_only_mmd(),
     "no_et"               : AblationConfig.no_et(),
     "no_roi"              : AblationConfig(use_roi=False, use_roi_modulation=False),
     "no_contrastive"      : AblationConfig(use_contrastive=False, use_infonce=False),

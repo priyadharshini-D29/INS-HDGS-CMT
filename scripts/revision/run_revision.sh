@@ -11,7 +11,8 @@
 #     data       raw .xdf -> preprocessed epochs + production labels (skips done subjects)
 #     audit      R1/R2 label audit: linear recoverability of the label per modality
 #     full       production model, 37-fold LOSOCV, fresh checkpoints  (needed by `ckpt`)
-#     eeg_only   R1-1/3  strictly gaze-free EEG branch
+#     eeg_only   R1-1/3  strictly gaze-free EEG branch (MMD also off, as in the original factory)
+#     eeg_only_mmd R1-1/3 gaze-free EEG branch with the MMD/DANN regularisers kept (fair "full minus gaze")
 #     rule_only  R2-5    model trained with the rule gate closed (alpha = 0)
 #     baselines  R2-3    18 baselines, nested 12-config search, early stopping (parallel over GPUs)
 #     tau        R2-2    tau in {0.20..0.50}, EEG-only branch, all 37 folds
@@ -71,6 +72,7 @@ stage_audit() {
 
 stage_full()      { abl full; }
 stage_eeg_only()  { abl eeg_only; }
+stage_eeg_only_mmd() { abl eeg_only_mmd; }   # gaze-free but keeps the MMD/DANN regularisers
 stage_rule_only() { abl ns_rule_only; }
 
 stage_baselines() {
@@ -149,7 +151,7 @@ stage_stats() {
 
 stage_verify() { python scripts/revision/verify_revision.py; }
 
-ALL="env data audit full eeg_only rule_only baselines tau grid lc ckpt stats verify"
+ALL="env data audit full eeg_only eeg_only_mmd rule_only baselines tau grid lc ckpt stats verify"
 [ $# -gt 0 ] || { echo "usage: $0 <stage>...|all   (stages: $ALL)"; exit 1; }
 for st in "$@"; do
   if [ "$st" = all ]; then for s2 in $ALL; do "stage_$s2"; done

@@ -284,6 +284,19 @@ class AblationConfig:
         )
 
     @classmethod
+    def eeg_only_mmd(cls) -> AblationConfig:
+        """Gaze-free EEG branch that differs from the full model ONLY in the
+        gaze-derived inputs: no ET sequence, no ROI vector, no cross-modal
+        fusion/contrastive term (which need ET), but the MMD / adversarial
+        subject-invariance regularisers are kept as in production.
+        `eeg_only()` additionally drops MMD, so it confounds the two effects."""
+        return cls(
+            use_et=False, use_roi=False, use_roi_modulation=False,
+            use_et_attention=False, use_fusion_transformer=False,
+            use_contrastive=False, use_mmd=True,
+        )
+
+    @classmethod
     def no_snn(cls) -> AblationConfig:
         """Ablation: remove SNN; rely on graph + transformer only."""
         return cls(use_snn=False)

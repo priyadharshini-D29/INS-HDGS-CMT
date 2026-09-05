@@ -13,7 +13,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 export PYTHONUTF8=1
 VARIANTS=(
-  full eeg_only no_et no_roi
+  full eeg_only eeg_only_mmd no_et no_roi
   no_graph no_snn no_fusion_transformer no_neuro_symbolic ns_rule_only
   no_contrastive no_mmd baseline_linear
 )

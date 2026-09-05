@@ -96,6 +96,11 @@ def main():
     if eeg is not None and prod is not None:
         n, d, p = paired(prod, eeg)
         add("R1-1/3", "full − EEG-only ΔAUC (Sec. 3.4b)", OK, f"n={n} Δ={d:+.3f} p={p:.4f} (Holm in cross_modal_contribution.md)")
+    st, det, eegm = fold_csv(R / "ablation/abl_eeg_only_mmd/losocv_abl_eeg_only_mmd.csv")
+    add("R1-1/3", "gaze-free EEG branch with MMD kept (fair full-minus-gaze)", st, det)
+    if eegm is not None and prod is not None:
+        n, d, p = paired(prod, eegm)
+        add("R1-1/3", "full - EEG-only(MMD kept) dAUC", OK, f"n={n} d={d:+.3f} p={p:.4f}")
     st, det, full = fold_csv(R / "ablation/abl_full/losocv_abl_full.csv")
     add("reference", "fresh full re-run (checkpoints for stage ckpt)", st, det)
     if full is not None and prod is not None:
