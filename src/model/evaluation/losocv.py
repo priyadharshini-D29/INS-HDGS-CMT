@@ -25,6 +25,7 @@ Expected LOSOCV performance (realistic, no leakage):
 
 from __future__ import annotations
 
+import os
 import re
 import sys
 import time
@@ -47,7 +48,7 @@ from config.settings import (
     ROI_HIDDEN_DIM, FUSION_HEADS, CLS_HIDDEN,
     N_ROIS, N_WINDOWS, ET_INPUT_DIM,
     SNN_TIME_STEPS, SNN_HIDDEN_DIM,
-    NS_N_RULES, NS_HIDDEN_DIM,
+    NS_N_RULES, NS_HIDDEN_DIM, NS_ALPHA_MODE,
     BATCH_SIZE, EPOCHS, LR, WEIGHT_DECAY, PATIENCE,
     TEMPERATURE, DROPOUT, FOCAL_ALPHA, FOCAL_GAMMA,
     LAMBDA_CLS, LAMBDA_CONTRAST, LAMBDA_ROI,
@@ -187,6 +188,7 @@ def _make_model(
         fusion_heads    = FUSION_HEADS,
         ns_n_rules      = NS_N_RULES,
         ns_hidden_dim   = NS_HIDDEN_DIM,
+        ns_alpha_mode   = os.environ.get("NEUMA_NS_ALPHA_MODE", NS_ALPHA_MODE),
         cls_hidden      = CLS_HIDDEN,
         dropout         = DROPOUT,
         temperature     = TEMPERATURE,

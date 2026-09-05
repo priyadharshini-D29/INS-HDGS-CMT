@@ -186,6 +186,7 @@ def _make_model(
         fusion_heads   = FUSION_HEADS,
         ns_n_rules     = NS_N_RULES,
         ns_hidden_dim  = NS_HIDDEN_DIM,
+        ns_alpha_mode  = os.environ.get("NEUMA_NS_ALPHA_MODE", NS_ALPHA_MODE),
         cls_hidden     = CLS_HIDDEN,
         dropout        = DROPOUT,
         temperature    = TEMPERATURE,

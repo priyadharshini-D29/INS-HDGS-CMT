@@ -194,6 +194,12 @@ class AblationConfig:
     # Explainability module flag
     use_explainability     : bool = True   # GradCAM + electrode saliency
 
+    # Bypass-gate mode of the neuro-symbolic layer (Eq. 18):
+    #   "learned" (paper default) | "rule_only" (alpha fixed at 0: prediction is
+    #   the soft-rule evidence alone) | "bypass_only" (alpha fixed at 1:
+    #   explanation-only, rules computed but never used for the decision).
+    ns_alpha_mode          : str  = "learned"
+
     def __post_init__(self):
         """
         Synchronise semantic aliases with canonical flags.
@@ -295,6 +301,18 @@ class AblationConfig:
     def no_neuro_symbolic(cls) -> AblationConfig:
         """Ablation: remove rule layer — use standard classification head."""
         return cls(use_neuro_symbolic=False)
+
+    @classmethod
+    def ns_rule_only(cls) -> AblationConfig:
+        """Rule-fidelity control (Reviewer 2, comment 5): bypass gate alpha
+        forced to 0, so the prediction is the soft-rule evidence R alone."""
+        return cls(ns_alpha_mode="rule_only")
+
+    @classmethod
+    def ns_explain_only(cls) -> AblationConfig:
+        """Explanation-only configuration: alpha forced to 1 (plain classifier
+        decides), rule activations are still produced for inspection."""
+        return cls(ns_alpha_mode="bypass_only")
 
     @classmethod
     def no_et(cls) -> AblationConfig:
@@ -448,6 +466,7 @@ class INS_HDGS_CMT(nn.Module):
         n_eeg_samples  : int              = 1500,
         feature_names  : Optional[List[str]] = None,
         ablation       : Optional[AblationConfig] = None,
+        ns_alpha_mode  : str              = "learned",
     ):
         super().__init__()
         self.n_windows = n_windows
@@ -573,6 +592,10 @@ class INS_HDGS_CMT(nn.Module):
                 temperature   = 1.0,
                 dropout       = dropout / 3,
                 feature_names = feature_names,
+                # explicit constructor arg wins; otherwise the AblationConfig
+                # (ns_rule_only / ns_explain_only factories) decides.
+                alpha_mode    = (ns_alpha_mode if ns_alpha_mode != "learned"
+                                 else getattr(cfg, "ns_alpha_mode", "learned")),
             )
         else:
             self.rule_layer = None
@@ -847,6 +870,13 @@ class INS_HDGS_CMT(nn.Module):
         rule_act = (rule_info["activations"]
                     if rule_info is not None and "activations" in rule_info
                     else _zRU())
+        _zC = lambda: torch.zeros(B, logits.size(-1), device=dev)
+        rule_evidence = (rule_info["rule_evidence"] if rule_info is not None
+                         else _zC())
+        bypass_logits = (rule_info["bypass_logits"] if rule_info is not None
+                         else _zC())
+        bypass_alpha  = (logits.new_tensor(rule_info["bypass_alpha"])
+                         if rule_info is not None else logits.new_tensor(1.0))
 
         return {
             # Core outputs
@@ -865,6 +895,10 @@ class INS_HDGS_CMT(nn.Module):
             "gate"       : gate       if gate        is not None else torch.zeros(B, 1, device=dev),
             # Symbolic rules — activations tensor only, no nested dict
             "rule_act"   : rule_act,
+            # Rule-fidelity diagnostics (Eq. 17 evidence R, bypass logit, alpha)
+            "rule_evidence": rule_evidence,
+            "bypass_logits": bypass_logits,
+            "bypass_alpha" : bypass_alpha,
             # GAT attention weights (dict of tensors, for explainability)
             "gat_attn"   : gat_attn,
             # Presence flags (float tensors for DataParallel compatibility)

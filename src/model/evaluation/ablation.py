@@ -36,6 +36,8 @@ ABLATION_CONFIGS = {
     "no_snn"              : AblationConfig.no_snn(),
     "no_graph"            : AblationConfig.no_graph(),
     "no_neuro_symbolic"   : AblationConfig.no_neuro_symbolic(),
+    "ns_rule_only"        : AblationConfig.ns_rule_only(),
+    "ns_explain_only"     : AblationConfig.ns_explain_only(),
     "no_fusion_transformer": AblationConfig.no_fusion_transformer(),
     "eeg_only"            : AblationConfig.eeg_only(),
     "no_et"               : AblationConfig.no_et(),

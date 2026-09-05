@@ -127,6 +127,11 @@ def _worker() -> None:
         epochs               = epochs,
         label                = label,
         n_ensemble_override  = n_ensemble,
+        # production-pinned loss / regularisation (as in run_component_ablation.py)
+        alpha_strategy       = "effective_num",
+        focal_gamma_override = 3.0,
+        lambda_dann_override = 0.10,
+        lambda_mmd_override  = 0.10,
         fold_parallel        = True,
     )
 

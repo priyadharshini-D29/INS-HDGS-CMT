@@ -27,8 +27,11 @@ import torch
 # src/model/ and src/data_pipeline/ are siblings under src/, matching the
 # old NEUMA_PHASE8/NEUMA_PHASE3/NEUMA_PHASE6 sibling-under-repo-root layout,
 # so these remain simple "../<sibling>" references -- just renamed.
-PHASE3_DIR   = Path("../data_pipeline/04_segmentation/output")
-PHASE6_DIR   = Path("../data_pipeline/06_dataset_aggregation/output/global")
+# Resolved relative to this file (not the working directory) so that analysis
+# scripts under scripts/ can be launched from the repository root as well.
+_SRC_DIR     = Path(__file__).resolve().parents[2]          # <repo>/src
+PHASE3_DIR   = _SRC_DIR / "data_pipeline" / "04_segmentation" / "output"
+PHASE6_DIR   = _SRC_DIR / "data_pipeline" / "06_dataset_aggregation" / "output" / "global"
 # S04 and S11 have no per-subject engagement labels — they fall back to the
 # shared pooled directory, producing cross-subject duplicate epochs (leakage).
 # S16, S31, S33, S41, S44 have single-class labels under the global threshold;
@@ -66,11 +69,15 @@ ET_SAMPLES       = int(ET_SR * ET_EPOCH_LEN)      # 600
 ET_INPUT_DIM     = 3                               # gaze_x, gaze_y, pupil
 
 # ── ROI Parameters ──────────────────────────────────────────────────────────
-N_ROIS           = 10
+# The ROI saliency vector is a GRID_ROWS x GRID_COLS occupancy histogram of
+# gaze over the stimulus. Overridable via env vars for the grid-resolution
+# sensitivity analysis (Reviewer 2, comment 9): e.g. NEUMA_GRID_COLS=6
+# NEUMA_GRID_ROWS=4 reproduces the 24-cell product layout of Fig. 1.
 IMAGE_W          = 3000
 IMAGE_H          = 1688
-GRID_COLS        = 5
-GRID_ROWS        = 2
+GRID_COLS        = int(os.environ.get("NEUMA_GRID_COLS", "5"))
+GRID_ROWS        = int(os.environ.get("NEUMA_GRID_ROWS", "2"))
+N_ROIS           = int(os.environ.get("NEUMA_N_ROIS", str(GRID_COLS * GRID_ROWS)))
 
 # ── Graph Construction ──────────────────────────────────────────────────────
 # Overridable via env var for connectivity-threshold / PLV-band sensitivity
@@ -135,6 +142,11 @@ FUSION_HEADS     = 4
 NS_N_RULES       = 8                  # number of differentiable rules
 NS_HIDDEN_DIM    = 64                 # rule premise embedding size
 NS_TEMPERATURE   = 1.0               # rule softmax temperature
+# Bypass-gate mode of Eq. (18): "learned" (paper default) | "rule_only"
+# (alpha fixed at 0, prediction = soft-rule evidence only) | "bypass_only".
+# Env-overridable so the rule-only LOSOCV run (Reviewer 2, comment 5) needs
+# no code change:  NEUMA_NS_ALPHA_MODE=rule_only python main.py --label ns_rule_only
+NS_ALPHA_MODE    = os.environ.get("NEUMA_NS_ALPHA_MODE", "learned")
 
 # Classification heads
 CLS_HIDDEN       = 64

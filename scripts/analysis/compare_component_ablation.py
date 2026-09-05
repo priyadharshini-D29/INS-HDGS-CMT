@@ -32,14 +32,15 @@ from compare_ablation import (
     METRIC_COLS, LOWER_IS_BETTER, _load, _metric_series, _agg, _paired_tests,
 )
 
-_PH8 = Path(__file__).resolve().parents[1]
-DEFAULT_FULL = (_PH8 / "output" / "metrics" / "focal_abl_g3p0_effective_num"
-                / "losocv_focal_abl_g3p0_effective_num.csv")
-ABL_ROOT = _PH8 / "results" / "ablation"
+_ROOT = Path(__file__).resolve().parents[2]          # <repo>
+DEFAULT_FULL = (_ROOT / "results" / "losocv_metrics"
+                / "losocv_repro_focal_g3p0_effective_num_37.csv")   # published production run
+ABL_ROOT = _ROOT / "results" / "ablation"
 
 ALL_VARIANTS = [
     "no_snn", "no_graph", "no_neuro_symbolic", "no_et", "no_roi",
     "no_fusion_transformer", "no_contrastive", "no_mmd", "baseline_linear",
+    "eeg_only", "ns_rule_only",                       # revision variants (present once run)
 ]
 DISP = [d for d, _ in METRIC_COLS] + ["brier"]
 

@@ -182,7 +182,7 @@ def main():
     ap.add_argument("--results-root", type=str, default=None)
     args = ap.parse_args()
 
-    root = Path(args.results_root) if args.results_root else (Path(__file__).resolve().parents[1] / "results")
+    root = Path(args.results_root) if args.results_root else (Path(__file__).resolve().parents[2] / "results")
     pA = root / "baseline_A"   / "losocv_baseline_A.csv"
     pC = root / "experiment_C" / "losocv_experiment_C.csv"
     dfA, dfC = _load(pA), _load(pC)
