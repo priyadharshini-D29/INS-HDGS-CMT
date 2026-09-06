@@ -134,12 +134,12 @@ def main():
     ap.add_argument("--out-dir", default=str(OUT))
     args = ap.parse_args()
 
-    variants = {
-        "full":   _load_losocv(Path(args.full_csv), "full"),
-        "no_et":  _load_losocv(Path(args.no_et_csv), "no_et"),
-        "no_roi": _load_losocv(Path(args.no_roi_csv), "no_roi"),
-        "no_fusion": _load_losocv(Path(args.no_fusion_csv), "no_fusion"),
-    }
+    variants = {"full": _load_losocv(Path(args.full_csv), "full")}
+    for key, csv in (("no_et", args.no_et_csv), ("no_roi", args.no_roi_csv), ("no_fusion", args.no_fusion_csv)):
+        if Path(csv).exists():
+            variants[key] = _load_losocv(Path(csv), key)
+        else:
+            print(f"[info] {key} CSV not found ({csv}) — that comparison is skipped.")
     if args.eeg_only_csv and Path(args.eeg_only_csv).exists():
         variants["eeg_only"] = _load_losocv(Path(args.eeg_only_csv), "eeg_only")
     else:
@@ -155,12 +155,12 @@ def main():
     wide = {m: pd.DataFrame({k: v.set_index("test_subject").loc[common, m].values
                              for k, v in variants.items()}, index=common) for m in METRICS}
 
-    pairs = [("full", "no_et"), ("full", "no_roi"), ("full", "no_fusion"),
-             ("no_et", "no_roi")]
+    pairs = [(a, b) for a, b in [("full", "no_et"), ("full", "no_roi"), ("full", "no_fusion"), ("no_et", "no_roi")]
+             if a in variants and b in variants]
     if "eeg_only" in variants:
-        pairs += [("full", "eeg_only"), ("no_et", "eeg_only")]
+        pairs += [(a, "eeg_only") for a in ("full", "no_et") if a in variants]
     if "et_only(ET-LSTM)" in variants:
-        pairs += [("full", "et_only(ET-LSTM)"), ("no_et", "et_only(ET-LSTM)")]
+        pairs += [(a, "et_only(ET-LSTM)") for a in ("full", "no_et") if a in variants]
 
     rows = []
     for m in METRICS:
