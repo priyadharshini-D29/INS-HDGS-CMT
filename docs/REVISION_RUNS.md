@@ -80,6 +80,21 @@ Server commands:
     NEUMA_LABEL_SOURCE=purchase bash scripts/revision/run_revision.sh full eeg_only_mmd no_et no_roi purchase_stats
     NEUMA_LABEL_SOURCE=purchase bash scripts/revision/run_revision.sh baselines purchase_stats
 
+### Purchase-track result (2026-09-06, 41 folds, production configuration)
+
+| variant | BalAcc | ROC-AUC (fold mean) | MCC |
+|---|---|---|---|
+| full model | 0.545 ± 0.164 | 0.572 ± 0.279 | 0.101 |
+| gaze-free EEG branch (MMD kept) | 0.513 ± 0.113 | 0.571 ± 0.261 | 0.030 |
+| no gaze sequence (ROI retained) | 0.529 ± 0.125 | 0.591 ± 0.222 | 0.052 |
+| no ROI vector | 0.533 ± 0.166 | 0.620 ± 0.255 (pooled 0.557) | 0.064 |
+| linear probe, dominant-product dwell fraction (audit) | 0.556 | 0.714 (pooled 0.659) | – |
+
+On the window-level purchase label (first 5 s of a page view) no variant beats
+chance or the single-feature dwell probe. Next candidate: product-level epochs
+anchored on each product's own gaze dwell (3,082 samples, 22 % bought), the
+NeuMa-native design; not built yet.
+
 ## Notes on the code changes that support these runs
 
 * `src/model/data/` (dataset loader + channel harmoniser) was missing from the
