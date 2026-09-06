@@ -137,3 +137,23 @@ Run `stats` and `verify` again whenever a new stage finishes.
   shell; `unset ET_USE_BOTH_EYES ET_USE_VERGENCE ET_USE_SPEED ET_NORMALIZE`.
 * `No Phase-3 epoch data`: the bundle was unpacked somewhere other than the
   repository root; `src/data_pipeline/04_segmentation/S01/output/epochs/` must exist.
+
+## Running stages side by side
+
+Every stage is CPU-bound and leaves the GPUs mostly idle, so independent stages
+can share the machine, one `tmux` window each.  Set `NEUMA_ALLOW_CONCURRENT=1`
+to skip the stale-process guard (it also caps each worker at 4 CPU threads).
+Stages that write to different result folders never collide; only run a stage
+that *reads* another stage's CSV (`stats`, `purchase_stats`, `ckpt`) after that
+stage has finished.
+
+```bash
+# window 1 (already running): product track
+NEUMA_LABEL_SOURCE=product bash scripts/revision/run_revision.sh eeg_only_mmd no_et no_roi purchase_stats
+# window 2: tuned baselines on the production label (18 models, 8 GPUs at a time)
+NEUMA_ALLOW_CONCURRENT=1 bash scripts/revision/run_revision.sh baselines
+# window 3: method sensitivity analyses on the production label, sequentially
+NEUMA_ALLOW_CONCURRENT=1 bash scripts/revision/run_revision.sh rule_only tau grid lc
+# afterwards, once windows 2 and 3 are done (CPU only, quick):
+bash scripts/revision/run_revision.sh ckpt stats verify
+```
