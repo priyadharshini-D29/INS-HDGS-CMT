@@ -121,6 +121,34 @@ Server:
     NEUMA_LABEL_SOURCE=product bash scripts/revision/run_revision.sh eeg_only_mmd no_et no_roi purchase_stats
     NEUMA_LABEL_SOURCE=product bash scripts/revision/run_revision.sh baselines purchase_stats
 
+### Product-track result (2026-09-06, 42 folds, production configuration, 8xA100, 79.5 h GPU)
+
+`results/label_product/ablation/abl_full/losocv_abl_full.csv`
+
+| metric | mean ± SD over 42 folds |
+|---|---|
+| balanced accuracy | 0.523 ± 0.091 |
+| ROC-AUC (per subject) | 0.570 ± 0.114 |
+| ROC-AUC (pooled, 2,338 epochs) | 0.577 |
+| PR-AUC | 0.320 ± 0.130 (prevalence 0.179) |
+| MCC | 0.031 ± 0.158 |
+| F1 | 0.247 ± 0.130 |
+
+The full model sits exactly on the linear floors of the audit (gaze-5 0.571,
+ALL-10 0.577) and far below the dwell covariate (0.85-0.90). Conclusion:
+neither the window-level nor the product-level purchase label is decodable
+from 5-s EEG + gaze; purchase is predicted by *how long* people look, which is
+a session-level behaviour, not by the physiology inside the look. The gaze-free
+/ no-ET / no-ROI variants were NOT run on this track (ablating a chance-level
+model is uninformative; would cost ~3 GPU-days).
+
+Before any further GPU spend on this label, the audit now also reports
+(`label_leakage_audit.py --label-source product`): (i) probes on features
+standardised within subject (removes subject offsets, no labels used) and (ii)
+within-page ranking of the 24 products (mean within-page AUC, top-3 hit rate).
+Only if those rows move well above 0.6 is a ranking / multiple-instance model
+worth training.
+
 ## Notes on the code changes that support these runs
 
 * `src/model/data/` (dataset loader + channel harmoniser) was missing from the
