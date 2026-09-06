@@ -149,6 +149,26 @@ within-page ranking of the 24 products (mean within-page AUC, top-3 hit rate).
 Only if those rows move well above 0.6 is a ranking / multiple-instance model
 worth training.
 
+## POSITIVE CONTROL: BROWSING vs RESTING STATE (built 2026-09-06)
+
+Product-track follow-up audit (within-subject z-scoring, within-page ranking of
+the 24 products): EEG-5 0.48-0.50, gaze-5 0.57-0.59, dwell 0.88-0.92 within
+page (top-3 hit 0.96-0.97). No ranking / multiple-instance model is warranted.
+
+Before concluding anything about the EEG branch, show that it decodes a
+contrast known to exist in these recordings. NeuMa recorded 2 min of resting
+state (marker `fixation_cross`) before the brochures.
+`src/data_pipeline/04_segmentation/control_epoching.py`: balanced 5-s epochs,
+rest (0) vs the EARLIEST browsing epochs (1), <= 24 per class per subject,
+5 s skipped after the cross and after each page onset, no epoch crosses a page
+boundary. Loader `NEUMA_LABEL_SOURCE=control`, results `results/label_control/`.
+The gaze channels separate the classes trivially, so the informative variant is
+`eeg_only_mmd`; `full` only confirms the loader.
+
+Server:
+    bash scripts/revision/run_revision.sh control_epochs
+    NEUMA_LABEL_SOURCE=control NEUMA_ALLOW_CONCURRENT=1 bash scripts/revision/run_revision.sh audit eeg_only_mmd full purchase_stats
+
 ## Notes on the code changes that support these runs
 
 * `src/model/data/` (dataset loader + channel harmoniser) was missing from the

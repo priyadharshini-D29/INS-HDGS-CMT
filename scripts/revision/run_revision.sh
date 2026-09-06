@@ -118,6 +118,11 @@ stage_product_epochs() {   # NeuMa-native product-level epochs + purchase labels
   ( cd src/data_pipeline/04_segmentation && python product_epoching.py ) 2>&1 | grep -E "^\s+S[0-9]+:|epochs [0-9]|epochs/subject|written" | tee logs/revision/product_epochs.log
 }
 
+stage_control_epochs() {   # positive control: browsing vs resting-state epochs (needs the 2-min rest segment in the clean data)
+  log "positive-control epochs -> S*/output/engagement_control/ + epochs/*_control.npy"
+  ( cd src/data_pipeline/04_segmentation && python control_epoching.py ) 2>&1 | grep -vE "^\s*\[Dataset\]|Loading|loaded" | tee logs/revision/control_epochs.log
+}
+
 stage_no_et()  { abl no_et; }
 stage_no_roi() { abl no_roi; }
 
@@ -228,6 +233,7 @@ stage_verify() { python scripts/revision/verify_revision.py; }
 ALL="env data audit full eeg_only eeg_only_mmd rule_only baselines tau grid lc ckpt stats verify"   # also: ckpt_cpu, energy, no_et, no_roi, purchase_labels, product_epochs, purchase_stats
 # purchase track (after `purchase_labels`):  NEUMA_LABEL_SOURCE=purchase ... full eeg_only_mmd no_et no_roi baselines purchase_stats
 # product track  (after `product_epochs`):   NEUMA_LABEL_SOURCE=product  ... audit full eeg_only_mmd no_et no_roi baselines purchase_stats
+# positive control (after `control_epochs`): NEUMA_LABEL_SOURCE=control  ... audit eeg_only_mmd full purchase_stats
 [ $# -gt 0 ] || { echo "usage: $0 <stage>...|all   (stages: $ALL)"; exit 1; }
 for st in "$@"; do
   if [ "$st" = all ]; then for s2 in $ALL; do "stage_$s2"; done

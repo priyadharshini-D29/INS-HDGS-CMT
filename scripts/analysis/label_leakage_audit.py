@@ -82,27 +82,35 @@ def build_table(mod, subjects):
     return feats, (n_ok, n_tot)
 
 
-def build_product_table(mod, subjects):
-    """features of the product-level epochs (product_epoching.py) + behavioural label + dwell covariates."""
+def build_meta_table(mod, subjects, sub_dir, suffix, extra_cols=()):
+    """features of pre-cut epochs (<sub_dir>/engagement_metadata.csv + epochs/*_<suffix>.npy)
+    + their label + the listed metadata columns."""
     recs = []
     for s in subjects:
         d = SEG / s / "output"
-        meta = d / "engagement_product" / "engagement_metadata.csv"
+        meta = d / sub_dir / "engagement_metadata.csv"
         if not meta.exists():
             continue
         m = pd.read_csv(meta)
-        eeg = np.load(d / "epochs" / "eeg_epochs_product.npy", allow_pickle=True)
-        et = np.load(d / "epochs" / "et_epochs_product.npy", allow_pickle=True)
+        eeg = np.load(d / "epochs" / f"eeg_epochs_{suffix}.npy", allow_pickle=True)
+        et = np.load(d / "epochs" / f"et_epochs_{suffix}.npy", allow_pickle=True)
         for i, row in m.iterrows():
             fe, ft = mod.extract_eeg_features(eeg[i]), mod.extract_et_features(et[i])
             if fe is None or ft is None:
                 continue
-            recs.append(dict(subject_id=s, epoch_idx=i, label=int(row["label"]), page=int(row["page"]),
-                             total_dwell_s=row["total_dwell_s"], n_runs=row["n_runs"], n_views=row["n_views"],
-                             anchor_run_s=row["anchor_run_s"], **fe, **ft))
+            recs.append(dict(subject_id=s, epoch_idx=i, label=int(row["label"]),
+                             **{c: row[c] for c in extra_cols}, **fe, **ft))
     feats = pd.DataFrame(recs)
     feats["score"] = mod.compute_scores(feats)
     return feats
+
+
+def build_product_table(mod, subjects):
+    """product-level epochs (product_epoching.py) + behavioural label + dwell covariates."""
+    f = build_meta_table(mod, subjects, "engagement_product", "product",
+                         ("page", "total_dwell_s", "n_runs", "n_views", "anchor_run_s"))
+    f["page"] = f["page"].astype(int)
+    return f
 
 
 def within_subject_z(feats, cols):
@@ -172,8 +180,9 @@ def main():
                                              "losocv_repro_focal_g3p0_effective_num_37.csv"),
                     help="per-fold CSV whose test_subject column defines the evaluable folds")
     ap.add_argument("--out-dir", default=str(OUT))
-    ap.add_argument("--label-source", default="phase3d", choices=["phase3d", "purchase", "product"],
-                    help="phase3d: the rule-based index (default); purchase: behavioural label from purchase_labeling.py")
+    ap.add_argument("--label-source", default="phase3d", choices=["phase3d", "purchase", "product", "control"],
+                    help="phase3d: the rule-based index (default); purchase/product: behavioural labels; "
+                         "control: browsing vs resting state (control_epoching.py)")
     args = ap.parse_args()
 
     mod = _load_phase3d()
@@ -182,11 +191,14 @@ def main():
     if args.label_source == "product":
         feats, n_ok, n_tot = build_product_table(mod, subjects), 0, 0
         print(f"[audit] product-level: {len(feats)} epochs from {feats.subject_id.nunique()} subjects; bought={int(feats.label.sum())} ({feats.label.mean():.3f})")
+    elif args.label_source == "control":
+        feats, n_ok, n_tot = build_meta_table(mod, subjects, "engagement_control", "control", ("condition",)), 0, 0
+        print(f"[audit] positive control: {len(feats)} epochs from {feats.subject_id.nunique()} subjects; browsing={int(feats.label.sum())} ({feats.label.mean():.3f})")
     else:
         feats, (n_ok, n_tot) = build_table(mod, subjects)
         print(f"[audit] {len(feats)} stimulus epochs from {feats.subject_id.nunique()} subjects; "
               f"HIGH={int(feats.label.sum())}; agreement with on-disk phase3d labels {n_ok}/{n_tot}")
-    suffix = "_product" if args.label_source == "product" else ""
+    suffix = {"product": "_product", "control": "_control"}.get(args.label_source, "")
     if args.label_source == "purchase":
         # replace the rule-based label by the behavioural one (dominant fixated product bought)
         parts = []
@@ -204,7 +216,7 @@ def main():
         print(f"[audit] purchase label: {len(feats)} epochs, bought={int(feats.label.sum())} ({feats.label.mean():.3f})")
 
     ref = Path(args.ref_csv)
-    if args.label_source in ("purchase", "product"):
+    if args.label_source in ("purchase", "product", "control"):
         ref = None                # evaluable folds are defined by the purchase label itself (both classes present)
     if ref is not None and ref.exists():
         evaluable = sorted(pd.read_csv(ref)["test_subject"].astype(str).unique())
@@ -217,6 +229,8 @@ def main():
     if args.label_source == "purchase":
         sets["RULE score (old engagement index)"] = sets.pop("RULE score (upper bound)")
         sets["Dominant-product dwell fraction"] = ["dom_frac"]
+    if args.label_source == "control":
+        sets["RULE score (old engagement index)"] = sets.pop("RULE score (upper bound)")
     if args.label_source == "product":
         sets["RULE score (old engagement index)"] = sets.pop("RULE score (upper bound)")
         sets["Total dwell on product (s)"] = ["total_dwell_s"]
@@ -239,7 +253,9 @@ def main():
     out = Path(args.out_dir); out.mkdir(parents=True, exist_ok=True)
     pd.DataFrame(summary).to_csv(out / f"label_leakage_audit{suffix}.csv", index=False)
     pd.concat(per_fold).to_csv(out / f"label_leakage_audit_per_fold{suffix}.csv", index=False)
-    lines = [f"# Label-recoverability audit ({'purchase-intent label' if suffix else 'engagement_phase3d label'})", "",
+    title = {"": "engagement_phase3d label", "_purchase": "purchase-intent label", "_product": "product-level purchase label",
+             "_control": "positive control: browsing vs rest"}[suffix]
+    lines = [f"# Label-recoverability audit ({title})", "",
              f"{len(feats)} stimulus epochs, {feats.subject_id.nunique()} subjects; probes evaluated on the "
              f"{len(evaluable)} subjects with both classes (same folds as the deep models). "
              f"On-disk label agreement {n_ok}/{n_tot}.", "",
