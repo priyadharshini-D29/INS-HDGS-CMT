@@ -56,7 +56,12 @@ if [ "$LS" != phase3d ]; then export NEUMA_NUM_WORKERS="${NEUMA_NUM_WORKERS:-0}"
 # Stages are CPU-bound and leave the GPUs mostly idle, so several stages may run
 # at once (one tmux window each): opt in with NEUMA_ALLOW_CONCURRENT=1, which
 # skips this check and caps each worker at 4 CPU threads to limit oversubscription.
-if [ -n "${NEUMA_ALLOW_CONCURRENT:-}" ]; then
+# Only stages that train need the guard; data-building and CPU analyses never collide.
+TRAIN_STAGES=" full eeg_only eeg_only_mmd rule_only no_et no_roi baselines tau grid lc all "
+needs_guard=0; for st in "$@"; do case "$TRAIN_STAGES" in *" $st "*) needs_guard=1;; esac; done
+if [ "$needs_guard" -eq 0 ]; then
+  :
+elif [ -n "${NEUMA_ALLOW_CONCURRENT:-}" ]; then
   export OMP_NUM_THREADS="${OMP_NUM_THREADS:-4}" MKL_NUM_THREADS="${MKL_NUM_THREADS:-4}"
   echo "NEUMA_ALLOW_CONCURRENT set: running alongside other stages (OMP_NUM_THREADS=$OMP_NUM_THREADS)"
 elif pgrep -f "run_component_ablation.py|run_baselines.py|sensitivity_sweep.py|learning_curve.py" >/dev/null 2>&1; then
@@ -64,7 +69,7 @@ elif pgrep -f "run_component_ablation.py|run_baselines.py|sensitivity_sweep.py|l
   echo "If they belong to a stage that is still running, start this one with NEUMA_ALLOW_CONCURRENT=1."
   echo "If they are left over from a crash, kill them first:  pkill -f run_component_ablation.py; pkill -f run_baselines.py; pkill -f spawn_main"; exit 1
 fi
-if [ -z "${NEUMA_ALLOW_CONCURRENT:-}" ] && pgrep -f "multiprocessing.spawn" >/dev/null 2>&1; then
+if [ "$needs_guard" -eq 1 ] && [ -z "${NEUMA_ALLOW_CONCURRENT:-}" ] && pgrep -f "multiprocessing.spawn" >/dev/null 2>&1; then
   echo "WARNING: orphaned spawn workers are running (pgrep -af multiprocessing.spawn); kill with: pkill -f spawn_main"
 fi
 

@@ -100,6 +100,9 @@ def build_meta_table(mod, subjects, sub_dir, suffix, extra_cols=()):
                 continue
             recs.append(dict(subject_id=s, epoch_idx=i, label=int(row["label"]),
                              **{c: row[c] for c in extra_cols}, **fe, **ft))
+    if not recs:
+        raise SystemExit(f"no epochs found under S*/output/{sub_dir}/ — build them first "
+                         f"(product_epoching.py / control_epoching.py)")
     feats = pd.DataFrame(recs)
     feats["score"] = mod.compute_scores(feats)
     return feats
