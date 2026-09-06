@@ -82,6 +82,28 @@ def build_table(mod, subjects):
     return feats, (n_ok, n_tot)
 
 
+def build_product_table(mod, subjects):
+    """features of the product-level epochs (product_epoching.py) + behavioural label + dwell covariates."""
+    recs = []
+    for s in subjects:
+        d = SEG / s / "output"
+        meta = d / "engagement_product" / "engagement_metadata.csv"
+        if not meta.exists():
+            continue
+        m = pd.read_csv(meta)
+        eeg = np.load(d / "epochs" / "eeg_epochs_product.npy", allow_pickle=True)
+        et = np.load(d / "epochs" / "et_epochs_product.npy", allow_pickle=True)
+        for i, row in m.iterrows():
+            fe, ft = mod.extract_eeg_features(eeg[i]), mod.extract_et_features(et[i])
+            if fe is None or ft is None:
+                continue
+            recs.append(dict(subject_id=s, epoch_idx=i, label=int(row["label"]), total_dwell_s=row["total_dwell_s"],
+                             n_runs=row["n_runs"], n_views=row["n_views"], anchor_run_s=row["anchor_run_s"], **fe, **ft))
+    feats = pd.DataFrame(recs)
+    feats["score"] = mod.compute_scores(feats)
+    return feats
+
+
 def loso_probe(feats, cols, evaluable):
     from sklearn.linear_model import LogisticRegression
     from sklearn.metrics import balanced_accuracy_score, roc_auc_score
@@ -116,17 +138,21 @@ def main():
                                              "losocv_repro_focal_g3p0_effective_num_37.csv"),
                     help="per-fold CSV whose test_subject column defines the evaluable folds")
     ap.add_argument("--out-dir", default=str(OUT))
-    ap.add_argument("--label-source", default="phase3d", choices=["phase3d", "purchase"],
+    ap.add_argument("--label-source", default="phase3d", choices=["phase3d", "purchase", "product"],
                     help="phase3d: the rule-based index (default); purchase: behavioural label from purchase_labeling.py")
     args = ap.parse_args()
 
     mod = _load_phase3d()
     subjects = sorted(d.name for d in SEG.iterdir()
                       if d.is_dir() and d.name.startswith("S") and (d / "output" / "epochs" / "eeg_epochs.npy").exists())
-    feats, (n_ok, n_tot) = build_table(mod, subjects)
-    print(f"[audit] {len(feats)} stimulus epochs from {feats.subject_id.nunique()} subjects; "
-          f"HIGH={int(feats.label.sum())}; agreement with on-disk phase3d labels {n_ok}/{n_tot}")
-    suffix = ""
+    if args.label_source == "product":
+        feats, n_ok, n_tot = build_product_table(mod, subjects), 0, 0
+        print(f"[audit] product-level: {len(feats)} epochs from {feats.subject_id.nunique()} subjects; bought={int(feats.label.sum())} ({feats.label.mean():.3f})")
+    else:
+        feats, (n_ok, n_tot) = build_table(mod, subjects)
+        print(f"[audit] {len(feats)} stimulus epochs from {feats.subject_id.nunique()} subjects; "
+              f"HIGH={int(feats.label.sum())}; agreement with on-disk phase3d labels {n_ok}/{n_tot}")
+    suffix = "_product" if args.label_source == "product" else ""
     if args.label_source == "purchase":
         # replace the rule-based label by the behavioural one (dominant fixated product bought)
         parts = []
@@ -144,7 +170,7 @@ def main():
         print(f"[audit] purchase label: {len(feats)} epochs, bought={int(feats.label.sum())} ({feats.label.mean():.3f})")
 
     ref = Path(args.ref_csv)
-    if args.label_source == "purchase":
+    if args.label_source in ("purchase", "product"):
         ref = None                # evaluable folds are defined by the purchase label itself (both classes present)
     if ref is not None and ref.exists():
         evaluable = sorted(pd.read_csv(ref)["test_subject"].astype(str).unique())
@@ -157,6 +183,10 @@ def main():
     if args.label_source == "purchase":
         sets["RULE score (old engagement index)"] = sets.pop("RULE score (upper bound)")
         sets["Dominant-product dwell fraction"] = ["dom_frac"]
+    if args.label_source == "product":
+        sets["RULE score (old engagement index)"] = sets.pop("RULE score (upper bound)")
+        sets["Total dwell on product (s)"] = ["total_dwell_s"]
+        sets["Dwell + n_runs + n_views + anchor run"] = ["total_dwell_s", "n_runs", "n_views", "anchor_run_s"]
     summary, per_fold = [], []
     for name, cols in sets.items():
         per, agg = loso_probe(feats, cols, evaluable)

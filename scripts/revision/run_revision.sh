@@ -87,6 +87,12 @@ stage_purchase_labels() {   # behavioural label from the questionnaire (Q77) + g
   ( cd src/data_pipeline/04_segmentation && python purchase_labeling.py ) 2>&1 | tail -15 | tee logs/revision/purchase_labels.log
 }
 
+stage_product_epochs() {   # NeuMa-native product-level epochs + purchase labels (needs DataSource/: xlsx, xdf, Dependencies)
+  [ -d DataSource/Dependencies ] || { echo "DataSource/Dependencies not found at repo root"; exit 1; }
+  log "product-level epochs -> S*/output/engagement_product/ + epochs/*_product.npy"
+  ( cd src/data_pipeline/04_segmentation && python product_epoching.py ) 2>&1 | grep -E "^\s+S[0-9]+:|epochs [0-9]|epochs/subject|written" | tee logs/revision/product_epochs.log
+}
+
 stage_no_et()  { abl no_et; }
 stage_no_roi() { abl no_roi; }
 
@@ -187,6 +193,7 @@ stage_verify() { python scripts/revision/verify_revision.py; }
 
 ALL="env data audit full eeg_only eeg_only_mmd rule_only baselines tau grid lc ckpt stats verify"
 # purchase track (after `purchase_labels`):  NEUMA_LABEL_SOURCE=purchase ... full eeg_only_mmd no_et no_roi baselines purchase_stats
+# product track  (after `product_epochs`):   NEUMA_LABEL_SOURCE=product  ... audit full eeg_only_mmd no_et no_roi baselines purchase_stats
 [ $# -gt 0 ] || { echo "usage: $0 <stage>...|all   (stages: $ALL)"; exit 1; }
 for st in "$@"; do
   if [ "$st" = all ]; then for s2 in $ALL; do "stage_$s2"; done

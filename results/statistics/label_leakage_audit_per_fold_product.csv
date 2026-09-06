@@ -1,0 +1,253 @@
+test_subject,n,roc_auc,balanced_acc,feature_set
+S01,34,0.8173076923076923,0.5,EEG-5 (frontal band power)
+S02,66,0.43251088534107407,0.5,EEG-5 (frontal band power)
+S03,33,0.5249999999999999,0.5,EEG-5 (frontal band power)
+S05,60,0.35336538461538464,0.5,EEG-5 (frontal band power)
+S06,93,0.559539052496799,0.5,EEG-5 (frontal band power)
+S07,47,0.4891891891891892,0.5,EEG-5 (frontal band power)
+S08,52,0.3668639053254438,0.5,EEG-5 (frontal band power)
+S09,42,0.5521885521885521,0.5,EEG-5 (frontal band power)
+S10,27,0.4673913043478261,0.5,EEG-5 (frontal band power)
+S12,50,0.6074999999999999,0.5,EEG-5 (frontal band power)
+S13,110,0.5392561983471074,0.5,EEG-5 (frontal band power)
+S14,49,0.44897959183673464,0.5,EEG-5 (frontal band power)
+S15,73,0.4230769230769231,0.5,EEG-5 (frontal band power)
+S16,57,0.3726851851851852,0.5,EEG-5 (frontal band power)
+S17,28,0.55,0.5,EEG-5 (frontal band power)
+S18,110,0.4444444444444444,0.5,EEG-5 (frontal band power)
+S19,106,0.6112588652482269,0.5,EEG-5 (frontal band power)
+S20,71,0.38169642857142855,0.5,EEG-5 (frontal band power)
+S21,51,0.5901162790697675,0.5,EEG-5 (frontal band power)
+S22,31,0.7090909090909091,0.5,EEG-5 (frontal band power)
+S23,128,0.5537037037037037,0.5,EEG-5 (frontal band power)
+S24,96,0.5874799357945425,0.5,EEG-5 (frontal band power)
+S25,39,0.6235294117647059,0.5,EEG-5 (frontal band power)
+S26,19,0.4857142857142857,0.5,EEG-5 (frontal band power)
+S27,33,0.40659340659340654,0.5,EEG-5 (frontal band power)
+S28,47,0.5277777777777777,0.5,EEG-5 (frontal band power)
+S29,61,0.4763636363636364,0.5,EEG-5 (frontal band power)
+S30,17,0.75,0.5,EEG-5 (frontal band power)
+S31,24,0.35,0.5,EEG-5 (frontal band power)
+S32,87,0.47368421052631576,0.5,EEG-5 (frontal band power)
+S33,34,0.5288461538461539,0.5,EEG-5 (frontal band power)
+S34,68,0.5806451612903226,0.5,EEG-5 (frontal band power)
+S35,55,0.4973404255319149,0.5,EEG-5 (frontal band power)
+S36,49,0.4307692307692308,0.5,EEG-5 (frontal band power)
+S37,91,0.5844298245614035,0.5,EEG-5 (frontal band power)
+S38,69,0.528322440087146,0.5,EEG-5 (frontal band power)
+S39,53,0.26388888888888895,0.5,EEG-5 (frontal band power)
+S40,45,0.67,0.5,EEG-5 (frontal band power)
+S41,16,0.8461538461538461,0.5,EEG-5 (frontal band power)
+S42,33,0.6098901098901099,0.5,EEG-5 (frontal band power)
+S43,25,0.7456140350877193,0.5,EEG-5 (frontal band power)
+S44,59,0.37142857142857144,0.5,EEG-5 (frontal band power)
+S01,34,0.5192307692307693,0.5,ET-5 (gaze statistics)
+S02,66,0.6923076923076923,0.5,ET-5 (gaze statistics)
+S03,33,0.46499999999999997,0.5,ET-5 (gaze statistics)
+S05,60,0.6923076923076923,0.5,ET-5 (gaze statistics)
+S06,93,0.5486555697823303,0.5,ET-5 (gaze statistics)
+S07,47,0.5054054054054054,0.5,ET-5 (gaze statistics)
+S08,52,0.6291913214990138,0.5,ET-5 (gaze statistics)
+S09,42,0.744107744107744,0.5,ET-5 (gaze statistics)
+S10,27,0.34782608695652173,0.5,ET-5 (gaze statistics)
+S12,50,0.5375,0.5,ET-5 (gaze statistics)
+S13,110,0.569214876033058,0.5,ET-5 (gaze statistics)
+S14,49,0.6190476190476191,0.5,ET-5 (gaze statistics)
+S15,73,0.7152014652014652,0.5,ET-5 (gaze statistics)
+S16,57,0.5833333333333333,0.5,ET-5 (gaze statistics)
+S17,28,0.5874999999999999,0.5,ET-5 (gaze statistics)
+S18,110,0.6461352657004831,0.5,ET-5 (gaze statistics)
+S19,106,0.49069148936170215,0.5,ET-5 (gaze statistics)
+S20,71,0.734375,0.5,ET-5 (gaze statistics)
+S21,51,0.5668604651162791,0.5,ET-5 (gaze statistics)
+S22,31,0.33181818181818185,0.5,ET-5 (gaze statistics)
+S23,128,0.6662037037037037,0.5,ET-5 (gaze statistics)
+S24,96,0.5184590690208667,0.5,ET-5 (gaze statistics)
+S25,39,0.611764705882353,0.5,ET-5 (gaze statistics)
+S26,19,0.4714285714285715,0.5,ET-5 (gaze statistics)
+S27,33,0.6428571428571428,0.5,ET-5 (gaze statistics)
+S28,47,0.6085858585858586,0.5,ET-5 (gaze statistics)
+S29,61,0.6127272727272728,0.5,ET-5 (gaze statistics)
+S30,17,0.875,0.5,ET-5 (gaze statistics)
+S31,24,0.575,0.5,ET-5 (gaze statistics)
+S32,87,0.5645933014354066,0.5,ET-5 (gaze statistics)
+S33,34,0.4182692307692308,0.5,ET-5 (gaze statistics)
+S34,68,0.6639784946236559,0.5,ET-5 (gaze statistics)
+S35,55,0.6063829787234043,0.5,ET-5 (gaze statistics)
+S36,49,0.5692307692307692,0.5,ET-5 (gaze statistics)
+S37,91,0.5851608187134503,0.5,ET-5 (gaze statistics)
+S38,69,0.6481481481481481,0.5,ET-5 (gaze statistics)
+S39,53,0.5250000000000001,0.5,ET-5 (gaze statistics)
+S40,45,0.675,0.5,ET-5 (gaze statistics)
+S41,16,0.1282051282051282,0.5,ET-5 (gaze statistics)
+S42,33,0.5,0.5,ET-5 (gaze statistics)
+S43,25,0.41228070175438597,0.5,ET-5 (gaze statistics)
+S44,59,0.5346938775510204,0.5,ET-5 (gaze statistics)
+S01,34,0.6105769230769231,0.5,ALL-10
+S02,66,0.6603773584905661,0.5,ALL-10
+S03,33,0.605,0.5,ALL-10
+S05,60,0.6706730769230769,0.5,ALL-10
+S06,93,0.5729833546734955,0.49295774647887325,ALL-10
+S07,47,0.4756756756756757,0.5,ALL-10
+S08,52,0.5502958579881657,0.5,ALL-10
+S09,42,0.7542087542087541,0.5,ALL-10
+S10,27,0.41304347826086957,0.5,ALL-10
+S12,50,0.5575,0.5,ALL-10
+S13,110,0.5619834710743802,0.5,ALL-10
+S14,49,0.5782312925170068,0.5,ALL-10
+S15,73,0.6840659340659341,0.5,ALL-10
+S16,57,0.5324074074074074,0.5,ALL-10
+S17,28,0.6875,0.5,ALL-10
+S18,110,0.6316425120772947,0.5,ALL-10
+S19,106,0.5057624113475176,0.5,ALL-10
+S20,71,0.6830357142857143,0.5,ALL-10
+S21,51,0.6046511627906977,0.5,ALL-10
+S22,31,0.4681818181818182,0.5,ALL-10
+S23,128,0.6888888888888889,0.5,ALL-10
+S24,96,0.5296950240770466,0.5,ALL-10
+S25,39,0.6588235294117647,0.5,ALL-10
+S26,19,0.4428571428571429,0.5,ALL-10
+S27,33,0.6098901098901098,0.5,ALL-10
+S28,47,0.5833333333333333,0.5,ALL-10
+S29,61,0.609090909090909,0.5,ALL-10
+S30,17,0.8125,0.5,ALL-10
+S31,24,0.5625,0.5,ALL-10
+S32,87,0.5059808612440192,0.5,ALL-10
+S33,34,0.4519230769230769,0.5,ALL-10
+S34,68,0.7150537634408602,0.5,ALL-10
+S35,55,0.6063829787234043,0.5,ALL-10
+S36,49,0.5512820512820513,0.5,ALL-10
+S37,91,0.606359649122807,0.5,ALL-10
+S38,69,0.6176470588235294,0.5,ALL-10
+S39,53,0.4833333333333334,0.5,ALL-10
+S40,45,0.6900000000000001,0.5,ALL-10
+S41,16,0.3589743589743589,0.4230769230769231,ALL-10
+S42,33,0.5494505494505495,0.5,ALL-10
+S43,25,0.4298245614035088,0.5,ALL-10
+S44,59,0.5163265306122449,0.5,ALL-10
+S01,34,0.34615384615384615,0.5,RULE score (old engagement index)
+S02,66,0.5036284470246735,0.5,RULE score (old engagement index)
+S03,33,0.42,0.5,RULE score (old engagement index)
+S05,60,0.5384615384615384,0.5,RULE score (old engagement index)
+S06,93,0.5422535211267605,0.5,RULE score (old engagement index)
+S07,47,0.5,0.5,RULE score (old engagement index)
+S08,52,0.4378698224852071,0.5,RULE score (old engagement index)
+S09,42,0.5454545454545455,0.5,RULE score (old engagement index)
+S10,27,0.8043478260869565,0.5,RULE score (old engagement index)
+S12,50,0.48,0.5,RULE score (old engagement index)
+S13,110,0.4984504132231405,0.5,RULE score (old engagement index)
+S14,49,0.6462585034013606,0.5,RULE score (old engagement index)
+S15,73,0.532051282051282,0.5,RULE score (old engagement index)
+S16,57,0.673611111111111,0.5,RULE score (old engagement index)
+S17,28,0.36875,0.5,RULE score (old engagement index)
+S18,110,0.5960144927536233,0.5,RULE score (old engagement index)
+S19,106,0.5288120567375887,0.5,RULE score (old engagement index)
+S20,71,0.44419642857142855,0.5,RULE score (old engagement index)
+S21,51,0.42151162790697677,0.5,RULE score (old engagement index)
+S22,31,0.6227272727272728,0.5,RULE score (old engagement index)
+S23,128,0.5981481481481481,0.5,RULE score (old engagement index)
+S24,96,0.5955056179775281,0.5,RULE score (old engagement index)
+S25,39,0.3235294117647059,0.5,RULE score (old engagement index)
+S26,19,0.5714285714285714,0.5,RULE score (old engagement index)
+S27,33,0.34065934065934067,0.5,RULE score (old engagement index)
+S28,47,0.5151515151515151,0.5,RULE score (old engagement index)
+S29,61,0.5909090909090909,0.5,RULE score (old engagement index)
+S30,17,0.9375,0.5,RULE score (old engagement index)
+S31,24,0.6875,0.5,RULE score (old engagement index)
+S32,87,0.6004784688995215,0.5,RULE score (old engagement index)
+S33,34,0.4038461538461538,0.5,RULE score (old engagement index)
+S34,68,0.6424731182795699,0.5,RULE score (old engagement index)
+S35,55,0.5824468085106383,0.5,RULE score (old engagement index)
+S36,49,0.576923076923077,0.5,RULE score (old engagement index)
+S37,91,0.4236111111111111,0.5,RULE score (old engagement index)
+S38,69,0.5206971677559913,0.5,RULE score (old engagement index)
+S39,53,0.5222222222222221,0.5,RULE score (old engagement index)
+S40,45,0.53,0.5,RULE score (old engagement index)
+S41,16,0.4615384615384615,0.5,RULE score (old engagement index)
+S42,33,0.4340659340659341,0.5,RULE score (old engagement index)
+S43,25,0.4298245614035088,0.5,RULE score (old engagement index)
+S44,59,0.5204081632653061,0.5,RULE score (old engagement index)
+S01,34,0.9278846153846154,0.5432692307692308,Total dwell on product (s)
+S02,66,0.9709724238026125,0.6923076923076923,Total dwell on product (s)
+S03,33,0.9,0.5,Total dwell on product (s)
+S05,60,0.9903846153846154,0.7403846153846154,Total dwell on product (s)
+S06,93,0.8469910371318823,0.6882202304737516,Total dwell on product (s)
+S07,47,0.9378378378378378,0.6,Total dwell on product (s)
+S08,52,0.9980276134122288,0.7692307692307692,Total dwell on product (s)
+S09,42,0.9242424242424242,0.595959595959596,Total dwell on product (s)
+S10,27,0.9130434782608696,0.5,Total dwell on product (s)
+S12,50,0.8775,0.5,Total dwell on product (s)
+S13,110,0.8163739669421488,0.7443181818181819,Total dwell on product (s)
+S14,49,0.8877551020408164,0.6071428571428572,Total dwell on product (s)
+S15,73,0.8617216117216117,0.8420329670329669,Total dwell on product (s)
+S16,57,0.9016203703703703,0.5347222222222222,Total dwell on product (s)
+S17,28,0.90625,0.5,Total dwell on product (s)
+S18,110,0.8608091787439613,0.7288647342995169,Total dwell on product (s)
+S19,106,0.9304078014184397,0.7960992907801419,Total dwell on product (s)
+S20,71,0.9017857142857143,0.6986607142857143,Total dwell on product (s)
+S21,51,0.938953488372093,0.5625,Total dwell on product (s)
+S22,31,0.9727272727272728,0.5,Total dwell on product (s)
+S23,128,0.9423611111111112,0.8333333333333333,Total dwell on product (s)
+S24,96,0.8138041733547352,0.5658105939004815,Total dwell on product (s)
+S25,39,0.9352941176470588,0.6,Total dwell on product (s)
+S26,19,0.5428571428571428,0.5,Total dwell on product (s)
+S27,33,0.9065934065934066,0.5714285714285714,Total dwell on product (s)
+S28,47,0.9141414141414141,0.5909090909090909,Total dwell on product (s)
+S29,61,0.8572727272727272,0.6063636363636363,Total dwell on product (s)
+S30,17,1.0,0.5,Total dwell on product (s)
+S31,24,0.9625,0.5,Total dwell on product (s)
+S32,87,0.9078947368421052,0.5909090909090909,Total dwell on product (s)
+S33,34,0.9350961538461539,0.625,Total dwell on product (s)
+S34,68,0.6975806451612903,0.5672043010752689,Total dwell on product (s)
+S35,55,0.8962765957446809,0.6768617021276595,Total dwell on product (s)
+S36,49,0.8961538461538462,0.55,Total dwell on product (s)
+S37,91,0.9166666666666666,0.631578947368421,Total dwell on product (s)
+S38,69,0.8420479302832243,0.619281045751634,Total dwell on product (s)
+S39,53,0.9416666666666667,0.625,Total dwell on product (s)
+S40,45,0.75,0.5875,Total dwell on product (s)
+S41,16,0.5384615384615383,0.5,Total dwell on product (s)
+S42,33,0.7417582417582418,0.5,Total dwell on product (s)
+S43,25,0.894736842105263,0.5,Total dwell on product (s)
+S44,59,0.8693877551020408,0.539795918367347,Total dwell on product (s)
+S01,34,0.9086538461538463,0.6682692307692308,Dwell + n_runs + n_views + anchor run
+S02,66,0.8882438316400582,0.6923076923076923,Dwell + n_runs + n_views + anchor run
+S03,33,0.86,0.5625,Dwell + n_runs + n_views + anchor run
+S05,60,0.9927884615384616,0.875,Dwell + n_runs + n_views + anchor run
+S06,93,0.8815620998719591,0.7791293213828425,Dwell + n_runs + n_views + anchor run
+S07,47,0.8972972972972972,0.9,Dwell + n_runs + n_views + anchor run
+S08,52,0.8757396449704142,0.7307692307692308,Dwell + n_runs + n_views + anchor run
+S09,42,0.9764309764309764,0.7070707070707071,Dwell + n_runs + n_views + anchor run
+S10,27,1.0,0.75,Dwell + n_runs + n_views + anchor run
+S12,50,0.8574999999999999,0.6,Dwell + n_runs + n_views + anchor run
+S13,110,0.8667355371900826,0.7556818181818181,Dwell + n_runs + n_views + anchor run
+S14,49,0.8333333333333334,0.6785714285714286,Dwell + n_runs + n_views + anchor run
+S15,73,0.8791208791208791,0.8136446886446886,Dwell + n_runs + n_views + anchor run
+S16,57,0.8379629629629629,0.7118055555555556,Dwell + n_runs + n_views + anchor run
+S17,28,0.8875,0.625,Dwell + n_runs + n_views + anchor run
+S18,110,0.768719806763285,0.7065217391304348,Dwell + n_runs + n_views + anchor run
+S19,106,0.9689716312056738,0.8590425531914894,Dwell + n_runs + n_views + anchor run
+S20,71,0.8236607142857142,0.7064732142857143,Dwell + n_runs + n_views + anchor run
+S21,51,0.991279069767442,0.75,Dwell + n_runs + n_views + anchor run
+S22,31,0.9545454545454546,0.6363636363636364,Dwell + n_runs + n_views + anchor run
+S23,128,0.9768518518518519,0.912962962962963,Dwell + n_runs + n_views + anchor run
+S24,96,0.8426966292134832,0.5658105939004815,Dwell + n_runs + n_views + anchor run
+S25,39,1.0,0.9,Dwell + n_runs + n_views + anchor run
+S26,19,0.9571428571428572,0.5,Dwell + n_runs + n_views + anchor run
+S27,33,0.9175824175824175,0.7857142857142857,Dwell + n_runs + n_views + anchor run
+S28,47,0.9595959595959596,0.8636363636363636,Dwell + n_runs + n_views + anchor run
+S29,61,0.9018181818181819,0.7627272727272727,Dwell + n_runs + n_views + anchor run
+S30,17,1.0,1.0,Dwell + n_runs + n_views + anchor run
+S31,24,0.9500000000000001,0.625,Dwell + n_runs + n_views + anchor run
+S32,87,0.9234449760765551,0.6752392344497608,Dwell + n_runs + n_views + anchor run
+S33,34,0.9230769230769231,0.6875,Dwell + n_runs + n_views + anchor run
+S34,68,0.7688172043010753,0.7258064516129032,Dwell + n_runs + n_views + anchor run
+S35,55,0.9867021276595744,0.8537234042553192,Dwell + n_runs + n_views + anchor run
+S36,49,0.982051282051282,0.55,Dwell + n_runs + n_views + anchor run
+S37,91,0.9736842105263157,0.8019005847953216,Dwell + n_runs + n_views + anchor run
+S38,69,0.9302832244008714,0.6748366013071896,Dwell + n_runs + n_views + anchor run
+S39,53,0.9527777777777777,0.6875,Dwell + n_runs + n_views + anchor run
+S40,45,0.7899999999999999,0.8,Dwell + n_runs + n_views + anchor run
+S41,16,0.8974358974358974,0.5,Dwell + n_runs + n_views + anchor run
+S42,33,0.7912087912087912,0.5714285714285714,Dwell + n_runs + n_views + anchor run
+S43,25,0.9561403508771931,0.6403508771929824,Dwell + n_runs + n_views + anchor run
+S44,59,0.9428571428571428,0.639795918367347,Dwell + n_runs + n_views + anchor run

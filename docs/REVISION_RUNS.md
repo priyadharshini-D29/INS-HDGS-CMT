@@ -95,6 +95,32 @@ chance or the single-feature dwell probe. Next candidate: product-level epochs
 anchored on each product's own gaze dwell (3,082 samples, 22 % bought), the
 NeuMa-native design; not built yet.
 
+## PRODUCT-LEVEL TRACK (NeuMa-native design, built 2026-09-06)
+
+`src/data_pipeline/04_segmentation/product_epoching.py`: one 5-s epoch per
+(participant, product) with >= 1 s of gaze dwell, anchored 1 s before the onset
+of the product's longest gaze run and kept inside the page view; for bought
+products the window must end >= 250 ms before the first click on that product
+(median click-after-window 4.1 s), so no motor execution is inside the epoch.
+2,338 epochs, 418 bought (17.9 %), all 42 subjects with both classes, median 50
+epochs/subject. Loader: `NEUMA_LABEL_SOURCE=product`; results under
+`results/label_product/`, checkpoints under `src/model/output_product/`.
+
+Linear-probe audit (`results/statistics/label_leakage_audit_product.md`, 42 LOSO folds):
+frontal EEG-5 0.51, epoch gaze-5 0.57, old engagement index 0.49 (all chance);
+total dwell on the product (a session-level covariate, mostly outside the epoch)
+0.85 pooled / 0.88 fold; dwell + n_runs + n_views + anchor run 0.90 / 0.91.
+=> the label is behaviourally meaningful (dwell predicts choice, as in the
+NeuMa literature) but not recoverable from epoch-internal summary statistics;
+the deep model must exceed 0.57 (gaze) / 0.51 (EEG) to carry information, and
+the dwell-covariate rows are the behavioural reference to report alongside.
+
+Server:
+    bash scripts/revision/run_revision.sh product_epochs
+    NEUMA_LABEL_SOURCE=product bash scripts/revision/run_revision.sh audit full
+    NEUMA_LABEL_SOURCE=product bash scripts/revision/run_revision.sh eeg_only_mmd no_et no_roi purchase_stats
+    NEUMA_LABEL_SOURCE=product bash scripts/revision/run_revision.sh baselines purchase_stats
+
 ## Notes on the code changes that support these runs
 
 * `src/model/data/` (dataset loader + channel harmoniser) was missing from the

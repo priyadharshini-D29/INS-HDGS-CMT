@@ -141,6 +141,9 @@ def _load_precomputed_engagement(subject_id: str, epochs_dir: Path):
         ("engagement_purchase",
          "eeg_epochs_purchase.npy", "et_epochs_purchase.npy",
          "purchase intent (behavioural: dominant fixated product bought, Q77)"),
+        ("engagement_product",
+         "eeg_epochs_product.npy", "et_epochs_product.npy",
+         "product-level purchase (behavioural: one 5-s epoch per viewed product, Q77)"),
     ]
     # NEUMA_LABEL_SOURCE selects the label:  phase3d (default, production
     # rule-based index) | purchase (behavioural, 04_segmentation/purchase_labeling.py)
@@ -148,17 +151,17 @@ def _load_precomputed_engagement(subject_id: str, epochs_dir: Path):
     import os as _os
     _src = _os.environ.get("NEUMA_LABEL_SOURCE", "phase3d").strip().lower()
     _want = {"phase3d": "engagement_phase3d", "purchase": "engagement_purchase",
-             "engagement": "engagement", "v2": "engagement_v2"}.get(_src)
+             "product": "engagement_product", "engagement": "engagement", "v2": "engagement_v2"}.get(_src)
     if _want is None:
-        raise ValueError(f"NEUMA_LABEL_SOURCE={_src!r}; expected phase3d|purchase|engagement|v2")
+        raise ValueError(f"NEUMA_LABEL_SOURCE={_src!r}; expected phase3d|purchase|product|engagement|v2")
     if _src != "phase3d":
         candidates = [c for c in candidates if c[0] == _want]
         if not (epochs_dir.parent / _want / "engagement_labels.npy").exists():
             raise FileNotFoundError(
                 f"{subject_id}: NEUMA_LABEL_SOURCE={_src} but {epochs_dir.parent / _want} has no labels — "
-                f"run src/data_pipeline/04_segmentation/purchase_labeling.py first")
+                f"run src/data_pipeline/04_segmentation/purchase_labeling.py or product_epoching.py first")
     else:
-        candidates = [c for c in candidates if c[0] != "engagement_purchase"]
+        candidates = [c for c in candidates if c[0] not in ("engagement_purchase", "engagement_product")]
 
     for eng_sub, eeg_file, et_file, tag in candidates:
         eng_dir  = epochs_dir.parent / eng_sub
