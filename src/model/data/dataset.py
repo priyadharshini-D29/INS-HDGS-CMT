@@ -708,6 +708,17 @@ def build_dataloaders(
     num_workers   : int = 4,
 ):
     use_cuda = torch.cuda.is_available()
+    # Large training sets (product-level epochs: ~2,300 pre-computed graph
+    # tensors per fold) exhaust the per-process file-descriptor limit under the
+    # default "file_descriptor" tensor-sharing strategy ("Too many open files").
+    # The file_system strategy shares via named shm files instead.
+    import os as _os
+    num_workers = int(_os.environ.get("NEUMA_NUM_WORKERS", num_workers))
+    if num_workers > 0:
+        try:
+            torch.multiprocessing.set_sharing_strategy("file_system")
+        except Exception:
+            pass
     # persistent_workers keeps worker processes alive between epochs (avoids
     # the fork/import overhead of ~0.5s per epoch with num_workers > 0).
     # prefetch_factor=2 keeps 2 batches ready in worker RAM at all times.

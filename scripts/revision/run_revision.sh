@@ -37,6 +37,7 @@ cd "$(dirname "$0")/../.."
 ROOT="$(pwd)"
 export PYTHONUTF8=1 PYTHONHASHSEED=42
 mkdir -p logs/revision
+ulimit -n 65536 2>/dev/null || ulimit -n 8192 2>/dev/null || true     # DataLoader workers share many tensors
 NGPU="$(nvidia-smi -L 2>/dev/null | wc -l || echo 0)"
 SUBJECTS="$(cd src/model && python -c 'from config.settings import SUBJECT_IDS; print(",".join(SUBJECT_IDS))')"
 PROD_CSV="results/losocv_metrics/losocv_repro_focal_g3p0_effective_num_37.csv"
@@ -49,7 +50,9 @@ log() { printf '\n[%s] %s\n' "$(date +%H:%M:%S)" "$*"; }
 run_in_model() { ( cd src/model && "$@" ); }            # every training command runs from src/model
 abl() {  # abl <variant> [extra args]  -> $RES_ROOT/ablation/abl_<variant>/losocv_abl_<variant>.csv
   local v="$1"; shift
-  if [ -f "$RES_ROOT/ablation/abl_${v}/losocv_abl_${v}.csv" ]; then log "abl_${v} [$LS]: done — skip"; return; fi
+  local csv="$RES_ROOT/ablation/abl_${v}/losocv_abl_${v}.csv"
+  if [ -f "$csv" ] && [ "$(wc -l < "$csv")" -gt 1 ]; then log "abl_${v} [$LS]: done — skip"; return; fi
+  [ -f "$csv" ] && { log "abl_${v} [$LS]: previous run produced an EMPTY csv — removing and re-running"; rm -rf "$RES_ROOT/ablation/abl_${v}"; }
   log "abl_${v} [label=$LS]: start (fold-parallel over ${NGPU} GPU(s)) -> $RES_ROOT/ablation/abl_${v}"
   run_in_model python ../../scripts/analysis/run_component_ablation.py --variant "$v" --results-root "$ROOT/$RES_ROOT/ablation" "$@" 2>&1 | tee "$LOGD/abl_${v}.log"
 }
