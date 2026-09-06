@@ -185,8 +185,17 @@ stage_ckpt() {
   log "rule grounding (integrated gradients), single subject and population"
   ( cd src/model && CUDA_VISIBLE_DEVICES="" python ../../scripts/analysis/ground_rules_to_electrodes.py --ckpt "../../$fold1" --subjects S01 --label abl_full_S01 ) 2>&1 | tee logs/revision/grounding_S01.log
   ( cd src/model && CUDA_VISIBLE_DEVICES="" python ../../scripts/analysis/ground_rules_to_electrodes.py --ckpt "$ck"/abl_full_fold*_e0.pt --subjects all --label abl_full ) 2>&1 | tee logs/revision/grounding_all.log
+  stage_energy
+}
+stage_ckpt_cpu() { NEUMA_SKIP_ENERGY=1 stage_ckpt; }   # rule fidelity + grounding only (CPU); run `energy` later on an idle GPU
+
+stage_energy() {   # board power is sampled with nvidia-smi: run this only when no other job is on the GPU
+  [ -n "${NEUMA_SKIP_ENERGY:-}" ] && { log "energy measurement skipped (NEUMA_SKIP_ENERGY)"; return; }
+  local ck="src/model/$OUT/checkpoints/abl_full"; local fold1; fold1="$(ls "$ck"/abl_full_fold01_e*.pt | head -1)"
+  local busy; busy="$(nvidia-smi --query-compute-apps=pid --format=csv,noheader 2>/dev/null | wc -l)"
+  [ "$busy" -gt 0 ] && log "WARNING: $busy other GPU processes are running; the power readings will include them"
   log "measured SNN cost on GPU (board power sampled with nvidia-smi)"
-  ( cd src/model && python ../../scripts/analysis/snn_energy_measured.py --ckpt "../../$fold1" --device cuda ) 2>&1 | tee logs/revision/snn_energy_gpu.log
+  ( cd src/model && CUDA_VISIBLE_DEVICES="${NEUMA_ENERGY_GPU:-0}" python ../../scripts/analysis/snn_energy_measured.py --ckpt "../../$fold1" --device cuda ) 2>&1 | tee logs/revision/snn_energy_gpu.log
 }
 
 stage_stats() {
@@ -216,7 +225,7 @@ stage_stats() {
 
 stage_verify() { python scripts/revision/verify_revision.py; }
 
-ALL="env data audit full eeg_only eeg_only_mmd rule_only baselines tau grid lc ckpt stats verify"
+ALL="env data audit full eeg_only eeg_only_mmd rule_only baselines tau grid lc ckpt stats verify"   # also: ckpt_cpu, energy, no_et, no_roi, purchase_labels, product_epochs, purchase_stats
 # purchase track (after `purchase_labels`):  NEUMA_LABEL_SOURCE=purchase ... full eeg_only_mmd no_et no_roi baselines purchase_stats
 # product track  (after `product_epochs`):   NEUMA_LABEL_SOURCE=product  ... audit full eeg_only_mmd no_et no_roi baselines purchase_stats
 [ $# -gt 0 ] || { echo "usage: $0 <stage>...|all   (stages: $ALL)"; exit 1; }
