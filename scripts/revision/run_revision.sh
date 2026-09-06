@@ -45,6 +45,21 @@ LS="${NEUMA_LABEL_SOURCE:-phase3d}"; export NEUMA_LABEL_SOURCE="$LS"
 if [ "$LS" = phase3d ]; then RES_ROOT="results"; OUT="output"
 else RES_ROOT="results/label_${LS}"; OUT="output_${LS}"; export NEUMA_OUTPUT_DIR="$OUT"; fi
 mkdir -p "$RES_ROOT" "logs/revision/$LS"; LOGD="logs/revision/$LS"
+# Behavioural tracks (purchase/product) hold ~2,300 pre-computed graph tensors per
+# fold; multi-worker DataLoaders share every tensor with each worker and exhaust
+# the fd limit ("Too many open files").  Graphs are pre-computed, so workers buy
+# nothing: default to in-process loading there.  phase3d keeps the published
+# setting (4 workers) so the production numbers stay reproducible.
+if [ "$LS" != phase3d ]; then export NEUMA_NUM_WORKERS="${NEUMA_NUM_WORKERS:-0}"; fi
+# Refuse to start on top of training processes left over from an interrupted run
+# (fold workers are multiprocessing "spawn" children: their argv shows spawn_main).
+if pgrep -f "run_component_ablation.py|run_baselines.py" >/dev/null 2>&1; then
+  echo "Training processes from a previous run are still alive:"; pgrep -af "run_component_ablation.py|run_baselines.py"
+  echo "Kill them first:  pkill -f run_component_ablation.py; pkill -f run_baselines.py; pkill -f spawn_main"; exit 1
+fi
+if pgrep -f "multiprocessing.spawn" >/dev/null 2>&1; then
+  echo "WARNING: orphaned spawn workers are running (pgrep -af multiprocessing.spawn); kill with: pkill -f spawn_main"
+fi
 
 log() { printf '\n[%s] %s\n' "$(date +%H:%M:%S)" "$*"; }
 run_in_model() { ( cd src/model && "$@" ); }            # every training command runs from src/model
