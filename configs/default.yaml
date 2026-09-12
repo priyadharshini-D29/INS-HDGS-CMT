@@ -1,0 +1,45 @@
+# =============================================================================
+# INS-HDGS-CMT — Master default configuration
+# Interpretable Neuro-Symbolic Hybrid Dynamic Graph Spiking Cross-Modal
+# Transformer for Consumer Engagement Prediction (EEG + Eye Tracking).
+#
+# This file is the single entry point that composes the modular sub-configs
+# under configs/model, configs/training and configs/evaluation. Every value
+# below mirrors the canonical defaults in src/model/config/settings.py — the
+# headline configuration reported in the paper. Override any field on the CLI
+# (see src/model/main.py --help) or by editing the sub-configs.
+# =============================================================================
+
+experiment:
+  name: ins_hdgs_cmt_headline
+  seed: 42                      # global RNG seed (numpy / torch / python)
+  task: engagement              # HIGH_ENGAGEMENT (1) vs LOW_ENGAGEMENT (0)
+  output_dir: checkpoints/${experiment.name}
+
+# Composed modular configs (loaded relative to this file).
+defaults:
+  - model/graph.yaml
+  - model/snn.yaml
+  - model/transformer.yaml
+  - model/fusion.yaml
+  - model/neuro_symbolic.yaml
+  - training/train.yaml
+  - training/optimizer.yaml
+  - training/scheduler.yaml
+  - evaluation/losocv.yaml
+
+data:
+  eeg_sampling_rate: 300        # Hz
+  eeg_epoch_len: 5.0            # seconds
+  eeg_channels: 19             # 10-20 montage (real channels; see paper Methods)
+  et_sampling_rate: 120         # Hz
+  et_input_dim: 3               # gaze_x, gaze_y, pupil
+  n_windows: 10                 # temporal windows per epoch (~0.5 s each)
+  epoch_overlap: 0.75           # 75% overlap between successive epochs
+  n_rois: 10                    # regions of interest on the stimulus grid
+  bands:                        # frequency bands used as graph node features
+    delta: [1.0, 4.0]
+    theta: [4.0, 8.0]
+    alpha: [8.0, 13.0]
+    beta:  [13.0, 30.0]
+    gamma: [30.0, 45.0]

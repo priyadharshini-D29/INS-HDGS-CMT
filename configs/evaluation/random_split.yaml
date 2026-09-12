@@ -1,0 +1,17 @@
+# -----------------------------------------------------------------------------
+# Random train/val/test split (subject-mixed) — an optimistic upper-bound
+# baseline that leaks subject identity; reported only for comparison.
+# -----------------------------------------------------------------------------
+evaluation:
+  scheme: random_split
+  train_frac: 0.70
+  val_frac: 0.15
+  test_frac: 0.15
+  stratified: true
+  seed: 42
+  metrics:
+    - balanced_accuracy
+    - accuracy
+    - mcc
+    - roc_auc
+    - pr_auc

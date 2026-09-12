@@ -1,0 +1,20 @@
+# -----------------------------------------------------------------------------
+# Temporal Transformer encoder (per-modality sequence modelling) + ET encoder.
+# Mirrors src/model/config/settings.py (Temporal Transformer + ET sections).
+# -----------------------------------------------------------------------------
+transformer:
+  n_heads: 4
+  n_layers: 3
+  ff_dim: 512
+  dropout: 0.10
+  max_len: 200          # maximum temporal token sequence length
+
+# Eye-tracking recurrent encoder
+et_encoder:
+  lstm_hidden: 64
+  lstm_layers: 2
+  dropout: 0.20
+
+# ROI (region-of-interest) attention head
+roi_attention:
+  hidden_dim: 64

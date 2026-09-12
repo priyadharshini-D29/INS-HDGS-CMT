@@ -1,0 +1,9 @@
+# -----------------------------------------------------------------------------
+# Cross-Modal fusion transformer (EEG <- Graph, EEG <- Eye-Tracking).
+# Mirrors src/model/config/settings.py (Cross-Modal Fusion section).
+# -----------------------------------------------------------------------------
+fusion:
+  heads: 4              # cross-attention heads
+  embed_dim: 128       # shared multimodal embedding dimension
+  modalities: [eeg, graph, et]
+  cross_attention: true
