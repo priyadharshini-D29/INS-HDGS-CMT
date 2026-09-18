@@ -1,8 +1,7 @@
 # Release Notes — v1.0.0
 
 **INS-HDGS-CMT — initial public release**
-_An Interpretable Neuro-Symbolic Hybrid Dynamic Graph Spiking Cross-Modal
-Transformer for Consumer Engagement Prediction Using EEG and Eye Tracking._
+_Code for "Dynamic Functional Graph Learning for Subject-Independent Consumer Engagement Decoding from EEG and Eye Tracking: A Leakage-Aware NeuMa Study"._
 
 ## Highlights
 - Full model source: dynamic functional-graph + GAT encoder, spiking (LIF)
@@ -19,9 +18,9 @@ Transformer for Consumer Engagement Prediction Using EEG and Eye Tracking._
 - `src/` model package and data pipeline
 - `configs/` modular YAML configuration
 - `reproducibility/` + `ablation/` scripts
-- `results/`, `tables/`, `figures/`, `paper/`, `supplementary/`
-- `docs/` architecture + reproducibility/publication/release checklists
-- CI, issue/PR templates, `CITATION.cff`, MIT `LICENSE`
+- `scripts/` figure and analysis generators; `results/`, `tables/` and `figures/` are regenerated locally
+- `docs/` architecture + reproducibility/release checklists
+- `CITATION.cff`, MIT `LICENSE`
 
 ## What's not included
 - The raw **NeuMa** dataset (third-party; see `datasets/README.md`).

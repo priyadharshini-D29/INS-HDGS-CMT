@@ -62,7 +62,9 @@ code reproduces these within ordinary run-to-run variance:
 | MCC | within ~0.012 |
 | ROC-AUC | within ~0.015 |
 
-> The exact headline values are in `results/losocv_metrics/` and `tables/`.
+Reference values (run `ins_hdgs_cmt_ch19fix`, 19-electrode montage, 37 folds, uncalibrated operating point): accuracy 78.24 %, balanced accuracy 74.75 %, MCC 0.49, ROC-AUC 0.88; calibrated operating point: accuracy 76.66 %, balanced accuracy 71.92 %, MCC 0.45. Gaze-free EEG branch (control): ROC-AUC 0.59. Full detail in [`ARCHITECTURE.md`](ARCHITECTURE.md#8-reported-result--production-config) and the manuscript.
+
+> The per-fold values are written to `results/losocv_metrics/` and `tables/` by the scripts.
 > The committed `results/` CSVs were produced from the original source repo at
 > commit `89aaaff` ("Add INS-HDGS-CMT model code, experiment results, and
 > manuscript figures").

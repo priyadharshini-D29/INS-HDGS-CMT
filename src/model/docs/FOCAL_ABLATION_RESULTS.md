@@ -1,3 +1,5 @@
+> **SUPERSEDED (2026-07-15).** This grid ran on 2026-05-30/31, *before* the EEG-montage fix (commit `e57dd0f`), so every cell fed five non-cortical channels (three auxiliary/EOG, the A2 mastoid reference, the trigger channel) into graph construction as electrodes for 41 of 42 participants. The accuracies and MCCs below are therefore **retired** and are not the paper's results; the reported run is `ins_hdgs_cmt_ch19fix` (see `docs/ARCHITECTURE.md`, Section 8, and the manuscript). The γ / class-weighting ranking and the variance findings are montage-independent and are kept for the record.
+
 # Focal-Loss Ablation Grid — LOSOCV Results
 
 Run: 2026-05-30 → 2026-05-31 · 37-fold LOSOCV · 8 GPUs · ~10.3 h/cell

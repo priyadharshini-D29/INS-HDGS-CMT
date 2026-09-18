@@ -83,6 +83,11 @@ how to download it, the expected folder layout and the required preprocessing.
 > behaviour. *Sci Data* **10**, 508 (2023).
 > https://doi.org/10.1038/s41597-023-02392-9
 
+The recordings are deposited on figshare under CC BY 4.0 — raw release:
+https://doi.org/10.6084/m9.figshare.22117001; preprocessed release:
+https://doi.org/10.6084/m9.figshare.22117124. Cite both the descriptor and the
+deposit you use.
+
 ## Requirements
 
 - Python ≥ 3.11

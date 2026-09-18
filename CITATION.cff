@@ -13,6 +13,8 @@ authors:
     affiliation: "Centre for Neuroinformatics, Vellore Institute of Technology, Chennai, India"
 repository-code: "https://github.com/priyadharshini-D29/INS-HDGS-CMT"
 license: MIT
+version: 1.1.0
+date-released: "2026-09-18"
 preferred-citation:
   type: article
   title: "Dynamic Functional Graph Learning for Subject-Independent Consumer Engagement Decoding from EEG and Eye Tracking: A Leakage-Aware NeuMa Study"

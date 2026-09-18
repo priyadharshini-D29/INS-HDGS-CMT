@@ -39,7 +39,8 @@ Thumbs.db
 # Raw EEG/eye-tracking data is not redistributable; trained checkpoints are
 # released separately as GitHub Release assets (see checkpoints/README.md).
 # ---------------------------------------------------------------------------
-datasets/
+datasets/*
+!datasets/README.md
 data/
 *.xdf
 *.npy
@@ -54,6 +55,8 @@ data/
 output/
 src/**/output/
 results/
+paper/
+tables/
 logs/
 runs/
 wandb/

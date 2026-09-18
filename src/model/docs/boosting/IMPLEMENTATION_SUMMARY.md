@@ -1,3 +1,5 @@
+> **Historical document (May–June 2026).** This describes an exploratory metric-boosting pipeline written before the montage fix and before the revision. The "current" and "boosted" numbers quoted in it (e.g. accuracy 0.79 → 0.83–0.85) are projections from that exploratory work; they are **not** results of the paper and were never claimed in it. The reported results are in `docs/ARCHITECTURE.md`, Section 8, and in the manuscript.
+
 # INS-HDGS-CMT Comprehensive Metric Boosting Implementation
 
 ## ✅ COMPLETE: All 5 Optimization Strategies Implemented
