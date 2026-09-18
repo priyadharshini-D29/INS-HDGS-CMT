@@ -230,6 +230,8 @@ metadata in [`CITATION.cff`](CITATION.cff)):
 
 Please also cite the **NeuMa dataset** (Georgiadis et al., 2023).
 
+The files submitted to the journal on 18 September 2026 (manuscript PDF, supplementary PDF and LaTeX source) are archived unchanged in [submission/2026-09-18/](submission/2026-09-18/).
+
 ## License
 
 Released under the [MIT License](LICENSE). The NeuMa dataset is subject to its
