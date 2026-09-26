@@ -176,7 +176,10 @@ with $\tau=0.30$ fixed before the reported runs for every participant and fold; 
 
 \paragraph{Spiking front-end.} In parallel with the graph attention, a two-layer leaky integrate-and-fire (LIF) stack \cite{ref38} of 128 units receives a learned band-weighted sum of the per-window node features, one 19-electrode vector per window, and is run for ten time steps. The discrete-time dynamics are
 \begin{equation}
-U_t = \lambda V_{t-1} + I_t, \qquad S_t = \mathbf{1}\!\left[U_t \geq V_{\mathrm{th}}\right], \qquad V_t = U_t\left(1 - S_t\right), \label{eq:lif}
+\begin{gathered}
+U_t = \lambda V_{t-1} + I_t, \qquad S_t = \mathbf{1}\!\left[U_t \geq V_{\mathrm{th}}\right],\\
+V_t = U_t\left(1 - S_t\right),
+\end{gathered} \label{eq:lif}
 \end{equation}
 with pre-reset potential $U_t$, membrane leak $\lambda\in(0,1)$, a spike when $U_t$ crosses the threshold, a hard reset to zero after a spike, and a surrogate gradient through the spike function \cite{ref39}; the spike trains are layer-normalised between layers and the resulting embedding is concatenated with the graph embedding to form the EEG representation. The front-end was included for an event-driven representation with an inductive bias toward salient transients \cite{ref40,ref41,ref42}. Its effect within the decoder is measured by ablation, its cost on conventional hardware by direct timing, and its capacity on its own by a separate configuration applied to the raw 1{,}500-sample epoch pooled to 300 steps, which is used only in the positive control (audit steps~5 and~7).
 
@@ -186,8 +189,10 @@ with pre-reset potential $U_t$, membrane leak $\lambda\in(0,1)$, a spike when $U
 
 \paragraph{Cross-modal fusion.} The EEG, graph and eye-tracking embeddings are treated as a three-token sequence and processed by multi-head self-attention, through which the modalities exchange information mutually, and then by a directed cross-attention in which the EEG representation queries the graph and eye-tracking context,
 \begin{align}
-Z_{\mathrm{EEG}\to m} &= \mathrm{Attention}\!\left(Q_{\mathrm{EEG}},K_{m},V_{m}\right), \quad m\in\{\mathrm{graph},\mathrm{ET}\}, \nonumber\\
-Z_{\mathrm{fusion}} &= \left[Z_{\mathrm{EEG}} \,;\, Z_{\mathrm{EEG}\to\mathrm{graph}} \,;\, Z_{\mathrm{EEG}\to\mathrm{ET}}\right], \label{eq:fusion}
+Z_{\mathrm{EEG}\to m} &= \mathrm{Attention}\!\left(Q_{\mathrm{EEG}},K_{m},V_{m}\right), \nonumber\\
+&\qquad m\in\{\mathrm{graph},\mathrm{ET}\}, \nonumber\\
+Z_{\mathrm{fusion}} &= \big[Z_{\mathrm{EEG}} \,;\, Z_{\mathrm{EEG}\to\mathrm{graph}} \,; \nonumber\\
+&\qquad Z_{\mathrm{EEG}\to\mathrm{ET}}\big], \label{eq:fusion}
 \end{align}
 followed by a learnable gated residual that passes modality information selectively (Fig.~\ref{fig4}). Anchoring the fused embedding on the EEG stream is what lets the gaze-free variant be obtained by removing the eye-tracking input alone. The fusion was designed to capture the conditional dependence between gaze and neural activity that concatenation cannot; whether it sets the level of accuracy is tested against simpler fusion designs and against a gaze-only encoder (audit step~3).
 
@@ -204,7 +209,10 @@ R = \sum_{r=1}^{n_r} a_r \ell_r . \label{eq17}
 \end{equation}
 A bypass classifier on $z$ is blended with the rule evidence through a learnable gate,
 \begin{equation}
-\hat y = \mathrm{softmax}\!\left(\alpha(W_b z + b_b) + (1-\alpha) R\right), \qquad \alpha=\sigma(\alpha_0), \label{eq18}
+\begin{gathered}
+\hat y = \mathrm{softmax}\!\left(\alpha(W_b z + b_b) + (1-\alpha) R\right),\\
+\alpha=\sigma(\alpha_0),
+\end{gathered} \label{eq18}
 \end{equation}
 initialised at $\alpha=0.57$; as $\alpha\to0$ the decision becomes rule-driven and as $\alpha\to1$ it reverts to the unconstrained network. Diversity and sparsity regularisers are intended to keep the premises distinguishable and the activations sparse; in the gated model the activations remained uniform (Section~\ref{res:rq3}; Supplementary Note~S1). At inference each rule's activation is attributed to the physical inputs by integrated gradients \cite{ref54} (zero baseline, 16 steps): the largest-magnitude entries of the resulting electrode-by-band map, with their sign, are reported as an attribution summary of rule $r$, and, as its conclusion, the class on which its mean activation is higher over the held-out epochs; the summary describes the inputs to which the activation is most sensitive and is not a validated logical premise. The module was designed to replace an opaque classifier with inspectable rules, in the spirit of interpretable-by-design and neuro-symbolic models \cite{ref45,ref46,ref47}; because the gate could in principle remove the rules from the decision, its learned value, the agreement between $\arg\max R$ and the gated decision, the accuracy with $\alpha$ forced to zero, and a variant trained throughout with $\alpha\equiv0$ are all measured (audit step~6).
 
@@ -338,7 +346,7 @@ Late fusion (CNN-LSTM + ET-LSTM) & 0.73$\pm$0.20 & 0.83$\pm$0.18 & 0.45$\pm$0.39
 
 \begin{table*}[!htbp]
 \caption{EEG encoders under LOSOCV with no gaze input to any model (baselines tuned per fold); the gaze-free variant of the decoder is listed first. Mean $\pm$ SD over 37 folds at the transferred-threshold operating point; ECE and Brier pooled over the 347 held-out epochs. Common-budget values: Supplementary Table~S8.}\label{tab:eeg}
-\small
+\footnotesize\setlength{\tabcolsep}{3pt}
 \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccccccc@{}}
 \toprule
 Model & BalAcc & Macro-F1 & MCC & ROC-AUC & PR-AUC & ECE & Brier \\
@@ -430,7 +438,7 @@ The product-selection label of audit step~8 asks whether anything inside a 5-s e
 \begin{table*}[!htbp]
 \caption{Product-selection label: whether the viewed product was selected for purchase (NeuMa item Q77), one 5-s epoch per participant--product pair anchored 1~s before the onset of the product's longest gaze run (2{,}338 epochs, 418 selected, 42 participants, LOSOCV). Models are trained on the epochs; probes are logistic regressions on within-epoch reference features or on session-level gaze behaviour, reported as pooled / mean per-fold ROC-AUC. The within-epoch probes use the five EEG and five gaze statistics of the engagement rule as reference features; they are not terms of this label. Mean $\pm$ SD over folds at the transferred-threshold operating point.}\label{tab:purchase}
 \small
-\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}p{0.52\linewidth}ccc@{}}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}p{0.48\linewidth}ccc@{}}
 \toprule
 Model or probe & BalAcc & ROC-AUC & MCC \\
 \midrule

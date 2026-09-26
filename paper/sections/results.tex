@@ -61,7 +61,7 @@ Late fusion (CNN-LSTM + ET-LSTM) & 0.73$\pm$0.20 & 0.83$\pm$0.18 & 0.45$\pm$0.39
 
 \begin{table*}[!htbp]
 \caption{EEG encoders under LOSOCV with no gaze input to any model (baselines tuned per fold); the gaze-free variant of the decoder is listed first. Mean $\pm$ SD over 37 folds at the transferred-threshold operating point; ECE and Brier pooled over the 347 held-out epochs. Common-budget values: Supplementary Table~S8.}\label{tab:eeg}
-\small
+\footnotesize\setlength{\tabcolsep}{3pt}
 \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccccccc@{}}
 \toprule
 Model & BalAcc & Macro-F1 & MCC & ROC-AUC & PR-AUC & ECE & Brier \\
@@ -153,7 +153,7 @@ The product-selection label of audit step~8 asks whether anything inside a 5-s e
 \begin{table*}[!htbp]
 \caption{Product-selection label: whether the viewed product was selected for purchase (NeuMa item Q77), one 5-s epoch per participant--product pair anchored 1~s before the onset of the product's longest gaze run (2{,}338 epochs, 418 selected, 42 participants, LOSOCV). Models are trained on the epochs; probes are logistic regressions on within-epoch reference features or on session-level gaze behaviour, reported as pooled / mean per-fold ROC-AUC. The within-epoch probes use the five EEG and five gaze statistics of the engagement rule as reference features; they are not terms of this label. Mean $\pm$ SD over folds at the transferred-threshold operating point.}\label{tab:purchase}
 \small
-\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}p{0.52\linewidth}ccc@{}}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}p{0.48\linewidth}ccc@{}}
 \toprule
 Model or probe & BalAcc & ROC-AUC & MCC \\
 \midrule
