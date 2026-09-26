@@ -1,0 +1,22 @@
+# Tooling configuration (linting/formatting/tests). Packaging is handled by
+# setup.py for editable installs of the src/ packages.
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = ["paper", "figures", "results", "logs", "checkpoints"]
+
+[tool.ruff.lint]
+# PEP8 (E/W), pyflakes (F), imports (I), bugbear (B), pyupgrade (UP).
+select = ["E", "W", "F", "I", "B", "UP"]
+ignore = [
+    "E501",  # line length handled by the formatter
+    "E741",  # ambiguous variable names (common in math code, e.g. l, I)
+]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

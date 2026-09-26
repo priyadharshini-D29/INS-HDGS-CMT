@@ -1,0 +1,41 @@
+{
+  "label": "published",
+  "csv": "results/losocv_metrics/losocv_repro_focal_g3p0_effective_num_37.csv",
+  "n_folds": 37,
+  "n_epochs": 347,
+  "n_perm": 5000,
+  "seed": 0,
+  "operating_point": "fold-specific opt_threshold",
+  "max_abs_deviation_from_stored_metrics": 1.1102230246251565e-16,
+  "results": {
+    "pooled_roc_auc": {
+      "observed": 0.8729399255715046,
+      "p_value": 0.0001999600079984003,
+      "null_mean": 0.5960486642743221,
+      "null_sd": 0.024692208761663937,
+      "null_max": 0.6967703349282297
+    },
+    "mean_fold_balanced_acc": {
+      "observed": 0.7398049023049023,
+      "p_value": 0.0001999600079984003,
+      "null_mean": 0.5006194287469287,
+      "null_sd": 0.02781452902594031,
+      "null_max": 0.6082719082719082
+    },
+    "mean_fold_mcc": {
+      "observed": 0.4631089866077063,
+      "p_value": 0.0001999600079984003,
+      "null_mean": 0.001401131452240803,
+      "null_sd": 0.053954841339904754,
+      "null_max": 0.21273673263428328
+    },
+    "mean_fold_roc_auc": {
+      "observed": 0.9014208447506765,
+      "p_value": 0.0001999600079984003,
+      "null_mean": 0.5005366634712853,
+      "null_sd": 0.040007835749644255,
+      "null_max": 0.6352761071668634
+    }
+  },
+  "note": "Association test on saved held-out predictions; not a random-label training control."
+}

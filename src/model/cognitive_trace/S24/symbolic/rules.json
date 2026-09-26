@@ -1,0 +1,4 @@
+{
+    "rule_1": "IF frontal theta high AND fixation high THEN HIGH_ENGAGEMENT",
+    "rule_2": "IF gaze entropy high AND beta low THEN LOW_ENGAGEMENT"
+}

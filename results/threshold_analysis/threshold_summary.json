@@ -1,0 +1,21 @@
+{
+  "n_folds_processed": 35,
+  "n_folds_skipped": 2,
+  "n_folds_error": 0,
+  "bal_acc_fixed_mean": 0.7527149041434756,
+  "bal_acc_opt_mean": 0.7248237476808906,
+  "bal_acc_gain_mean": -0.027891156462585023,
+  "mcc_fixed_mean": 0.5268777608022912,
+  "mcc_opt_mean": 0.45415086565416274,
+  "mcc_gain_mean": -0.07272689514812829,
+  "f1_fixed_mean": 0.6606407595976468,
+  "f1_opt_mean": 0.6482743658026815,
+  "f1_gain_mean": -0.012366393794965212,
+  "accuracy_fixed_mean": 0.7831083202511775,
+  "accuracy_opt_mean": 0.7611145996860283,
+  "accuracy_gain_mean": -0.021993720565149134,
+  "threshold_opt_mean": 0.4545714285714285,
+  "threshold_opt_std": 0.08283018976275772,
+  "threshold_opt_min": 0.21999999999999997,
+  "threshold_opt_max": 0.6699999999999999
+}

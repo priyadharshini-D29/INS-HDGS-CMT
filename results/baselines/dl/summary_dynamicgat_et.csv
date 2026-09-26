@@ -1,0 +1,2 @@
+model,n_folds,balanced_acc,f1,roc_auc,mcc,accuracy,ece,seconds
+dynamicgat_et,2,0.775,0.7916666666666666,0.931818181818182,0.5990830965465785,0.7904761904761906,0.2239,5.0

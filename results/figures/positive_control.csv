@@ -1,0 +1,14 @@
+track,model,auc_mean,auc_sd,folds,csv
+A,"EEGNet, tuned",0.9171658938001687,0.10542471929671451,42,results\label_control\baselines\dl_tuned\losocv_eegnet.csv
+A,"ShallowConvNet, tuned",0.9441441930276607,0.06844536040422979,42,results\label_control\baselines\dl_tuned\losocv_shallow.csv
+A,"Linear encoder, node features",0.8495389030742679,0.11786191452280041,42,results\label_control\ablation\abl_eeg_lin\losocv_abl_eeg_lin.csv
+A,Graph pathway only,0.8560481946036231,0.10678352798705291,42,results\label_control\ablation\abl_eeg_graph_plain\losocv_abl_eeg_graph_plain.csv
+A,Spiking encoder only (raw EEG),0.5505455100185962,0.13007780245093362,42,results\label_control\ablation\abl_eeg_snn_raw\losocv_abl_eeg_snn_raw.csv
+A,Spiking + graph (plain head),0.8087345031005148,0.13847739405897083,42,results\label_control\ablation\abl_eeg_snn_plain\losocv_abl_eeg_snn_plain.csv
+A,Gaze-free variant,0.882409400188535,0.10468537827142622,42,results\label_control\ablation\abl_eeg_only_mmd\losocv_abl_eeg_only_mmd.csv
+A,Decoder (EEG + gaze),0.9888562294483277,0.01563203150665896,42,results\label_control\ablation\abl_full\losocv_abl_full.csv
+B,"EEGNet, tuned",0.5193030496391841,0.25150472307377636,37,results\baselines\dl_tuned\losocv_eegnet.csv
+B,"ShallowConvNet, tuned",0.617604914201553,0.2618114254144264,37,results\baselines\dl_tuned\losocv_shallow.csv
+B,"DeepConvNet, tuned",0.6325128544456275,0.26026090541436264,37,results\baselines\dl_tuned\losocv_deep.csv
+B,Gaze-free variant,0.5915438898737218,0.2595634124928848,37,results\ablation\abl_eeg_only\losocv_abl_eeg_only.csv
+B,Decoder (EEG + gaze),0.8789929608206919,0.1644192431689481,37,results\ablation\abl_full\losocv_abl_full.csv

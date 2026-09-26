@@ -1,0 +1,2 @@
+variant,n_paired,full_bal_acc,var_bal_acc,delta_bal_acc,wilcoxon_p_bal_acc,delta_mcc,wilcoxon_p_mcc
+full_norm_instance,37,0.747494734994735,0.7633731133731134,0.015878378378378466,0.48168344083007475,0.02906221958541605,0.48168344083007475

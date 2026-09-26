@@ -1,0 +1,626 @@
+================================================================================
+HARD-SUBJECT DIAGNOSTIC FRAMEWORK FOR INS-HDGS-CMT LOSOCV PIPELINE
+================================================================================
+
+COMPLETED IMPLEMENTATION
+────────────────────────────────────────────────────────────────────────────────
+
+This document summarizes the complete hard-subject diagnostic framework
+implemented for your INS-HDGS-CMT model's LOSOCV pipeline.
+
+Hard Subjects Analyzed:
+  • S21 (Subject 19 / Fold 19)
+  • S03 (Subject 3 / Fold 3)
+  • S13 (Subject 11 / Fold 11)
+  • S35 (Subject 33 / Fold 33)
+  • S36 (Subject 34 / Fold 34)
+
+================================================================================
+FILES CREATED
+================================================================================
+
+Location: /home/nvidia/24PHD1314/Neuma_Model/NEUMA_PHASE8/
+
+[1] hard_subject_diagnostics.py (650 lines)
+    ─────────────────────────────────────
+    Main diagnostic module. Generates 10 analyses per subject:
+    
+    ✓ Probability Histogram      → Detect class separability issues
+    ✓ ROC Curve                  → Evaluate ranking quality (AUC)
+    ✓ PR Curve                   → Evaluate precision-recall trade-off
+    ✓ Threshold Sweep            → Find optimal decision threshold
+    ✓ Confusion Matrix           → Identify systematic patterns
+    ✓ Calibration Analysis       → Detect probability miscalibration
+    ✓ Embedding Visualization    → Check t-SNE/UMAP separation
+    ✓ Feature Statistics         → Detect distribution shift
+    ✓ Ranking Failure Analysis   → Inspect individual predictions
+    ✓ Automatic Diagnosis        → Classify failure mode (A-E)
+    
+    Functions:
+    • plot_probability_histogram(y_true, y_prob, output_dir)
+    • plot_roc_curve(y_true, y_prob, threshold, output_dir)
+    • plot_pr_curve(y_true, y_prob, output_dir)
+    • threshold_sweep_analysis(y_true, y_prob, output_dir)
+    • plot_confusion_matrix(y_true, y_prob, threshold, output_dir)
+    • plot_calibration(y_true, y_prob, output_dir)
+    • extract_embeddings(subject_id, fold_no, device)
+    • plot_embeddings(subject_id, fold_no, skip_embeddings, output_dir)
+    • compute_feature_statistics(y_true, y_prob, subject_id, fold_no, output_dir)
+    • ranking_failure_analysis(y_true, y_prob, output_dir)
+    • automatic_diagnosis(y_true, y_prob, threshold, auc, ece, best_t, output_dir)
+    • run_diagnostics_for_subject(fold_no, subject_id, label, skip_embeddings, output_dir)
+    • main() [CLI entry point]
+    
+
+[2] hard_subject_summary.py (350 lines)
+    ────────────────────────────
+    Aggregation and summary report generator.
+    
+    Functions:
+    • load_subject_diagnostics(subject_id, diag_dir)
+    • generate_summary_report(diagnostics_dir, output_file)
+    • generate_comparison_plots(diagnostics_dir, output_dir)
+    • main() [CLI entry point]
+    
+    Outputs:
+    ✓ hard_subjects_summary.txt (detailed text report)
+    ✓ comparison_auc.png (AUC comparison bar chart)
+    ✓ comparison_metrics.png (4-panel metric comparison)
+
+
+[3] scripts/run_diagnostics_pipeline.sh (executable bash script)
+    ────────────────────────────────────────────────────
+    End-to-end automation script for the entire pipeline.
+    
+    Features:
+    ✓ Pre-flight checks
+    ✓ Phase 1: Run individual subject diagnostics
+    ✓ Phase 2: Generate summary reports
+    ✓ Colored output with progress tracking
+    ✓ Time tracking
+    ✓ Detailed next-steps guidance
+    
+    Usage:
+    $ bash scripts/run_diagnostics_pipeline.sh [--skip-embeddings] [--quick] [--debug]
+
+
+[4] HARD_SUBJECT_DIAGNOSTICS_README.md (comprehensive guide)
+    ─────────────────────────────────────────────────────
+    Complete user guide with:
+    
+    ✓ Quick Start (2 commands)
+    ✓ Output directory structure
+    ✓ What each diagnostic tells you (10 sections)
+    ✓ How to interpret each visualization
+    ✓ Common patterns and their meanings
+    ✓ Failure mode classification (A-E)
+    ✓ Priority ranking and next steps
+    ✓ File glossary
+    ✓ Troubleshooting FAQ
+
+
+================================================================================
+OUTPUT STRUCTURE
+================================================================================
+
+Generated outputs are saved to: output/diagnostics/
+
+Directory Structure:
+├── output/diagnostics/
+│   ├── S21/
+│   │   ├── probability_histogram.png         [1] Class separability
+│   │   ├── roc_curve.png                     [2] AUC + operating point
+│   │   ├── pr_curve.png                      [3] Precision-recall trade-off
+│   │   ├── threshold_sweep.png               [4] Optimal threshold search
+│   │   ├── best_threshold.json               [4] Recommended threshold
+│   │   ├── confusion_matrix.png              [5] Raw + normalized counts
+│   │   ├── calibration.png                   [6] Reliability diagram + ECE
+│   │   ├── tsne_label.png                    [7] t-SNE by engagement label
+│   │   ├── umap_label.png                    [7] UMAP by engagement label
+│   │   ├── subject_shift_report.json         [8] Distribution distance metrics
+│   │   ├── ranking_analysis.csv              [9] Samples sorted by prob
+│   │   ├── diagnosis.json                    [10] Structured diagnosis
+│   │   └── diagnosis.txt                     [10] Human-readable diagnosis
+│   ├── S03/  (identical structure)
+│   ├── S13/  (identical structure)
+│   ├── S35/  (identical structure)
+│   ├── S36/  (identical structure)
+│   ├── hard_subjects_summary.txt             [Summary] Aggregate report
+│   ├── comparison_auc.png                    [Summary] AUC comparison
+│   └── comparison_metrics.png                [Summary] Multi-metric comparison
+
+
+================================================================================
+QUICK START
+================================================================================
+
+OPTION 1: Automated Pipeline (Recommended)
+───────────────────────────────────────────
+
+$ cd /home/nvidia/24PHD1314/Neuma_Model/NEUMA_PHASE8/
+$ bash scripts/run_diagnostics_pipeline.sh
+
+Expected output:
+✓ Diagnostics for 5 hard subjects
+✓ Summary report and comparison plots
+✓ Complete in ~30-45 minutes (with embeddings)
+✓ Complete in ~15-20 minutes (--skip-embeddings)
+
+
+OPTION 2: Manual Commands
+───────────────────────────
+
+# Step 1: Individual subject diagnostics
+python hard_subject_diagnostics.py \
+    --label ins_hdgs_cmt_v17 \
+    --hard-subjects S21,S03,S13,S35,S36 \
+    --output-dir output/diagnostics
+
+# Step 2: Generate summary report
+python hard_subject_summary.py \
+    --diagnostics-dir output/diagnostics \
+    --output output/hard_subjects_summary.txt
+
+# Step 3: View results
+cat output/hard_subjects_summary.txt
+ls output/diagnostics/*/diagnosis.txt
+
+
+OPTION 3: Quick Mode (Skip Embeddings)
+────────────────────────────────────────
+
+$ bash scripts/run_diagnostics_pipeline.sh --skip-embeddings
+
+Faster execution (~15-20 min) but skips:
+✗ t-SNE visualization
+✗ UMAP visualization
+✓ All other diagnostics still available
+
+================================================================================
+WHAT THE DIAGNOSTICS TELL YOU
+================================================================================
+
+DIAGNOSTIC #1: Probability Histogram
+──────────────────────────────────────
+Shows: Predicted probability distributions for TRUE HIGH vs TRUE LOW samples
+
+Interpret:
+  ✓ Separated distributions    → Classes are learnable, may be threshold issue
+  ✗ Overlapping distributions  → Representation issue, hard to separate
+  ✗ Identical distributions    → Model not learning (random predictions)
+
+Action:
+  If separated: Check threshold_sweep.png for optimal T
+  If overlapping: Check subject_shift_report.json for anomalies
+  If identical: Review probability_histogram.png for actual distribution
+
+
+DIAGNOSTIC #2: ROC Curve
+─────────────────────────
+Shows: True Positive Rate vs False Positive Rate at all thresholds
+
+Interpret:
+  ✓ AUC > 0.80  → Good ranking (upper left curve)
+  ~ AUC 0.70-80 → Acceptable ranking
+  ✗ AUC < 0.60  → Poor ranking (near diagonal line)
+  ✗ AUC = 0.50  → Random predictions
+
+Action:
+  High AUC + low accuracy → Threshold needs adjustment
+  Low AUC → Representation problem, not threshold issue
+
+
+DIAGNOSTIC #3: Precision-Recall Curve
+──────────────────────────────────────
+Shows: Precision vs Recall at all thresholds
+
+Interpret:
+  ✓ AP > 0.70   → Good precision-recall balance
+  ~ AP 0.60-70  → Acceptable
+  ✗ AP < 0.50   → Poor trade-off
+
+Action:
+  High AP but low F1 → Adjust threshold (see threshold_sweep)
+  Low AP → Fundamental classification difficulty
+
+
+DIAGNOSTIC #4: Threshold Sweep
+────────────────────────────────
+Shows: Accuracy, Balanced Accuracy, F1, MCC vs threshold (0.05-0.95)
+
+Interpret:
+  - Blue line peaks → optimal for overall accuracy
+  - Orange line peaks → optimal for balanced per-class accuracy
+  - Green line (F1) peaks → harmonic precision/recall balance
+  - Red vertical line (current T=0.5) → where we currently are
+
+Action:
+  If best_threshold ≠ 0.5 → Update inference to use best_threshold
+  If peaks are flat/random → Ranking problem, see ROC curve
+
+
+DIAGNOSTIC #5: Confusion Matrix
+──────────────────────────────────
+Shows: True Negatives, False Positives, False Negatives, True Positives
+
+Interpret:
+  - Top-left: correctly predicted LOW samples
+  - Top-right: wrongly predicted HIGH (false alarms)
+  - Bottom-left: wrongly predicted LOW (missed HIGH)
+  - Bottom-right: correctly predicted HIGH samples
+
+Action:
+  If one cell dominates → Severe class imbalance or threshold issue
+  If error cells > correct cells → Threshold or representation issue
+
+
+DIAGNOSTIC #6: Calibration Analysis
+──────────────────────────────────────
+Shows: Predicted probability vs actual frequency (reliability diagram)
+
+Interpret:
+  - Dots near diagonal (y=x) → Well calibrated
+  - Dots above diagonal → Overconfident (predicts too HIGH)
+  - Dots below diagonal → Underconfident (predicts too LOW)
+  
+  ECE (Expected Calibration Error):
+    < 0.05   → Excellent calibration
+    0.05-0.15 → Acceptable calibration
+    > 0.15   → Poor calibration
+
+Action:
+  High ECE + good ROC AUC → Apply temperature scaling
+  High ECE + poor ROC AUC → Representation problem
+
+
+DIAGNOSTIC #7: Embedding Visualization (t-SNE / UMAP)
+──────────────────────────────────────────────────────
+Shows: 2D projection of learned representations colored by label
+
+Interpret:
+  ✓ RED and BLUE clusters separate → Model learned engagement feature
+  ✗ RED and BLUE clusters mixed → Subject-specific or representation issue
+  ✗ Clusters by subject instead → Subject-specific bias detected
+
+Action:
+  Good separation → Proceed with threshold/calibration fixes
+  Poor separation → Subject-specific fine-tuning needed
+
+
+DIAGNOSTIC #8: Feature Statistics & Subject Shift
+────────────────────────────────────────────────────
+Shows: Mahalanobis and Cosine distances from training set
+
+Interpret:
+  - Mahalanobis Distance: statistical dissimilarity
+    • Mean > 2σ → Subject is significant outlier
+    • Mean < 1σ → Subject similar to training set
+  
+  - Cosine Distance: feature angle difference
+    • High distance → different feature patterns
+    • Low distance → similar patterns
+
+Action:
+  is_outlier=true → Subject has different EEG/ET characteristics
+  is_outlier=false → Problem not distribution shift
+
+
+DIAGNOSTIC #9: Ranking Failure Analysis
+─────────────────────────────────────────
+Shows: Individual samples sorted by predicted probability
+
+Interpret:
+  - Review top N samples (highest prob)
+  - Review bottom N samples (lowest prob)
+  
+  ✓ HIGH samples have high prob → Ranking correct
+  ✗ Mixed class in same prob range → Ranking broken
+
+Action:
+  Good ranking but wrong threshold → Adjust threshold
+  Bad ranking → Model learning problem (see embeddings)
+
+
+DIAGNOSTIC #10: Automatic Diagnosis
+─────────────────────────────────────
+Shows: Automated failure mode classification with recommendations
+
+Failure Modes:
+
+  A) THRESHOLD ISSUE
+     When: AUC > 0.70 AND |best_T - 0.5| > 0.10
+     Fix: Adjust threshold to best_threshold.json value
+     Effort: EASY ✓
+
+  B) CALIBRATION ISSUE
+     When: AUC > 0.65 AND ECE > 0.15
+     Fix: Apply temperature scaling or Platt scaling
+     Effort: EASY ✓
+
+  C) SUBJECT DISTRIBUTION SHIFT
+     When: AUC < 0.60 AND F1 < 0.40
+     Fix: Subject-specific fine-tuning or domain adaptation
+     Effort: MEDIUM ⚠
+
+  D) LABEL NOISE
+     When: 0.50 < AUC < 0.60 AND F1 > 0.30
+     Fix: Manually review and correct ground truth labels
+     Effort: INVESTIGATION REQUIRED
+
+  E) REPRESENTATION FAILURE
+     When: AUC < 0.50 AND Balanced_Acc < 0.50
+     Fix: Debug preprocessing, artifacts, or model architecture
+     Effort: HARD ✗
+
+================================================================================
+INTERPRETATION PATTERNS
+================================================================================
+
+Pattern 1: Multiple Subjects with Mode A (Threshold Issue)
+──────────────────────────────────────────────────────────
+Indicates: Global threshold optimization would help multiple subjects
+Action: Compute average best_threshold across subjects
+        Apply adaptive threshold strategy
+
+Pattern 2: Multiple Subjects with Mode C (Distribution Shift)
+──────────────────────────────────────────────────────────────
+Indicates: Dataset has high subject-to-subject variability
+Action: Consider domain adaptation techniques
+        Implement subject embeddings
+        Apply fine-tuning per subject
+
+Pattern 3: All Subjects Have Good AUC But Low F1
+───────────────────────────────────────────────────
+Indicates: Ranking is good, but threshold is globally wrong
+Action: Apply single threshold optimization
+        Expected: ~10-30% F1 improvement
+
+Pattern 4: All Subjects Have Low AUC
+──────────────────────────────────────
+Indicates: Fundamental model issue (not threshold-related)
+Action: Review architecture changes
+        Verify preprocessing pipeline
+        Check for systematic label errors
+
+Pattern 5: Mix of Mode A and B (Threshold + Calibration)
+──────────────────────────────────────────────────────────
+Indicates: Different subjects need different fixes
+Action: Apply both: threshold optimization + calibration
+        Prioritize by confidence_score
+
+================================================================================
+STEP-BY-STEP WORKFLOW
+================================================================================
+
+STEP 1: Run Diagnostics
+────────────────────────
+$ bash scripts/run_diagnostics_pipeline.sh
+
+Expected time: 30-45 min (with embeddings) or 15-20 min (--skip-embeddings)
+
+Outputs:
+✓ output/diagnostics/S21/ through S36/
+✓ output/hard_subjects_summary.txt
+✓ output/comparison_auc.png, comparison_metrics.png
+
+
+STEP 2: Review Summary Report
+──────────────────────────────
+$ cat output/hard_subjects_summary.txt | less
+
+Look for:
+- Executive Summary: Mean/std metrics
+- Per-Subject Breakdown: Which subjects are worst
+- Failure Mode Distribution: Common issues across subjects
+- Recommendations by Priority: What to fix first
+
+
+STEP 3: Examine Individual Diagnoses
+──────────────────────────────────────
+$ for s in S21 S03 S13 S35 S36; do
+    echo "=== $s ===" 
+    cat output/diagnostics/$s/diagnosis.txt
+  done
+
+For each subject, identify:
+- Primary failure mode (A/B/C/D/E)
+- Confidence score
+- Recommended action
+
+
+STEP 4: Extract Specific Metrics
+──────────────────────────────────
+$ for s in S21 S03 S13 S35 S36; do
+    echo -n "$s: "
+    jq '.auc, .f1_score, .ece' output/diagnostics/$s/diagnosis.json | tr '\n' ' '
+    echo ""
+  done
+
+
+STEP 5: Implement Fixes Based on Failure Modes
+────────────────────────────────────────────────
+
+For Mode A (Threshold Issue):
+  1. Read: best_threshold.json for each subject
+  2. Compute: average or per-subject threshold
+  3. Update: inference pipeline to use new threshold
+  4. Validate: re-test on hard subjects
+
+For Mode B (Calibration Issue):
+  1. Read: calibration.png to visualize error
+  2. Apply: temperature scaling (see calibration.py)
+  3. Compute: temperature factor from validation set
+  4. Update: apply T to logits before softmax
+
+For Mode C (Distribution Shift):
+  1. Identify: which subjects are outliers
+  2. Collect: subject-specific training data
+  3. Fine-tune: model on subject data
+  4. Evaluate: before/after performance
+
+For Mode D (Label Noise):
+  1. Read: ranking_analysis.csv for misclassified samples
+  2. Review: manually inspect top/bottom predictions
+  3. Correct: fix ground truth labels if needed
+  4. Retrain: model with corrected labels
+
+For Mode E (Representation Failure):
+  1. Check: EEG preprocessing (filtering, artifact removal)
+  2. Check: ET preprocessing (calibration, outlier handling)
+  3. Review: engagement labeling logic
+  4. Validate: labels are consistent and correct
+
+
+STEP 6: Re-evaluate After Fixes
+─────────────────────────────────
+After implementing fixes:
+  1. Re-run: hard_subject_diagnostics.py on updated model
+  2. Compare: new metrics to baseline
+  3. Track: improvement per failure mode
+  4. Iterate: if issues remain, dig deeper
+
+
+================================================================================
+KEY METRICS REFERENCE
+================================================================================
+
+METRIC          RANGE   INTERPRETATION                    TARGET
+─────────────────────────────────────────────────────────────────────────────
+AUC             0-1     Ranking quality (regardless T)    > 0.70 good
+                        0.5 = random, 1.0 = perfect
+
+F1 Score        0-1     Harmonic mean precision/recall    > 0.70 good
+                        0 = no positive predictions
+                        1.0 = perfect classification
+
+Balanced Acc    0-1     Per-class accuracy average        > 0.70 good
+                        Handles class imbalance well
+
+Accuracy        0-1     Overall correctness               > 0.75 good
+                        Can be misleading with imbalance
+
+ECE             0-1     Expected calibration error        < 0.10 good
+                        0 = perfect calibration
+                        1.0 = worst calibration
+
+Mahal Dist      0-∞     Subject distance from training    < 1σ similar
+                        > 2σ = significant outlier
+
+Confidence      0-1     Diagnosis confidence level        > 0.7 actionable
+
+MCC             -1-1    Correlation coefficient           > 0.60 good
+                        -1 = perfect disagreement
+                        +1 = perfect agreement
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+Q: Script fails with "fold probs not found"?
+A: Ensure collect_fold_probs.py has been run first
+   Check: ls output/fold_probs/fold*_S*.npz
+
+Q: Embeddings extraction is slow/timeout?
+A: Use --skip-embeddings flag for faster execution
+   bash scripts/run_diagnostics_pipeline.sh --skip-embeddings
+
+Q: Threshold sweep shows flat line?
+A: May indicate model predicts mostly one class
+   Check: probability_histogram.png for actual distribution
+   Review: confusion_matrix.png for bias pattern
+
+Q: All subjects show Mode C (distribution shift)?
+A: Model may need global fine-tuning or different architecture
+   Consider: domain adaptation, subject-specific embeddings
+
+Q: Confidence score is very low (< 0.3)?
+A: Failure mode is unclear/mixed
+   Investigate: all three reports (ROC, threshold, calibration)
+   Consider: manual review of samples
+
+Q: Can't find diagnosis.txt?
+A: Check: output/diagnostics/<subject>/diagnosis.json exists?
+   If not: diagnostics run failed, check terminal output
+
+Q: Comparison plots missing?
+A: Run: python hard_subject_summary.py manually
+   Add: --comparison-dir output/ flag
+
+================================================================================
+FILES & LOCATIONS
+================================================================================
+
+Main Scripts:
+  hard_subject_diagnostics.py     Primary diagnostic module
+  hard_subject_summary.py          Aggregation and summary
+  scripts/run_diagnostics_pipeline.sh      Automated end-to-end runner
+
+Documentation:
+  HARD_SUBJECT_DIAGNOSTICS_README.md    Detailed user guide (THIS FILE)
+  IMPLEMENTATION_NOTES.txt              (in /memories/session/)
+
+Input Data:
+  output/fold_probs/fold*.npz      Fold probabilities (required)
+  output/checkpoints/ins_hdgs_cmt_v17/  Model checkpoints (for embeddings)
+  data/                             Dataset (for embeddings)
+
+Output Diagnostics:
+  output/diagnostics/<subject>/     Per-subject analyses
+  output/hard_subjects_summary.txt  Aggregate report
+  output/comparison_*.png           Comparison visualizations
+
+================================================================================
+NEXT PHASE: IMPLEMENTING FIXES
+================================================================================
+
+After completing diagnostics:
+
+1. Threshold Optimization (Mode A)
+   File: update_inference_threshold.py (to be created)
+   Action: Apply best_threshold to inference pipeline
+
+2. Probability Calibration (Mode B)
+   File: apply_temperature_scaling.py (to be created)
+   Action: Compute and apply temperature factor
+
+3. Subject-Specific Fine-Tuning (Mode C)
+   File: finetune_per_subject.py (to be created)
+   Action: Train separate model heads or full model per subject
+
+4. Label Correction (Mode D)
+   File: manual_label_review.py (to be created)
+   Action: Interactive tool for label correction
+
+5. Deep Investigation (Mode E)
+   Files: debug_preprocessing.py, validate_features.py
+   Action: Systematic debugging of pipeline
+
+================================================================================
+CONTACT & SUPPORT
+================================================================================
+
+For questions about:
+  • Running diagnostics: See QUICK START section
+  • Interpreting results: See WHAT EACH DIAGNOSTIC TELLS YOU
+  • Implementing fixes: See STEP-BY-STEP WORKFLOW
+  • Troubleshooting: See TROUBLESHOOTING section
+
+For detailed technical guide:
+  See HARD_SUBJECT_DIAGNOSTICS_README.md
+
+================================================================================
+VERSION & CHANGELOG
+================================================================================
+
+v1.0 (May 2026)
+  ✓ Core diagnostic framework (10 analyses)
+  ✓ Per-subject output structure
+  ✓ Automatic failure mode detection (A-E)
+  ✓ Summary aggregation
+  ✓ Comparison visualizations
+  ✓ End-to-end automation script
+  ✓ Comprehensive documentation
+
+================================================================================
+END OF DOCUMENT
+================================================================================

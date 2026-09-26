@@ -1,0 +1,7 @@
+{
+    "subject": "S24",
+    "prediction": "HIGH_ENGAGEMENT",
+    "confidence": 0.91,
+    "mcc": 0.5564,
+    "roc_auc": 0.8957
+}

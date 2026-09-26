@@ -1,0 +1,708 @@
+\documentclass[pdflatex,sn-basic,Numbered]{sn-jnl}
+
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{booktabs}
+\usepackage{placeins}
+\usepackage{float}
+% Supplementary tables are set in reading order as non-floating blocks: the class
+% table environment always floats, and with no body text between the tables LaTeX
+% would otherwise flush them onto float pages at the end of the document.
+\makeatletter
+\newenvironment{suptable}{\par\bigskip\noindent\begin{minipage}{\textwidth}\def\@captype{table}\centering\tablebodyfont}{\end{minipage}\par\bigskip}
+\makeatother
+\usepackage{xcolor}
+\newcommand{\todoval}[1]{\textcolor{red}{[TODO: #1]}}
+\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\theequation}{S\arabic{equation}}
+
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\thetable}{S\arabic{table}}
+
+\raggedbottom
+
+\begin{document}
+
+\title[Supplementary Information]{Supplementary Information for ``What Does a Multimodal EEG--Eye-Tracking Engagement Decoder Learn? A Leakage-Aware Audit on the NeuMa Dataset''}
+
+\author[1]{\fnm{Priyadharshini} \sur{D}}\email{priyadharshini.2024b@vitstudent.ac.in}
+\author*[1]{\fnm{Shridevi} \sur{S}}\email{shridevi.s@vit.ac.in}
+
+\affil*[1]{\orgdiv{Centre for Neuroinformatics}, \orgname{Vellore Institute of Technology}, \orgaddress{\city{Chennai}, \country{India}}}
+
+\maketitle
+
+This document (Additional file~1) collects all supplementary figures and tables referenced in the main manuscript. Each caption states, in parentheses, the section of the main manuscript from which the item is referenced, so that every table and figure can be read together with the corresponding part of the main text. Figures and tables are numbered with an ``S'' prefix; section numbers (e.g., Section~3.6) refer to the main manuscript.
+
+\section*{Supplementary Figures}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{fig_losocv.pdf}
+\caption{Subject-wise balanced accuracy under LOSOCV (Section~3.6 of the main manuscript), sorted, with the cohort mean (0.75) and the chance level marked.}
+\label{figS1}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{fig_regions.pdf}
+\caption{Regional EEG signatures of the case-study exemplars (S24 HIGH, S30 LOW; Section~3.5): band power by region, off-diagonal connectivity matrix, and the within-subject HIGH$-$LOW difference for frontal theta and posterior alpha.}
+\label{figS2}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{fig_roi_timecourse.png}
+\caption{ROI saliency vector of the two exemplars (Section~3.5): share of gaze samples in each of the ten $5\times2$ grid cells (1--5 upper row, 6--10 lower row). The HIGH exemplar spans eight cells; the LOW exemplar is confined to four cells of the upper row.}
+\label{figS3}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figS4_tau_sensitivity.pdf}
+\caption{Connectivity-threshold sensitivity (Section~3.6). (A) Edge density and number of electrodes with fewer than three edges per window against $\tau$ in Eq.~(2), over all 3{,}850 windows; dashed line at the value used ($\tau=0.30$). (B) LOSOCV metrics of the gaze-free variant retrained at each $\tau$ (Table~S7).}
+\label{figS4}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{figS5_learning_curve.pdf}
+\caption{Subject-count learning curve (Sections~2.7 and~3.6): LOSOCV on random subsets of 10 to 37 participants (three draws each; three-member ensembles, 150 epochs); mean $\pm$ SD over draws.}
+\label{figS5}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figS6_roi_grid_sensitivity.pdf}
+\caption{ROI-grid sensitivity (Section~3.6). (A) Properties of the ROI saliency vector on grids from $2\times1$ to $10\times8$ cells and their rank correlation with the $5\times2$ vector (dashed; dotted: the 24-cell layout of Fig.~1). (B) Decoder retrained with each grid (mean $\pm$ SE over 37 folds), with the $5\times2$ run of Table~S11 at the dashed line.}
+\label{figS6}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figS7_rule_grounding_r2.pdf}
+\caption{Attribution summaries of the rule-only variant (Sections~2.4 and~3.5): integrated-gradient attribution of each rule's activation to the $19\times5$ electrode-by-band features on the held-out epochs of the rule-gate-closed model (Table~S13); red increases, blue decreases the activation. Right: three largest terms per rule, dominant eye-tracking stream and rule conclusion (compact form in Fig.~10D).}
+\label{figS7}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figS8_subject_scatter_r2.pdf}
+\caption{Per-subject ROC-AUC of the decoder against (A) the gaze-free variant and (B) the tuned gaze-only ET-LSTM (Section~3.1). Points above the diagonal favour the decoder. Per-fold ROC-AUC saturates on folds of about nine epochs, so subjects with identical scores are drawn as a single marker, sized by and labelled with the number of subjects it represents; in (B) sixteen subjects share the point $(1.00, 1.00)$. The inset counts subjects above, on and below the diagonal (paired statistics in Table~S14).}
+\label{figS8}
+\end{figure}
+
+\FloatBarrier
+\section*{Supplementary Tables}
+
+\begin{suptable}
+\caption{Labelling-regime check (Section~3.6) with the ROI-retained EEG branch (EEG pathway plus ROI saliency vector) under the common budget: the global-threshold regime (37 evaluable subjects) beside the subject-median regime (42 subjects). Not repeated with the gaze-free variant (balanced accuracy 0.55, ROC-AUC 0.59; Table~5).}\label{tabS1}
+\small
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}llll@{}}
+\toprule
+Labelling regime & Subjects evaluable & Balanced acc. & ROC-AUC \\
+\midrule
+Global threshold (headline regime) & 37 & 0.70$\pm$0.16 & 0.82$\pm$0.19 \\
+Subject-median (coverage regime) & 42 & 0.69$\pm$0.18 & 0.80$\pm$0.18 \\
+\botrule
+\end{tabular*}
+\end{suptable}
+
+\begin{suptable}
+\caption{Top integrated-gradients input attributions aggregated across folds (Section~3.5; normalised importance).}\label{tabS2}
+\small
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lllp{4.4cm}@{}}
+\toprule
+Modality & Feature & Importance & Interpretation \\
+\midrule
+ROI & ROI saliency vector & 0.52 & Attended stimulus region \\
+EEG & Posterior alpha power & 0.18 & Visual attention allocation (alpha suppression) \\
+EEG & Frontal theta power & 0.16 & Attentional control / engagement \\
+ET & Gaze position & 0.13 & Overt fixation location \\
+ET & Pupil dynamics & 0.01 & Arousal / cognitive load \\
+EEG & Frontal functional connectivity & $<0.01$ & Network integration (see ablation) \\
+\botrule
+\end{tabular*}
+\end{suptable}
+
+\begin{suptable}
+\caption{Connectivity-measure comparison at reduced scale ($N=16$; Section~3.6). All seven measures are near chance, as is the gaze-free variant at full scale under Pearson correlation (Table~5); the topology surrogates of Section~3.3 show that the measured connectivity was not necessary for the decoder's accuracy. $n$ folds counts the folds of the 16 with an evaluable held-out metric in that run.}\label{tabS3}
+\small
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lllll@{}}
+\toprule
+Connectivity measure & $n$ folds & Mean subj.\ AUC & Pooled AUC & Mean MCC \\
+\midrule
+Pearson & 15 & 0.535 & 0.506 & $-0.014$ \\
+PLV (broadband) & 15 & 0.568 & 0.502 & $+0.021$ \\
+PLV (delta) & 13 & 0.596 & 0.527 & $+0.141$ \\
+PLV (theta) & 14 & 0.517 & 0.457 & $-0.007$ \\
+PLV (alpha) & 15 & 0.573 & 0.527 & $-0.032$ \\
+PLV (beta) & 15 & 0.490 & 0.480 & $-0.055$ \\
+PLV (gamma) & 15 & 0.466 & 0.469 & $-0.029$ \\
+\botrule
+\end{tabular*}
+\end{suptable}
+
+\begin{suptable}
+\caption{Mathematical notation of the Methods (Section~2.4 and Note~S1), in order of first use.}\label{tabS4}
+\small
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lp{9cm}@{}}
+\toprule
+Symbol & Meaning \\
+\midrule
+$G_t=(V,E_t,A_t)$ & Dynamic EEG functional graph at window $t$ \\
+$\rho_{ij}(t)$ & Windowed Pearson connectivity between electrodes $i,j$ \\
+$\mathrm{PLV}_{ij}$ & Phase-locking value connectivity (alternative measure) \\
+$\tau$ & Connectivity threshold sparsifying $A_t$ \\
+$U_t$, $S_t$, $V_{\mathrm{th}}$, $\lambda$ & LIF pre-reset potential, spike indicator, threshold and leak factor (Eq.~(3) of the main text; Eq.~(S9)) \\
+$\alpha_{ij}$ & Graph-attention coefficient between nodes $i,j$ \\
+$Z_{\mathrm{EEG}\to\mathrm{ET}}$ & EEG-to-ET cross-attention output \\
+$Z_{\mathrm{fusion}}$ & Fused multimodal representation \\
+$g$ & Gated residual fusion weight \\
+$k$, $q_r$, $\ell_r$ & Rule key, learnable rule premise and rule-head logits (Eqs.~(S15)--(S17)) \\
+$a_r$ & Neuro-symbolic rule activation \\
+$R$ & Aggregated rule evidence \\
+$\alpha$ (bypass gate) & Rule/bypass blend weight (distinct from $\alpha_{ij}$ above) \\
+$L_{\mathrm{div}}, L_{\mathrm{sparse}}$ & Rule diversity / sparsity regularisers \\
+$L_{\mathrm{mmd}}$ & Subject-embedding alignment penalty \\
+$L_{\mathrm{con}}$ & Cross-modal InfoNCE contrastive loss (EEG--gaze embedding alignment; uses no label) \\
+$L_{\mathrm{roi}}$ & ROI-attention guidance loss \\
+$L_{\mathrm{total}}$ & Combined training objective \\
+\botrule
+\end{tabular*}
+\end{suptable}
+
+\begin{suptable}
+\caption{Composition of the engagement label, a rule constructed by the authors from the recordings (Sections~2.2 and~4.1; \texttt{engagement\_phase3d.py}, which reproduces the held-out labels 347/347). Each term is computed per 5~s epoch, min--max normalised over the pooled epochs of all subjects, weighted and summed; the composite is thresholded at the pooled median (193 HIGH, 192 LOW). EEG terms use the mean of P3, C3, F3 and Fz (named `frontal' by the pipeline); gaze terms use the epoch's own normalised gaze samples; pupil diameter is not used. Table~S15 gives the linear recoverability from each group of terms.}\label{tabS5}
+\small
+\setlength{\tabcolsep}{3pt}\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}llcp{5.6cm}@{}}
+\toprule
+Modality & Term & Weight & Definition \\
+\midrule
+EEG & Theta power & $+1.5$ & band power 4--8~Hz of the P3/C3/F3/Fz mean \\
+EEG & Beta power & $+1.2$ & band power 13--30~Hz \\
+EEG & Alpha power & $-1.5$ & band power 8--13~Hz \\
+EEG & Theta/beta ratio & $+1.0$ & theta power divided by beta power \\
+EEG & `Asymmetry' & $+0.5$ & mean amplitude of P3 minus mean amplitude of Fz (close to zero for band-passed, average-referenced signals) \\
+Gaze & Horizontal position & $+1.0$ & mean $|x|$ over valid samples \\
+Gaze & Vertical position & $+1.0$ & mean $|y|$ over valid samples \\
+Gaze & Horizontal dispersion & $+1.0$ & standard deviation of $x$ \\
+Gaze & Stability count & $+1.0$ & number of consecutive samples with $|\Delta x|<0.05$ \\
+Gaze & Gaze entropy & $-1.0$ & Shannon entropy of the 20-bin histogram of $x$ \\
+\botrule
+\end{tabular*}
+\end{suptable}
+
+\begin{suptable}
+\caption{Gaze-free variant versus each tuned EEG baseline on balanced accuracy, MCC and ROC-AUC (37 folds; paired Wilcoxon, zero differences discarded, Holm-corrected over the eight baselines within each metric; $r_{\mathrm{rb}}$ = matched-pairs rank-biserial correlation, positive favouring the variant; Section~3.2). No comparison is significant.}\label{tabS6}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccccccccc@{}}
+\toprule
+& \multicolumn{3}{c}{Balanced accuracy} & \multicolumn{3}{c}{MCC} & \multicolumn{3}{c}{ROC-AUC} \\
+Baseline & Median $\Delta$ & $p_{\mathrm{Holm}}$ & $r_{\mathrm{rb}}$ & Median $\Delta$ & $p_{\mathrm{Holm}}$ & $r_{\mathrm{rb}}$ & Median $\Delta$ & $p_{\mathrm{Holm}}$ & $r_{\mathrm{rb}}$ \\
+\midrule
+EEGNet & $+0.050$ & 0.78 & $+0.33$ & $+0.091$ & 1.00 & $+0.28$ & $+0.125$ & 1.00 & $+0.26$ \\
+GAT & $+0.083$ & 0.85 & $+0.30$ & $+0.140$ & 1.00 & $+0.23$ & $+0.000$ & 0.44 & $+0.38$ \\
+EEG Transformer & $+0.000$ & 1.00 & $+0.20$ & $+0.000$ & 1.00 & $+0.20$ & $+0.000$ & 1.00 & $+0.01$ \\
+CNN--LSTM & $+0.000$ & 1.00 & $+0.16$ & $+0.000$ & 1.00 & $+0.09$ & $+0.000$ & 1.00 & $+0.06$ \\
+TSception & $+0.042$ & 1.00 & $+0.14$ & $+0.091$ & 1.00 & $+0.15$ & $+0.000$ & 1.00 & $+0.12$ \\
+CNN--BiLSTM & $+0.000$ & 1.00 & $-0.15$ & $+0.000$ & 1.00 & $-0.09$ & $+0.000$ & 1.00 & $-0.13$ \\
+DeepConvNet & $-0.050$ & 1.00 & $-0.19$ & $-0.091$ & 1.00 & $-0.19$ & $+0.000$ & 1.00 & $-0.04$ \\
+ShallowConvNet & $-0.062$ & 1.00 & $-0.17$ & $-0.125$ & 1.00 & $-0.14$ & $+0.000$ & 1.00 & $-0.09$ \\
+\botrule
+\end{tabular*}
+\end{suptable}
+
+
+\begin{suptable}
+\caption{Connectivity-threshold sensitivity (Sections~2.4 and~3.6). Graph structure pooled over the 3{,}850 windows (density = fraction of the 171 pairs retained by Eq.~(2); $\bar d$ = mean degree; $n_{\mathrm{iso}}$ = electrodes with fewer than three edges per window; $f_{\mathrm{iso}}$ = fraction of windows with one). Downstream: gaze-free variant retrained at each $\tau$ (three-member ensembles, 120 epochs, 37 folds; mean per-subject ROC-AUC).}\label{tabS7}
+\footnotesize
+\setlength{\tabcolsep}{3pt}\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lcccccc@{}}
+\toprule
+$\tau$ & Density & $\bar d$ & $n_{\mathrm{iso}}$ & $f_{\mathrm{iso}}$ & BalAcc & AUC \\
+\midrule
+0.10 & $0.85\pm0.06$ & 15.4 & 0.00 & 0.000 & -- & -- \\
+0.15 & $0.78\pm0.08$ & 14.1 & 0.00 & 0.004 & -- & -- \\
+0.20 & $0.71\pm0.11$ & 12.8 & 0.05 & 0.044 & 0.544 & 0.592 \\
+0.25 & $0.64\pm0.13$ & 11.5 & 0.19 & 0.169 & 0.542 & 0.580 \\
+\textbf{0.30 (used)} & $\mathbf{0.57\pm0.15}$ & \textbf{10.3} & \textbf{0.51} & \textbf{0.375} & 0.536 & 0.519 \\
+0.35 & $0.51\pm0.16$ & 9.1 & 1.09 & 0.603 & 0.540 & 0.584 \\
+0.40 & $0.44\pm0.18$ & 8.0 & 2.01 & 0.776 & 0.586 & 0.568 \\
+0.45 & $0.38\pm0.19$ & 6.9 & 3.27 & 0.874 & -- & -- \\
+0.50 & $0.33\pm0.19$ & 5.9 & 4.91 & 0.930 & 0.536 & 0.538 \\
+0.60 & $0.23\pm0.20$ & 4.1 & 8.92 & 0.965 & -- & -- \\
+0.70 & $0.15\pm0.18$ & 2.6 & 13.17 & 0.976 & -- & -- \\
+\botrule
+\end{tabular*}
+\end{suptable}
+
+\begin{suptable}
+\caption{Baselines under a common fixed budget (Adam, $10^{-3}$, weight decay $10^{-4}$, batch 32, 100 epochs, no early stopping or search), kept beside the tuned values of Tables~4 and~5, recomputed from the stored per-fold files of the common-budget run over the same 37 evaluable folds as Table~4. LOSOCV, transferred-threshold (uncalibrated) operating point, mean $\pm$ SD; ECE and Brier pooled over the 347 held-out epochs. BrainGCN and the early-fusion MLP are included for completeness.}\label{tabS8}
+\scriptsize
+\setlength{\tabcolsep}{3pt}\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}llllll@{}}
+\toprule
+Model & BalAcc & MCC & ROC-AUC & ECE & Brier \\
+\midrule
+\multicolumn{5}{@{}l}{\textit{EEG encoders}} \\
+ShallowConvNet & 0.62$\pm$0.21 & 0.22$\pm$0.41 & 0.68$\pm$0.23 & 0.31 & 0.35 \\
+EEGNet & 0.61$\pm$0.19 & 0.21$\pm$0.36 & 0.63$\pm$0.26 & 0.30 & 0.35 \\
+CNN--BiLSTM & 0.57$\pm$0.16 & 0.15$\pm$0.31 & 0.62$\pm$0.27 & 0.39 & 0.41 \\
+DeepConvNet & 0.57$\pm$0.19 & 0.13$\pm$0.34 & 0.59$\pm$0.26 & 0.36 & 0.40 \\
+TSception & 0.55$\pm$0.18 & 0.11$\pm$0.33 & 0.60$\pm$0.26 & 0.39 & 0.41 \\
+CNN--LSTM & 0.53$\pm$0.19 & 0.07$\pm$0.36 & 0.56$\pm$0.29 & 0.42 & 0.44 \\
+EEG Transformer & 0.53$\pm$0.17 & 0.05$\pm$0.32 & 0.57$\pm$0.23 & 0.46 & 0.46 \\
+GAT & 0.48$\pm$0.11 & $-0.04\pm$0.25 & 0.51$\pm$0.24 & 0.08 & 0.26 \\
+BrainGCN & 0.47$\pm$0.13 & $-0.05\pm$0.26 & 0.51$\pm$0.23 & 0.11 & 0.28 \\
+\multicolumn{5}{@{}l}{\textit{Eye-tracking encoders}} \\
+ET-GRU & 0.76$\pm$0.18 & 0.53$\pm$0.34 & 0.89$\pm$0.14 & 0.06 & 0.15 \\
+ET-LSTM & 0.74$\pm$0.19 & 0.49$\pm$0.37 & 0.85$\pm$0.18 & 0.10 & 0.17 \\
+ET-Transformer & 0.72$\pm$0.19 & 0.44$\pm$0.37 & 0.84$\pm$0.15 & 0.24 & 0.25 \\
+\multicolumn{5}{@{}l}{\textit{Multimodal fusion}} \\
+Cross-Attention & 0.76$\pm$0.19 & 0.52$\pm$0.37 & 0.85$\pm$0.19 & 0.21 & 0.22 \\
+Dual Transformer & 0.74$\pm$0.19 & 0.48$\pm$0.37 & 0.80$\pm$0.23 & 0.23 & 0.23 \\
+Multimodal Transformer & 0.74$\pm$0.18 & 0.48$\pm$0.35 & 0.82$\pm$0.20 & 0.22 & 0.22 \\
+DynamicGAT+ET Transf. & 0.72$\pm$0.17 & 0.46$\pm$0.33 & 0.80$\pm$0.17 & 0.23 & 0.23 \\
+Early-Fusion MLP & 0.72$\pm$0.18 & 0.44$\pm$0.36 & 0.88$\pm$0.17 & 0.19 & 0.22 \\
+Late Fusion & 0.66$\pm$0.20 & 0.31$\pm$0.39 & 0.69$\pm$0.27 & 0.25 & 0.28 \\
+\botrule
+\end{tabular*}\end{suptable}
+
+\begin{suptable}
+\caption{Measured cost of the spiking front-end (Section~3.3; \texttt{snn\_energy\_measured.py}): the trained LIF encoder (two layers, 128 units, 10 steps) against a dense twin of the same widths (Linear+GELU+LayerNorm). Latency = mean of 300 single-epoch forward passes after warm-up (CPU: AMD Ryzen 7; GPU: NVIDIA A100). GPU board power rose by no more than 3~W above its 85~W idle for either encoder, so no energy figure is reported, and an operation-count projection would apply only to neuromorphic hardware. Trained firing rate 7.5\% on the fold-1 checkpoint timed here.}\label{tabS9}
+\scriptsize
+\setlength{\tabcolsep}{3pt}\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}llcc@{}}
+\toprule
+Hardware & Encoder & Batch & Latency (ms) \\
+\midrule
+CPU (Ryzen 7) & spiking (LIF) & 1 & 2.70 \\
+ & dense twin & 1 & 0.45 \\
+ & spiking (LIF) & 32 & 3.45 \\
+ & dense twin & 32 & 0.69 \\
+GPU (A100) & spiking (LIF) & 1 & 3.99 \\
+ & dense twin & 1 & 0.41 \\
+ & spiking (LIF) & 32 & 4.03 \\
+ & dense twin & 32 & 0.43 \\
+\botrule
+\end{tabular*}
+\end{suptable}
+
+\begin{suptable}
+\caption{Decoder versus each eye-tracking and fusion baseline (Section~3.1): paired Wilcoxon over the 37 folds, Holm-corrected over the eighteen tuned baselines within each metric, zero differences discarded; $r_{\mathrm{rb}}$ positive favours the decoder (ties excluded, so it can be sizeable where many folds tie, as on ROC-AUC). The EEG encoders are compared with the gaze-free variant in Section~3.2 and Table~S6. $^{*}$ $p_{\mathrm{Holm}}<0.05$.}\label{tabS10}
+\scriptsize
+\setlength{\tabcolsep}{3pt}\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lcccccc@{}}
+\toprule
+& \multicolumn{2}{c}{Balanced accuracy} & \multicolumn{2}{c}{MCC} & \multicolumn{2}{c}{ROC-AUC} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+Baseline & $p_{\mathrm{H}}$ & $r_{\mathrm{rb}}$ & $p_{\mathrm{H}}$ & $r_{\mathrm{rb}}$ & $p_{\mathrm{H}}$ & $r_{\mathrm{rb}}$ \\
+\midrule
+ET-GRU & 1.00 & $-0.01$ & 1.00 & $-0.11$ & 1.00 & $+0.18$ \\
+ET-LSTM & 1.00 & $-0.07$ & 1.00 & $-0.12$ & 1.00 & $-0.05$ \\
+ET-Transformer & 1.00 & $-0.13$ & 1.00 & $-0.14$ & 1.00 & $+0.30$ \\
+Early-Fusion MLP & 1.00 & $+0.12$ & 1.00 & $+0.07$ & 1.00 & $+0.29$ \\
+Late Fusion & 1.00 & $+0.22$ & 1.00 & $+0.11$ & 1.00 & $+0.39$ \\
+Dual Transformer & 1.00 & $-0.04$ & 1.00 & $-0.13$ & 1.00 & $+0.24$ \\
+Cross-Attention & 1.00 & $-0.17$ & 1.00 & $-0.21$ & 1.00 & $+0.33$ \\
+Multimodal Transformer & 1.00 & $+0.02$ & 1.00 & $-0.04$ & 1.00 & $+0.35$ \\
+DynamicGAT+ET Transf. & 1.00 & $-0.07$ & 1.00 & $-0.17$ & 1.00 & $+0.21$ \\
+\botrule
+\end{tabular*}
+\end{suptable}
+
+\begin{suptable}
+\caption{ROI-grid sensitivity (Section~3.6; 385 epochs). Top: the ROI saliency vector on alternative grids (max-cell share, normalised entropy, Spearman $\rho$ with the $5\times2$ vector). Bottom: decoder retrained with each grid, paired against the model's own $5\times2$ run (BalAcc $0.747$, ROC-AUC $0.879$, MCC $0.485$; results/sensitivity/roi\_grid\_model\_side.csv).}\label{tabS11}
+\scriptsize
+\setlength{\tabcolsep}{3pt}\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lcccc@{}}
+\toprule
+\multicolumn{5}{@{}l}{\textit{ROI saliency vector (model input)}} \\
+Grid & Cells & Max share & Entropy & $\rho$ vs.\ $5\times2$ \\
+\midrule
+$2\times1$ & 2 & 0.74 & 0.71 & 0.56 \\
+$3\times2$ & 6 & 0.51 & 0.80 & 0.82 \\
+$\mathbf{5\times2}$ (model) & 10 & 0.41 & 0.83 & 1.00 \\
+$4\times3$ & 12 & 0.40 & 0.82 & 0.71 \\
+$6\times4$ (Fig.~1 layout) & 24 & 0.32 & 0.83 & 0.71 \\
+$8\times6$ & 48 & 0.29 & 0.82 & 0.77 \\
+$10\times8$ & 80 & 0.23 & 0.83 & 0.72 \\
+\midrule
+\multicolumn{5}{@{}l}{\textit{Decoder retrained on each grid (LOSOCV, 37 folds)}} \\
+Grid & BalAcc & AUC & MCC & $\Delta$AUC ($p$) \\
+\midrule
+$2\times1$ & 0.760 $\pm$ 0.173 & 0.899 $\pm$ 0.128 & 0.521 & $+0.020$ (0.59) \\
+$3\times2$ & 0.736 $\pm$ 0.192 & 0.886 $\pm$ 0.144 & 0.477 & $+0.007$ (0.72) \\
+$5\times2$ (model) & 0.747 $\pm$ 0.185 & 0.879 $\pm$ 0.167 & 0.485 & --- \\
+$6\times4$ & 0.720 $\pm$ 0.213 & 0.882 $\pm$ 0.160 & 0.428 & $+0.003$ (0.53) \\
+$8\times6$ & 0.716 $\pm$ 0.202 & 0.893 $\pm$ 0.158 & 0.440 & $+0.014$ (0.83) \\
+\botrule
+\end{tabular*}
+\end{suptable}
+
+\begin{suptable}
+\caption{Label-free per-subject thresholds for the decoder (Section~3.6; 37 folds, mean $\pm$ SD); no strategy uses a test-subject label. First two rows: the transferred threshold and the calibrated operating point of the main text; ``transductive'' uses all of the held-out subject's unlabelled probabilities; ``causal'' uses only the preceding epochs (prevalence-matched quantile at the training prior), falling back to the transferred threshold for the first $k$ epochs. ROC-AUC is threshold-invariant.}\label{tabS12}
+\footnotesize
+\setlength{\tabcolsep}{3pt}\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}p{0.36\linewidth}lccc@{}}
+\toprule
+Strategy & Type & BalAcc & MCC & Accuracy \\
+\midrule
+Transferred validation-subject threshold (the value tabulated throughout) & fixed & $0.747\pm0.185$ & $0.485\pm0.359$ & 0.782 \\
+Fixed 0.5 (= calibrated operating point, Section~2.7) & fixed & $0.719\pm0.194$ & $0.446\pm0.378$ & 0.767 \\
+Prior quantile, all epochs & transductive & $0.740\pm0.189$ & $0.433\pm0.339$ & 0.692 \\
+Prior quantile, warm-up 2 & causal & $0.733\pm0.179$ & $0.429\pm0.328$ & 0.709 \\
+Prior quantile, warm-up 3 & causal & $0.748\pm0.183$ & $0.464\pm0.339$ & 0.735 \\
+Prior quantile, warm-up 5 & causal & $0.746\pm0.190$ & $0.474\pm0.355$ & 0.754 \\
+\botrule
+\end{tabular*}
+\end{suptable}
+
+\begin{suptable}
+\caption{Fidelity of the rule pathway to the decision (Section~3.3; \texttt{rule\_fidelity.py} on the fold checkpoints of the decoder). $\alpha$ = learned bypass gate of Eq.~(6), unchanged from its initialisation (0.570, range 0.567--0.573); ``agreement'' = share of held-out epochs on which $\arg\max R$ equals the gated decision (39.4\%); rule margin versus logit margin $r=-0.69$; rule attention uniform. Post-hoc rows force $\alpha$ at inference (decision at 0.5, no temperature scaling); the last row is trained with $\alpha\equiv0$ (paired Wilcoxon versus the decoder $p=0.047$, $0.014$ and $0.093$ for balanced accuracy, ROC-AUC and MCC).}\label{tabS13}
+\footnotesize
+\setlength{\tabcolsep}{3pt}\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccc@{}}
+\toprule
+Decision rule & BalAcc & ROC-AUC & MCC \\
+\midrule
+Gated (as reported) & 0.719 $\pm$ 0.194 & 0.879 $\pm$ 0.167 & 0.446 $\pm$ 0.378 \\
+Rule evidence only, post hoc ($\alpha\to0$) & 0.392 $\pm$ 0.185 & 0.221 $\pm$ 0.237 & $-0.220$ $\pm$ 0.379 \\
+Bypass only, post hoc ($\alpha\to1$) & 0.725 $\pm$ 0.193 & 0.877 $\pm$ 0.167 & 0.457 $\pm$ 0.377 \\
+Trained with $\alpha\equiv0$ (rule-only model) & 0.715 & 0.839 & 0.438 \\
+\botrule
+\end{tabular*}
+\end{suptable}
+
+\begin{suptable}
+\caption{Eye-tracking pathway contribution: decoder minus each variant (Section~3.1; 37 fold-matched subjects, transferred-threshold (uncalibrated) operating point; paired Wilcoxon with zero differences discarded, Holm-corrected over the eight pairs tested per metric, $r_{\mathrm{rb}}$ and bootstrap 95\% CI). Variants: $-$gaze sequence = sequence branch and fusion transformer removed, ROI vector retained; $-$ROI = ROI saliency vector removed (its gate and graph modulation, the vector's only consumers), gaze sequence retained; $-$fusion = cross-modal transformer replaced by single cross-attention; EEG-only = no gaze-derived input; ET-LSTM = tuned gaze-only encoder (Table~4).}\label{tabS14}
+\scriptsize
+\setlength{\tabcolsep}{3pt}\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}llcccc@{}}
+\toprule
+Metric & full vs. & Mean $\Delta$ [95\% CI] & $p_{\mathrm{H}}$ & $r_{\mathrm{rb}}$ & W/T/L \\
+\midrule
+ROC-AUC & $-$gaze seq. & $+0.060$ [$-0.009$, $+0.138$] & 0.12 & $+0.56$ & 17/16/4 \\
+ROC-AUC & $-$ROI & $+0.015$ [$-0.034$, $+0.070$] & 1.00 & $+0.24$ & 9/22/6 \\
+ROC-AUC & $-$fusion & $-0.012$ [$-0.050$, $+0.020$] & 1.00 & $+0.10$ & 9/21/7 \\
+ROC-AUC & ET-LSTM & $-0.011$ [$-0.049$, $+0.023$] & 1.00 & $-0.05$ & 10/18/9 \\
+ROC-AUC & EEG-only & $+0.287$ [$+0.207$, $+0.374$] & $<0.001^{*}$ & $+0.96$ & 29/6/2 \\
+BalAcc & $-$gaze seq. & $+0.051$ [$+0.009$, $+0.092$] & 0.21 & $+0.52$ & 15/16/6 \\
+BalAcc & $-$ROI & $+0.034$ [$-0.012$, $+0.076$] & 0.32 & $+0.50$ & 13/20/4 \\
+BalAcc & $-$fusion & $+0.033$ [$-0.002$, $+0.069$] & 0.32 & $+0.46$ & 12/21/4 \\
+BalAcc & ET-LSTM & $-0.009$ [$-0.073$, $+0.052$] & 1.00 & $-0.07$ & 14/15/8 \\
+BalAcc & EEG-only & $+0.195$ [$+0.129$, $+0.261$] & $<0.001^{*}$ & $+0.87$ & 27/5/5 \\
+MCC & $-$gaze seq. & $+0.088$ [$-0.000$, $+0.172$] & 0.22 & $+0.47$ & 15/16/6 \\
+MCC & $-$ROI & $+0.059$ [$-0.027$, $+0.135$] & 0.22 & $+0.56$ & 13/20/4 \\
+MCC & $-$fusion & $+0.074$ [$+0.009$, $+0.143$] & 0.22 & $+0.54$ & 12/21/4 \\
+MCC & ET-LSTM & $-0.032$ [$-0.155$, $+0.088$] & 1.00 & $-0.12$ & 12/15/10 \\
+MCC & EEG-only & $+0.391$ [$+0.250$, $+0.535$] & $<0.001^{*}$ & $+0.81$ & 27/5/5 \\
+\botrule
+\end{tabular*}
+\end{suptable}
+
+
+\begin{suptable}
+\caption{Linear recoverability of the label from its own terms (Section~3.1; \texttt{label\_leakage\_audit.py}): logistic-regression probe, leave-one-subject-out over the 37 evaluable subjects; pooled and per-fold (mean $\pm$ SD) ROC-AUC and balanced accuracy. The rule-score ROC-AUC is 1.0 by construction, and its balanced accuracy is that of the thresholded probe; the EEG-5 and gaze-5 rows are the reference probes for a model that sees only that modality's defining statistics.}\label{tabS15}
+\footnotesize
+\setlength{\tabcolsep}{3pt}\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}p{0.36\linewidth}cccc@{}}
+\toprule
+Feature set & Pooled AUC & Fold AUC & Pooled BalAcc & Fold BalAcc \\
+\midrule
+EEG-5 (band power of the P3/C3/F3/Fz mean) & 0.605 & 0.671 $\pm$ 0.216 & 0.571 & 0.582 $\pm$ 0.172 \\
+Gaze-5 (gaze statistics) & 0.939 & 0.917 $\pm$ 0.137 & 0.862 & 0.831 $\pm$ 0.187 \\
+All ten terms & 0.996 & 0.999 $\pm$ 0.004 & 0.965 & 0.957 $\pm$ 0.103 \\
+Rule score (upper bound) & 1.000 & 1.000 $\pm$ 0.000 & 0.989 & 0.989 $\pm$ 0.044 \\
+\botrule
+\end{tabular*}
+\end{suptable}
+
+
+\begin{suptable}
+\caption{Two controls on the same recordings (Sections~3.2 and~3.4). Positive control: resting state (2-min pre-brochure fixation) versus brochure browsing, 5-s epochs, 42 participants, LOSOCV; rungs trained gaze-free; ensemble size and subject-alignment regularisers are stated per row. Product-selection label: whether the viewed product was selected for purchase (NeuMa item Q77, intended purchase in the simulated task), one 5-s epoch per participant--product pair anchored 1~s before the onset of the product's longest eligible gaze run, with the window ending at least 250~ms before the first click on a selected product (2,338 epochs, 418 selected, 42 participants); dwell rows are logistic-regression probes on session-level gaze covariates. Mean $\pm$ SD over folds, transferred-threshold (uncalibrated) operating point; the tuned EEGNet, ShallowConvNet, ET-LSTM and late-fusion rows on the product-selection label are single models; probe ROC-AUC is given as pooled / mean per-fold.}\label{tabS16}
+\footnotesize
+\setlength{\tabcolsep}{3pt}\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}p{0.40\linewidth}cccc@{}}
+\toprule
+Model & BalAcc & ROC-AUC & MCC & folds \\
+\midrule
+\multicolumn{5}{@{}l}{\textit{Positive control: resting state vs browsing}} \\
+EEGNet, tuned (single models) & 0.790 $\pm$ 0.151 & 0.917 $\pm$ 0.107 & 0.606 & 42 \\
+ShallowConvNet, tuned (single models) & 0.783 $\pm$ 0.147 & 0.944 $\pm$ 0.069 & 0.602 & 42 \\
+Linear encoder on the model's node features (7 members, no alignment terms) & 0.720 $\pm$ 0.125 & 0.850 $\pm$ 0.119 & 0.476 & 42 \\
+\quad + MMD and adversarial terms at 0.10 (3 members) & 0.706 $\pm$ 0.117 & 0.842 $\pm$ 0.109 & 0.449 & 42 \\
+Graph pathway only, plain head (7 members, no alignment terms) & 0.659 $\pm$ 0.113 & 0.856 $\pm$ 0.108 & 0.383 & 42 \\
+Spiking encoder only, raw EEG, 300 LIF steps (3 members, no alignment terms) & 0.525 $\pm$ 0.096 & 0.551 $\pm$ 0.132 & 0.070 & 42 \\
+Spiking encoder + graph pathway, plain head (3 members, no alignment terms) & 0.695 $\pm$ 0.126 & 0.809 $\pm$ 0.140 & 0.420 & 42 \\
+Gaze-free variant with the MMD and adversarial terms retained (7 members; the index-label variant of Table~5 omits the MMD term and has five members) & 0.721 $\pm$ 0.121 & 0.882 $\pm$ 0.106 & 0.484 & 42 \\
+Decoder (EEG + gaze, production configuration, 5 members) & 0.887 $\pm$ 0.135 & 0.989 $\pm$ 0.016 & 0.795 & 42 \\
+\midrule
+\multicolumn{5}{@{}l}{\textit{Product-selection label: selected vs not selected}} \\
+Decoder, production configuration & 0.566 $\pm$ 0.091 & 0.606 $\pm$ 0.118 & 0.112 & 42 \\
+EEGNet, tuned & 0.506 $\pm$ 0.099 & 0.485 $\pm$ 0.120 & 0.003 & 42 \\
+ShallowConvNet, tuned & 0.485 $\pm$ 0.097 & 0.488 $\pm$ 0.136 & $-0.032$ & 42 \\
+ET-LSTM, tuned & 0.501 $\pm$ 0.075 & 0.519 $\pm$ 0.108 & $-0.001$ & 42 \\
+EEGNet + ET-LSTM late fusion, tuned & 0.495 $\pm$ 0.075 & 0.482 $\pm$ 0.128 & $-0.005$ & 42 \\
+ShallowConvNet + ET-LSTM late fusion, tuned & 0.502 $\pm$ 0.080 & 0.524 $\pm$ 0.125 & $-0.002$ & 42 \\
+Linear probe, five EEG statistics of the engagement rule (within-epoch; not terms of this label) & --- & 0.51 / 0.53 & --- & 42 \\
+Linear probe, five gaze statistics of the engagement rule (within-epoch; not terms of this label) & --- & 0.57 / 0.57 & --- & 42 \\
+Linear probe, total dwell on the product (session-level) & --- & 0.85 / 0.88 & --- & 42 \\
+Linear probe, dwell + number of runs + views + anchor run & --- & 0.90 / 0.91 & --- & 42 \\
+\botrule
+\end{tabular*}
+\end{suptable}
+
+\begin{suptable}
+\caption{Fold-wise-label robustness (Sections~2.2 and~3.2 of the main manuscript). Each run was repeated with the label's min--max scaler and median fitted on each fold's training participants only, so that no held-out participant contributes to the construction of its own labels, and with a validation participant drawn by a rule that is identical for the decoder and every baseline and never selects a single-class participant. All 37 folds and 347 held-out epochs remain evaluable under the fold-wise label. The three reference encoders were retrained under the same protocol. Paired over the 37 held-out participants; $\Delta$ = fold-wise minus pooled label, with a 95\% bootstrap confidence interval of the mean (10{,}000 resamples) and the paired two-sided Wilcoxon $p$ (zero differences discarded). For reference, the run-to-run spread of the same configuration over three trainings is 0.030 in balanced accuracy and 0.016 in ROC-AUC (Section~3.1 of the main manuscript). With Holm correction over the three reference encoders within each metric, the ET-LSTM ROC-AUC difference has $p_{\mathrm{Holm}}=0.036$ and every other difference of the three encoders $p_{\mathrm{Holm}}\ge0.64$. Under the same fold-wise construction the linear probes on the label's own terms give fold-mean ROC-AUC 0.68 (five EEG terms) and 0.93 (five gaze terms), against 0.67 and 0.92 under the pooled label, with every fold two-class.}\label{tabS17}
+\footnotesize
+\setlength{\tabcolsep}{3pt}\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}p{0.26\linewidth}lcccc@{}}
+\toprule
+Run & Metric & Pooled & Fold-wise & $\Delta$ [95\% CI] & $p$ \\
+\midrule
+Decoder & BalAcc & 0.747 & 0.715 & $-0.033$ [$-0.092$, $+0.027$] & 0.32 \\
+ & ROC-AUC & 0.879 & 0.872 & $-0.007$ [$-0.039$, $+0.028$] & 0.47 \\
+ & MCC & 0.485 & 0.455 & $-0.030$ [$-0.140$, $+0.080$] & 0.56 \\
+\midrule
+Gaze-free variant & BalAcc & 0.552 & 0.550 & $-0.002$ [$-0.068$, $+0.065$] & 0.88 \\
+ & ROC-AUC & 0.592 & 0.605 & $+0.013$ [$-0.052$, $+0.078$] & 0.80 \\
+ & MCC & 0.094 & 0.091 & $-0.003$ [$-0.130$, $+0.124$] & 0.99 \\
+\midrule
+EEGNet (tuned) & BalAcc & 0.477 & 0.529 & $+0.051$ [$-0.014$, $+0.119$] & 0.21 \\
+ & ROC-AUC & 0.519 & 0.538 & $+0.019$ [$-0.081$, $+0.117$] & 0.64 \\
+ & MCC & $-0.036$ & 0.060 & $+0.096$ [$-0.032$, $+0.231$] & 0.22 \\
+\midrule
+ShallowConvNet (tuned) & BalAcc & 0.590 & 0.600 & $+0.010$ [$-0.066$, $+0.086$] & 0.80 \\
+ & ROC-AUC & 0.618 & 0.644 & $+0.026$ [$-0.053$, $+0.112$] & 0.93 \\
+ & MCC & 0.159 & 0.164 & $+0.004$ [$-0.137$, $+0.150$] & 0.95 \\
+\midrule
+ET-LSTM (tuned) & BalAcc & 0.756 & 0.738 & $-0.018$ [$-0.065$, $+0.024$] & 0.53 \\
+ & ROC-AUC & 0.890 & 0.859 & $-0.031$ [$-0.057$, $-0.007$] & 0.012 \\
+ & MCC & 0.517 & 0.497 & $-0.020$ [$-0.120$, $+0.072$] & 0.92 \\
+\botrule
+\end{tabular*}
+\end{suptable}
+
+
+\clearpage
+\section{Supplementary Note S1: full specification of the system under audit}\label{noteS1}
+\noindent\emph{This note gives the complete specification of the architecture, with every equation, so that the compressed Section~2.4 of the main text can be checked against it. Section, table, figure and equation numbers without an S prefix refer to the main text.}
+
+
+\subsection{Overview of the Framework}\label{subsec2.5.1}
+
+
+
+INS-HDGS-CMT is an end-to-end multimodal architecture of six interacting components, shown in Fig.~2. The EEG stream is converted into a sequence of dynamic functional graphs, encoded by a spiking neural front-end, and then processed by hierarchical dynamic graph attention and a temporal transformer. In parallel, the ET stream is encoded into behavioural attention representations. A cross-modal transformer integrates the two representations, and a neuro-symbolic reasoning module refines the fused representation before the final engagement prediction. The pipeline is summarised stage by stage in Table~2, implementation details are listed in Table~3, and a summary of the mathematical notation used throughout this section is given in Supplementary Table~S4. Five loss terms shape training---focal class-balanced classification, a cross-modal EEG--eye-tracking contrastive term, rule regularisation, and two subject-alignment terms (maximum mean discrepancy, MMD, and domain-adversarial)---as described in Section~\ref{subsec2.5.9}; an ROI-guidance term was implemented but is inactive on the training path and is not part of the effective objective. The dynamic functional graphs are precomputed per window and are not updated by gradients, so no graph-regularisation term enters the effective training objective. The ROI-modulation pathway shown with a dashed arrow is active only in this full multimodal configuration; the gaze-free variant of Table~5 disables it entirely and receives no eye-tracking-derived input. Each component below is introduced with the purpose it was designed for and the section in which that purpose is tested; the outcomes of those tests, several of which do not support the purpose, are stated in the pipeline table so that the Methods do not describe the architecture as more than the Results support. The construction of the dynamic functional graph is illustrated in Fig.~3; the cross-modal fusion and neuro-symbolic reasoning stages are shown in overview here and detailed separately in Fig.~4. A step-by-step summary of the pipeline, with the operation and rationale of each stage, is given in Table~2.
+
+\subsection{Dynamic EEG Graph Construction}\label{subsec2.5.2}
+
+Each EEG epoch is modelled as a time-evolving functional graph rather than a static network. For a window indexed by $t$, the graph is
+\begin{equation}
+G_t = (V, E_t, A_t), \label{eq1}
+\end{equation}
+where $V$ is the fixed set of EEG electrodes (nodes), $E_t$ is the set of functional connections active in window $t$, and $A_t \in \{0,1\}^{|V|\times|V|}$ is the binary adjacency matrix of that window, obtained by thresholding its weighted connectivity matrix $C_t \in \mathbb{R}^{|V|\times|V|}$ (Eq.~\eqref{eq3}). The node set is therefore anatomically fixed while the edges reconfigure over time, letting the model follow the non-stationary reorganisation of cortical functional networks during stimulus viewing.
+
+This differs from related graph-based EEG approaches, which typically construct a single functional-connectivity graph per trial or epoch and apply attention or multi-scale convolution over that fixed topology \cite{ref19,ref20,ref21,ref22}. Here the connectivity topology itself, not only the node features, is treated as time-varying: a sequence of graphs $\{G_t\}_{t=1}^{T}$ is built per epoch, one per sub-window, and their evolution is subsequently modelled through hierarchical graph attention (Section~\ref{subsec2.5.5}) and a temporal transformer (Section~\ref{subsec2.5.6}).
+
+Edge weights are derived from windowed functional connectivity between electrode pairs. The framework is agnostic to the specific measure populating $C_t$; the reported results use the Pearson correlation coefficient between the windowed time-domain EEG signals of each electrode pair, computed independently per window $t$ to capture time-varying coupling:
+\begin{equation}
+\rho_{ij}(t) = \frac{\operatorname{Cov}\!\left(x_i(t), x_j(t)\right)}{\sigma_{x_i(t)}\,\sigma_{x_j(t)}}, \label{eq2pearson}
+\end{equation}
+where $x_i(t)$ and $x_j(t)$ denote the time-domain EEG samples of electrodes $i$ and $j$ within window $t$; each 5~s epoch is divided into ten non-overlapping 0.5~s windows (150 samples at 300~Hz). Relative band power across five canonical bands (each band's share of the window's total power, layer-normalised per window) enters the graph as electrode-node features, whereas $C_t(i,j)=\rho_{ij}(t)$ holds this window-specific amplitude correlation. Phase-locking value (PLV) \cite{ref37}, a phase-synchrony-based alternative particularly suited to narrowband oscillatory coupling, is
+\begin{equation}
+\mathrm{PLV}_{ij} = \left| \frac{1}{N}\sum_{k=1}^{N} e^{\,\jmath\,(\phi_i(k)-\phi_j(k))} \right|, \label{eq2}
+\end{equation}
+where $N$ is the number of samples in the window, $\phi_i(k)$ and $\phi_j(k)$ are the instantaneous phases of electrodes $i$ and $j$ at sample $k$ (obtained via the Hilbert transform), and $\jmath$ is the imaginary unit. $\mathrm{PLV}_{ij}\in[0,1]$ quantifies the consistency of the phase difference between the two electrodes: values near unity denote stable phase coupling, a widely used marker of functional connectivity that is comparatively insensitive to amplitude differences across channels and subjects. PLV was evaluated as an alternative connectivity measure (Section~3.6); Pearson correlation was retained as the reported measure for its lower computational cost and greater numerical stability at the small per-subject sample sizes inherent to LOSOCV, in which each held-out subject contributes about nine test epochs.
+
+To obtain a sparse, interpretable graph, connectivity is thresholded:
+\begin{equation}
+A_t(i,j) = \begin{cases} 1, & |C_t(i,j)| \geq \tau \text{ or } i=j, \\ 0, & \text{otherwise}, \end{cases} \label{eq3}
+\end{equation}
+where $C_t(i,j)$ is the chosen connectivity measure ($\rho_{ij}(t)$ of Eq.~\eqref{eq2pearson} for the reported results) and $\tau$ is a connectivity threshold; the graph attention of Section~\ref{subsec2.5.5} uses $A_t$ as a binary neighbourhood mask, so the connectivity magnitude determines whether an edge exists but not the weight of the message passed along it, which is learned by the attention coefficients. Thresholding sparsifies the adjacency prior to attention-based aggregation, a common step in graph-based EEG connectivity modelling used to suppress spurious weak couplings and control the effective graph density \cite{ref19,ref20,ref21,ref22}, and produces a sparse adjacency. The specific value ($\tau=0.30$, Table~3) was fixed a priori and held constant across all participants and folds; it was not tuned per fold. Its consequences are quantified in two ways (Section~3.6, Supplementary Table~S7 and Fig.~S4). Structurally, over all 3{,}850 windows of the 385 epochs, $\tau=0.30$ retains $57\pm15\%$ of the 171 electrode pairs (mean degree 10.3), on the smooth part of the density curve: density falls almost linearly from 0.85 at $\tau=0.10$ to 0.15 at $\tau=0.70$, whereas graph fragmentation, measured as electrodes left with fewer than three edges, is negligible up to $\tau=0.30$ (0.5 isolated electrodes per window) and rises steeply beyond $\tau=0.40$ (2.0) to $\tau=0.50$ (4.9). Predictively, the gaze-free variant was re-trained under the full 37-subject LOSOCV protocol for $\tau\in\{0.20,0.25,0.30,0.35,0.40,0.50\}$ (Section~3.6). Whether the measured topology matters at all, at any $\tau$, is a separate question and is tested directly by replacing every window's adjacency with a density-matched static or random graph (Section~3.3). The construction of the dynamic functional graph is depicted in Fig.~3 for one 0.5~s window of a real epoch, using the Pearson correlation of Eq.~\eqref{eq2pearson} exactly as the model computes it: the windowed signals of an electrode pair (panel B) give one entry of the $|\rho_{ij}(t)|$ adjacency (panel C), which is thresholded at $\tau=0.30$ to form $G_t$ (panel D).
+
+\subsection{Eye-Tracking Behavioural Feature Representation}\label{subsec2.5.3}
+
+The ET stream is summarised by behavioural attention features computed from gaze and pupil signals. For a fixation spanning onset $t_{\text{onset}}$ to offset $t_{\text{offset}}$, the fixation duration is
+\begin{equation}
+\mathrm{FD} = t_{\text{offset}} - t_{\text{onset}}, \label{eq4}
+\end{equation}
+and the dwell time over a region or epoch is the sum of its constituent fixation durations,
+\begin{equation}
+\mathrm{DT} = \sum_i \mathrm{FD}_i. \label{eq5}
+\end{equation}
+Behaviourally, longer fixation durations and greater dwell time reflect sustained overt attention and deeper processing of a visual element, whereas short, dispersed fixations signal scanning or disengagement. These indices are used in the descriptive and case-study analyses of Section~3.5; the ET encoder itself consumes the raw three-channel sequence of Section~2.3 (gaze $x$, gaze $y$, pupil; 600 samples per epoch), not hand-crafted indices. In addition, a region-of-interest (ROI) saliency vector $r\in\mathbb{R}^{10}$ is computed per epoch as the normalised count of gaze samples falling in each cell of a fixed $5\times2$ grid of the stimulus page (five columns by two rows); it is therefore a gaze-occupancy histogram, not a fixation-based dwell time, and is referred to as the ROI saliency vector throughout; $r$ feeds the ROI-attention gating and ROI graph modulation of the decoder and the ROI-guidance loss of Section~\ref{subsec2.5.9}. The 24 product boxes drawn in Fig.~1 are the brochure's layout and are not a model input; the sensitivity of the saliency vector, of the label, and of the model's predictions to the grid resolution is examined in Section~3.6.
+
+\subsection{Spiking Neural Encoding}\label{subsec2.5.4}
+
+A spiking neural front-end based on the leaky integrate-and-fire (LIF) neuron \cite{ref38} is included as an event-driven encoder; the neuron's sub-threshold membrane potential evolves as
+\begin{equation}
+\tau_m \frac{dV}{dt} = -(V - V_{\text{rest}}) + R\,I(t), \label{eq6}
+\end{equation}
+where $V$ is the membrane potential, $\tau_m$ the membrane time constant, $V_{\text{rest}}$ the resting potential, $R$ the membrane resistance, and $I(t)$ the input current. A spike is emitted whenever the potential crosses threshold,
+\begin{equation}
+S(t) = \begin{cases} 1, & V(t) \geq V_{\text{th}}, \\ 0, & \text{otherwise}, \end{cases} \label{eq7}
+\end{equation}
+after which the potential is reset. In discrete time, the dynamics are realised as
+\begin{equation}
+U_t = \lambda V_{t-1} + I_t, \qquad S_t = \mathbf{1}\!\left[U_t \geq V_{\mathrm{th}}\right], \qquad V_t = U_t\left(1 - S_t\right), \label{eq8}
+\end{equation}
+where $U_t$ is the pre-reset potential, $\lambda \in (0,1)$ is the membrane leak (decay) factor, the spike is evaluated on $U_t$, and the factor $(1-S_t)$ resets the potential to zero after a spike (hard reset, as implemented). The non-differentiable spike function is back-propagated through using a surrogate-gradient approximation \cite{ref39}; spiking neural networks have recently shown promise for EEG decoding and emotion recognition \cite{ref40,ref41,ref42}. In the decoder the LIF stack does not receive the raw EEG time series. In parallel with the graph attention it receives a learned band-weighted sum of the per-window band-power node features of Section~\ref{subsec2.5.2}, one 19-electrode vector per 0.5~s window, and is run for ten time steps, one per window (two LIF layers of 128 units); its spike trains are layer-normalised before the next layer, and its embedding is concatenated with the graph embedding and projected to the EEG representation. A separate configuration, in which the same encoder is applied to the raw 1{,}500-sample epoch pooled to 300 temporal steps, each aggregating five consecutive 300~Hz samples ($\approx$16.7~ms per step), is used only in the positive control of Supplementary Table~S16, where the question is what the spiking front-end alone extracts from EEG temporal dynamics. The encoder was included to provide an event-driven representation with an inductive bias toward salient transients over tonic background activity. Whether that bias helps is not assumed: its effect within the decoder is measured by ablation (Section~3.3), its cost on conventional hardware by direct timing (Supplementary Table~S9), and its capacity on its own by a positive control in which the encoder is trained alone on raw EEG (Supplementary Table~S16).
+
+\subsection{Hierarchical Dynamic Graph Attention Learning}\label{subsec2.5.5}
+
+The dynamic functional graphs are processed by graph attention \cite{ref43}. For connected nodes $i$ and $j$ with feature vectors $h_i$ and $h_j$, an unnormalised attention coefficient is computed as
+\begin{equation}
+e_{ij} = \mathrm{LeakyReLU}\!\left(a^\top [W h_i \,\|\, W h_j]\right), \label{eq9}
+\end{equation}
+where $W$ is a shared learnable projection, $a$ is a learnable attention vector, $\|$ denotes concatenation, and LeakyReLU is the leaky rectifier. Coefficients are normalised over each node's neighbourhood with a softmax to yield $\alpha_{ij}$, and node representations are updated by attention-weighted aggregation,
+\begin{equation}
+h_i' = \sigma\!\left( \sum_{j \in \mathcal{N}(i)} \alpha_{ij} W h_j \right), \label{eq10}
+\end{equation}
+where $\sigma$ is a non-linear activation and $\mathcal{N}(i)$ is the neighbourhood of node $i$. Applied hierarchically over the dynamic graphs, this mechanism enables the network to learn which electrodes and which functional connections are most informative for engagement, adaptively and on a per-window basis. Graph attention, rather than a spectral or fixed-aggregation graph convolution, is used because the learned coefficients $\alpha_{ij}$ double as an interpretable importance signal (Section~3.5) without requiring a separate post-hoc attribution step, and because attention naturally accommodates the per-window adjacency changes of Eq.~\eqref{eq3} without retraining fixed convolutional filters for each graph topology. The internal graph attention network (GAT) baseline (Table~5), which applies the same attention mechanism of Eqs.~\eqref{eq9}--\eqref{eq10} to a single static graph per epoch, performs at chance on this label (balanced accuracy 0.50, MCC 0.01), and so, within the margin of the paired tests, does the gaze-free variant built around it (0.55; Table~5). Graph attention is therefore retained for the per-window adjacency changes it accommodates and for the descriptive importance maps it yields, not for a demonstrated accuracy gain.
+
+
+\subsection{Temporal Transformer Encoder}\label{subsec2.5.6}
+
+To model dependencies across time windows, the sequence of graph-level embeddings is passed through a transformer encoder \cite{ref44} whose core operation is scaled dot-product attention,
+\begin{equation}
+\mathrm{Attention}(Q,K,V) = \mathrm{softmax}\!\left(\frac{QK^\top}{\sqrt{d_k}}\right) V, \label{eq11}
+\end{equation}
+where $Q$, $K$, and $V$ are the query, key, and value matrices and $d_k$ is the key dimensionality, with $\sqrt{d_k}$ scaling the dot products to stabilise gradients. Multi-head self-attention allows the encoder to capture long-range temporal dependencies across the epoch without the sequential bottleneck of recurrent models, complementing the local, event-driven dynamics that the spiking encoder emphasises. A self-attention transformer, rather than a recurrent temporal encoder (long short-term memory, LSTM, or gated recurrent unit, GRU), is used because the sub-window sequence produced by the 5~s epoch (Section~2.3) is short, so the quadratic self-attention cost of Eq.~\eqref{eq11} remains inexpensive (Section~\ref{subsec2.5.10}) while every pair of sub-windows can interact directly in a single layer, rather than through the sequentially-propagated hidden state of a recurrent model, which is more susceptible to attenuating the influence of early sub-windows on later ones.
+
+\subsection{Cross-Modal Fusion Strategy}\label{subsec2.5.7}
+
+Instead of concatenating modality features na\"ively, the fusion module, termed the NeuroFusion Transformer in Fig.~2, integrates the EEG, graph, and ET representations in two stages. In the first stage, the three modality embeddings are treated as a short token sequence and processed by multi-head self-attention, through which the modalities exchange information mutually: the EEG token attends to the eye-tracking token and the eye-tracking token attends to the EEG token, and both interact with the connectivity-graph token. In the second stage, a directed cross-attention refines the EEG representation by letting it query the connectivity-graph and eye-tracking context, keeping the fused embedding anchored on the EEG stream; this EEG-to-context direction is also what lets the gaze-free variant be recovered by disabling the eye-tracking input entirely (Table~5). The EEG-to-context cross-attention is
+\begin{equation}
+Z_{\mathrm{EEG}\to\mathrm{ET}} = \mathrm{Attention}(Q_{\mathrm{EEG}}, K_{\mathrm{ET}}, V_{\mathrm{ET}}), \label{eq12}
+\end{equation}
+where the EEG representation provides the queries and the ET representation provides the keys and values, letting neural activity attend to behaviourally salient gaze information; an analogous EEG-to-graph cross-attention operates on the dynamic-graph embedding. The fused representation concatenates the EEG token with the two cross-modal embeddings,
+\begin{equation}
+Z_{\mathrm{fusion}} = [Z_{\mathrm{EEG}} \,;\, Z_{\mathrm{EEG}\to\mathrm{graph}} \,;\, Z_{\mathrm{EEG}\to\mathrm{ET}}], \label{eq13}
+\end{equation}
+retaining the EEG evidence while adding the learned conditional dependence between gaze, connectivity and cortical activity. A learnable gated residual fusion, $g = \sigma(W_g[\mathrm{eeg}\,\|\,\mathrm{cross\_graph}\,\|\,\mathrm{cross\_et}])$, selectively passes modality information based on the current input, preventing fusion collapse when one modality is uninformative. The fusion and downstream reasoning pathway is illustrated in Fig.~4.
+
+\subsection{Neuro-Symbolic Reasoning Module}\label{subsec2.5.8}
+
+To introduce interpretable structure while keeping the model end-to-end differentiable, the neuro-symbolic module, termed the Neuro-Symbolic Decision Layer in Fig.~2, replaces opaque classification with an attention-weighted mixture of soft rules, in the spirit of interpretable-by-design and concept-based models \cite{ref45,ref46} and of neuro-symbolic learning \cite{ref47}. A mixture-of-rules formulation, rather than a single global decision tree or a post-hoc surrogate explainer, is adopted because it remains differentiable end-to-end (permitting joint training with the representation-learning stack rather than a two-stage fit) while still yielding discrete, inspectable rule-activation traces at inference (Section~3.5); post-hoc surrogate explainers, by contrast, explain a separately-fitted approximation of the model rather than the model's own computation \cite{ref34}. The number of rules, $n_r=8$, is a fixed architectural hyperparameter, set a priori, rather than a value selected by a dedicated rule-count ablation; the diversity ($L_{\mathrm{div}}$, Eq.~\eqref{eq19}) and sparsity ($L_{\mathrm{sparse}}$, Eq.~\eqref{eq20}) regularisers instead constrain whatever number of rules is instantiated to remain distinguishable and sparsely activated, and formal sensitivity analysis of $n_r$ itself is left to future work (Section~4.4). The choice of eight is nonetheless a deliberate design decision rather than an arbitrary one, motivated by the following considerations:
+
+\begin{itemize}
+\item \textbf{Coverage of the engagement feature space.} The index was expected to be driven by several partially independent signal families---frontal-theta and posterior-alpha power, functional-connectivity structure, gaze dispersion and dwell/ROI saliency, and pupil dynamics. Eight premises give enough distinct rules to associate with these complementary factors, whereas four would force several factors to share a premise and blur the resulting explanation.
+\item \textbf{Expressiveness versus auditability.} Eight rules are expressive enough to describe the HIGH/LOW decision structure yet few enough that the complete rule set is printed and inspected in a single panel (Section~3.5); a much larger bank would defeat the interpretability the module exists to provide, while too few would under-describe the decision.
+\item \textbf{Stable voting for a binary decision.} With each of the eight rules casting a HIGH/LOW vote, constraint aggregation was expected to form majority patterns without any single rule dominating. In the rule-only variant three rules (2, 7 and 8) are the dominant rule on 62\% of epochs and three (1, 5 and 6) on 11\%, by small activation margins (Section~3.5).
+\item \textbf{Robustness to the exact count.} The diversity ($L_{\mathrm{div}}$, Eq.~\eqref{eq19}) and sparsity ($L_{\mathrm{sparse}}$, Eq.~\eqref{eq20}) regularisers are intended to keep the instantiated rules distinguishable and sparsely activated, so that behaviour should not be sensitive to the precise value of $n_r$; this expectation has not been tested by a rule-count sweep.
+\item \textbf{Interpretive coverage over fit.} $n_r$ was chosen to maximise interpretive coverage rather than to fit the classifier. In the gated production model the module has no effect on accuracy because the decision is bypass-dominated (Sections~3.3 and~3.5); in the variant trained with the gate closed, whose decision passes through the rule module, eight rules cost two to three points of balanced accuracy relative to the gated model.
+\end{itemize}
+
+The fused representation $z \in \mathbb{R}^D$ is first projected into a rule-matching space,
+\begin{equation}
+k = \mathrm{Dropout}\!\left(\mathrm{GELU}(W_k z + b_k)\right), \label{eq14}
+\end{equation}
+where $W_k \in \mathbb{R}^{H\times D}$ and $b_k$ are learnable and $k \in \mathbb{R}^H$ is the rule key. The module maintains $n_r$ learnable rule premises $\{q_r\}_{r=1}^{n_r}$, $q_r \in \mathbb{R}^H$. Each rule fires in proportion to how well the input matches its premise, giving a soft activation
+\begin{equation}
+a_r = \frac{\exp(s_r/\tau)}{\sum_{r'=1}^{n_r}\exp(s_{r'}/\tau)}, \qquad s_r = \frac{q_r^\top k}{\sqrt{D}}, \label{eq15}
+\end{equation}
+where $s_r$ is the premise--key similarity, $\tau$ is a temperature (fixed at 1; not to be confused with the connectivity threshold of Eq.~\eqref{eq3}), and $a_r \in [0,1]$ with $\sum_r a_r = 1$. Each rule emits a class-level conclusion through its own linear head,
+\begin{equation}
+\ell_r = W_r k + b_r, \label{eq16}
+\end{equation}
+with $W_r \in \mathbb{R}^{C\times H}$ and $C$ the number of classes. The rule conclusions are aggregated by their activations,
+\begin{equation}
+R = \sum_{r=1}^{n_r} a_r \ell_r, \label{eq17}
+\end{equation}
+so $R \in \mathbb{R}^C$ is the soft-rule evidence. A direct bypass classifier acts as a residual stabiliser, blended with the rule evidence through a learnable gate,
+\begin{equation}
+\hat y = \mathrm{softmax}\!\left(\alpha(W_b z + b_b) + (1-\alpha) R\right), \label{eq18}
+\end{equation}
+where $W_b z + b_b$ is the bypass logit, $\sigma$ is the logistic function, $\alpha = \sigma(\alpha_0)$, and $\alpha \in (0,1)$ is learned (initialised at $\sigma(0.30)=0.57$). As $\alpha \to 0$ the decision becomes purely rule-driven, whereas as $\alpha \to 1$ it reverts to the unconstrained network. Because this gate could in principle let the classifier ignore the rule evidence, its learned value, the agreement between the rule-only decision $\arg\max R$ and the gated decision, the performance obtained when $\alpha$ is forced to zero at inference, and a variant trained throughout with $\alpha\equiv0$ are all reported in Section~3.3.
+
+Two auxiliary terms regularise rule quality. A diversity term penalises redundant premises,
+\begin{equation}
+L_{\mathrm{div}} = \frac{1}{n_r(n_r-1)} \sum_{i\neq j} \left(\hat q_i^\top \hat q_j\right)^2, \qquad \hat q_i = \frac{q_i}{\|q_i\|_2}, \label{eq19}
+\end{equation}
+and a sparsity term minimises the entropy of the activations so that few rules dominate each decision,
+\begin{equation}
+L_{\mathrm{sparse}} = -\frac{1}{B}\sum_{b=1}^{B}\sum_{r=1}^{n_r} a_{b,r}\log a_{b,r}. \label{eq20}
+\end{equation}
+The combined rule regulariser is $L_{\mathrm{rules}} = \lambda_{\mathrm{div}} L_{\mathrm{div}} + \lambda_{\mathrm{sparse}} L_{\mathrm{sparse}}$, where $B$ is the batch size and $\lambda_{\mathrm{div}}, \lambda_{\mathrm{sparse}}$ are weights. In the gated production model the activations nonetheless remained uniform at inference ($a_r=0.125$ for every rule; Supplementary Table~S13): the decision was bypass-dominated, and the two regularisers, which enter the objective with a small effective weight ($\lambda_{\mathrm{div}}=\lambda_{\mathrm{sparse}}=0.01$, further scaled by the rule-regularisation weight $\lambda_{\mathrm{rules}}=0.02$ of Eq.~\eqref{eq26}), did not counteract the collapse. In the rule-only variant, whose decision passes through the rule module, distinct rules dominate distinct subsets of epochs by small activation margins (Section~3.5). At inference, each rule is grounded in the physical input space rather than in the latent key space: the activation $a_r$ is attributed to the electrode-by-band node features of Section~\ref{subsec2.5.2}, to the three eye-tracking streams and to the ROI cells by integrated gradients \cite{ref54} (zero baseline, 16 steps), averaged over held-out epochs; the largest-magnitude entries of the resulting $19\times5$ electrode-by-band map, with their sign, are reported as the attribution summary of rule $r$ and, as its conclusion, the class on which its mean activation is higher over the held-out epochs (Section~3.5).
+
+\subsection{Subject-Invariance and Auxiliary Objectives}\label{subsec2.5.9}
+
+Subject-independent decoding is constrained less by class separability within a participant than by distribution shift across participants: an embedding that separates engagement well for the training population need not transfer to an unseen subject. Three auxiliary objectives are therefore combined with the classification loss to shape the learned representation, each addressing a distinct facet of this shift. The contrastive and MMD terms are removed individually in the ablation of Section~3.3; the domain-adversarial term is not ablated separately, and the gaze-free variant of Table~5 is trained without the contrastive term, which needs the gaze embedding, and without the MMD term (the adversarial term is retained); because the MMD term is an EEG-only subject-alignment objective that does not itself require gaze, its removal is a confound of the gaze-free comparison, which Section~4.4 notes; the MMD ablation of Table~6 is a separate sensitivity check, not a bound on this confound.
+
+To discourage subject-specific idiosyncrasies from dominating the fused representation, a maximum mean discrepancy (MMD) penalty aligns the embedding distributions of different subjects within each mini-batch. Let $\mu_s = \frac{1}{|Z_s|}\sum_{z\in Z_s}\phi(z)$ denote the kernel mean embedding of subject $s$, where $\phi$ is the feature map of a characteristic Gaussian kernel and $Z_s$ the subject's embedding set. The penalty is
+\begin{equation}
+L_{\mathrm{mmd}} = \frac{1}{|B|} \sum_{(s,s')\in B} \left\| \mu_s - \mu_{s'} \right\|_{\mathcal H}^2, \label{eq21}
+\end{equation}
+where $B$ indexes the subject pairs compared. As implemented, the penalty is evaluated on the EEG embedding between the epochs of one subject and the pooled epochs of the other subjects in the mini-batch, and only when both sides contain at least eight epochs; at batch size 32, with about twenty augmented epochs per training subject, that condition is met in few mini-batches, so the term acts sparsely, which is consistent with its negligible ablation effect (Section~3.3). Minimising $L_{\mathrm{mmd}}$ draws the per-subject feature distributions together and so promotes the subject-invariant representation that LOSOCV rewards. The MMD penalty is paired with a second alignment term of equal weight ($\lambda=0.10$ each): a domain-adversarial subject classifier trained on the fused embedding through a gradient-reversal layer, in the manner of domain-adversarial neural networks; its loss $L_{\mathrm{adv}}$ is the cross-entropy of that classifier, and the reversal strength follows the standard schedule from 0 to 1 over training. The kernel-based moment-matching term was included because it optimises a single non-adversarial loss and is therefore less exposed to the min-max instability to which adversarial critics are prone when the number of samples per subject-domain is small, as within each LOSOCV mini-batch \cite{ref31,ref32}; the adversarial term was retained from development. Removing the MMD term costs 0.031 in balanced accuracy, not significant (Section~3.3).
+
+Alignment alone does not tie the EEG representation to the concurrent behaviour. A cross-modal contrastive term (InfoNCE) therefore aligns the $\ell_2$-normalised EEG and eye-tracking embeddings of the same epoch: for anchor $i$ the positive is that epoch's own eye-tracking embedding $z^{\mathrm{et}}_i$, the negatives are the eye-tracking embeddings of the other epochs in the batch, weighted by their similarity to the anchor (hard-negative weights $w_k$), and with temperature $\tau_c=0.07$,
+\begin{equation}
+L_{\mathrm{con}} = -\frac{1}{B}\sum_{i=1}^{B} \log \frac{e^{\,z^{\mathrm{eeg}\top}_i z^{\mathrm{et}}_i/\tau_c}}{\sum_{k} w_k\, e^{\,z^{\mathrm{eeg}\top}_i z^{\mathrm{et}}_k/\tau_c}}, \label{eq22}
+\end{equation}
+which involves no label: it makes the EEG embedding predictive of the concurrent gaze embedding, and is the training-time route by which gaze information shapes the neural pathway (Section~2.4).
+
+An ROI-guidance term that keeps the eye-tracking attention distribution $a$ consistent with the normalised region-of-interest saliency $r$ read from the gaze stream,
+\begin{equation}
+L_{\mathrm{roi}} = \mathrm{KL}(r\,\|\,a), \label{eq23}
+\end{equation}
+was implemented as a further prior. On the training path used for every reported run, however, this term is evaluated only at inference and contributes no gradient, so it is not part of the effective objective; the ``ROI'' row of the ablation table (Section~3.3) accordingly refers to the ROI input pathway (the attention gate and the ROI graph modulation of Fig.~2), not to this term.
+
+\subsection{Model Optimisation and Training}\label{subsec2.5.10}
+
+The classification objective is the cross-entropy loss,
+\begin{equation}
+L_{\mathrm{cls}} = -\sum y \log(\hat y), \label{eq25}
+\end{equation}
+where $y$ is the ground-truth label and $\hat y$ the predicted probability; in practice a focal, class-balanced variant \cite{ref48,ref49} with label smoothing of 0.05 is adopted to counter class imbalance. Although the pooled 385-epoch dataset is close to balanced (193 High, 192 Low; Table~1), the per-fold training pool is not: each fold withholds one participant's epochs entirely, so the realised HIGH/LOW ratio in training and, in particular, in the small held-out test set (approximately nine epochs per subject) varies across folds and is frequently skewed; the focal term down-weights already-well-classified majority-class epochs so that gradients are not dominated by whichever class happens to be locally over-represented in a given fold. The complete training objective combines this classification loss with the neuro-symbolic rule regulariser of Section~\ref{subsec2.5.8} and the auxiliary objectives of Section~\ref{subsec2.5.9},
+\begin{multline}
+L_{\mathrm{total}} = L_{\mathrm{cls}} + \lambda_{\mathrm{rules}} L_{\mathrm{rules}} + \lambda_{\mathrm{con}} L_{\mathrm{con}} \\
+{} + \lambda_{\mathrm{mmd}} L_{\mathrm{mmd}} + \lambda_{\mathrm{adv}} L_{\mathrm{adv}}, \label{eq26}
+\end{multline}
+where the non-negative weights $\lambda_{\mathrm{rules}}, \lambda_{\mathrm{con}}, \lambda_{\mathrm{mmd}}, \lambda_{\mathrm{adv}}$ were fixed a priori after preliminary development and held constant across all folds; they were not tuned per fold or on the held-out subject, and the contrastive and rule terms are ramped in linearly over the first 40\% of training. Because the dynamic functional graphs are precomputed per window (Section~\ref{subsec2.5.2}) and are not updated by gradients, no graph-regularisation term enters the effective training objective, and the ROI-guidance term of Section~\ref{subsec2.5.9} is inactive on the training path. The contrastive and MMD terms are removed individually in the ablation of Section~3.3. Models were trained with the optimiser, learning rate, and schedule given in Table~3; early stopping monitored validation balanced accuracy rather than F1, so as not to reward class collapse. All hyper-parameters were held fixed across folds.
+
+The overall computational cost is dominated by three operations. Dynamic functional-graph construction requires pairwise connectivity estimation across the $|V|=19$ EEG electrodes, that is, $\mathcal{O}(|V|^2)$ per window; the hierarchical graph attention scales with the number of retained edges, $\mathcal{O}(|E|)$; and the temporal and cross-modal transformers incur the standard $\mathcal{O}(T^2)$ self-attention cost in the sequence length $T$, which stays small because each epoch yields only a short sequence of sub-windows. On the hardware used here the spiking encoder executes a dense matrix product at every leaky integrate-and-fire time step and is slower than a dense twin of the same widths (Section~3.3, Supplementary Table~S9); an accumulate-only cost proportional to the firing rate would apply only on event-driven hardware, on which the encoder has not been run. All experiments were implemented in Python 3.12 using PyTorch 2.7.1 with CUDA 12.6, with each LOSOCV fold completing within practical training times. Each fold's prediction is the probability average of a 5-member deep ensemble (base random seed 42, applied to the Python, NumPy, and PyTorch generators; ensemble members differ by initialisation seed), which also provides seed-averaged stability. All hyperparameters, optimiser settings, and training schedules are listed in full in Table~3 to support independent reproduction.
+
+To characterise deployment-time cost concretely, single-epoch inference latency was separately benchmarked for the full 1.72-million-parameter model (100 forward passes, after 10 warm-up passes, wall-clock timed) on a commodity CPU (AMD Ryzen~7, 8 cores/16 threads, 3.3~GHz; a separate PyTorch 2.11 installation, no GPU), distinct from the GPU environment used for training. At batch size 1, matching a real-time single-epoch inference scenario, latency was $14.9\pm1.3$~ms per epoch (67 epochs/s); batching improved throughput to 156 epochs/s at batch size 32. This CPU figure is arguably more informative for the on-device deployment scenario discussed in Section~4.1 than a data-centre GPU figure would be, since it does not rely on GPU acceleration being available at inference time.
+
+
+
+\begin{thebibliography}{99}
+\small
+\bibitem{ref19} Lin X, Chen J, Ma W, Tang W, Wang Y (2023) EEG emotion recognition using improved graph neural network with channel selection. Computer Methods and Programs in Biomedicine 231:107380. \url{https://doi.org/10.1016/j.cmpb.2023.107380}
+
+\bibitem{ref20} Chen W, Liao Y, Dai R, Dong Y, Huang L (2024) EEG-based emotion recognition using graph convolutional neural network with dual attention mechanism. Frontiers in Computational Neuroscience 18:1416494. \url{https://doi.org/10.3389/fncom.2024.1416494}
+
+\bibitem{ref21} Yan H, Guo K, Xing X, Xu X (2024) Bridge graph attention based graph convolution network with multi-scale transformer for EEG emotion recognition. IEEE Transactions on Affective Computing 15(4):2042-2054. \url{https://doi.org/10.1109/TAFFC.2024.3394873}
+
+\bibitem{ref22} Jin M, Du C, He H, Cai T, Li J (2024) PGCN: pyramidal graph convolutional network for EEG emotion recognition. IEEE Transactions on Multimedia 26:9070-9082. \url{https://doi.org/10.1109/TMM.2024.3385676}
+
+\bibitem{ref37} Lachaux JP, Rodriguez E, Martinerie J, Varela FJ (1999) Measuring phase synchrony in brain signals. Human Brain Mapping 8(4):194-208. \url{https://doi.org/10.1002/(SICI)1097-0193(1999)8:4%3C194::AID-HBM4%3E3.0.CO;2-C}
+
+\bibitem{ref38} Burkitt AN (2006) A review of the integrate-and-fire neuron model: I. homogeneous synaptic input. Biological Cybernetics 95(1):1-19. \url{https://doi.org/10.1007/s00422-006-0068-6}
+
+\bibitem{ref39} Zenke F, Ganguli S (2018) Superspike: supervised learning in multilayer spiking neural networks. Neural Computation 30(6):1514-1541. \url{https://doi.org/10.1162/neco_a_01086}
+
+\bibitem{ref40} Cai S, Lin Z, Liu X, Wei W, Wang S, Zhang M, Schultz T, Li H (2026) Spiking neural networks for EEG signal analysis: from theory to practice. Neural Networks 194:108127. \url{https://doi.org/10.1016/j.neunet.2025.108127}
+
+\bibitem{ref41} Li W, Fang C, Zhu Z, Chen C, Song A (2024) Fractal spiking neural network scheme for EEG-based emotion recognition. IEEE Journal of Translational Engineering in Health and Medicine 12:106-118. \url{https://doi.org/10.1109/JTEHM.2023.3320132}
+
+\bibitem{ref42} Xu F, Pan D, Zheng H, Ouyang Y, Jia Z, Zeng H (2024) EESCN: a novel spiking neural network method for EEG-based emotion recognition. Computer Methods and Programs in Biomedicine 243:107927. \url{https://doi.org/10.1016/j.cmpb.2023.107927}
+
+\bibitem{ref43} Veli\v{c}kovi\'c P, Cucurull G, Casanova A, Romero A, Li\`o P, Bengio Y (2018) Graph attention networks. In: International Conference on Learning Representations (ICLR). \url{https://openreview.net/forum?id=rJXMpikCZ}
+
+\bibitem{ref44} Vaswani A, Shazeer N, Parmar N, Uszkoreit J, Jones L, Gomez AN, Kaiser L, Polosukhin I (2017) Attention is all you need. In: Advances in Neural Information Processing Systems, vol 30. \url{https://proceedings.neurips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html}
+
+\bibitem{ref45} Rudin C (2019) Stop explaining black box machine learning models for high stakes decisions and use interpretable models instead. Nature Machine Intelligence 1(5):206-215. \url{https://doi.org/10.1038/s42256-019-0048-x}
+
+\bibitem{ref46} Koh PW, Nguyen T, Tang YS, Mussmann S, Pierson E, Kim B, Liang P (2020) Concept bottleneck models. In: International Conference on Machine Learning (ICML), vol 119, pp 5338-5348. \url{https://proceedings.mlr.press/v119/koh20a.html}
+
+\bibitem{ref47} Garcez Ad, Lamb LC (2023) Neurosymbolic AI: the 3rd wave. Artificial Intelligence Review 56(11):12387-12406. \url{https://doi.org/10.1007/s10462-023-10448-w}
+
+\bibitem{ref34} Lundberg SM, Lee SI (2017) A unified approach to interpreting model predictions. In: Advances in Neural Information Processing Systems, vol 30, pp 4765-4774. \url{https://proceedings.neurips.cc/paper/2017/hash/8a20a8621978632d76c43dfd28b67767-Abstract.html}
+
+\bibitem{ref54} Sundararajan M, Taly A, Yan Q (2017) Axiomatic attribution for deep networks. In: Proceedings of the 34th International Conference on Machine Learning, vol 70, pp 3319-3328. \url{https://proceedings.mlr.press/v70/sundararajan17a.html}
+
+\bibitem{ref31} Liang S, Li L, Zu W, Feng W, Hang W (2024) Adaptive deep feature representation learning for cross-subject EEG decoding. BMC Bioinformatics 25(1):393. \url{https://doi.org/10.1186/s12859-024-06024-w}
+
+\bibitem{ref32} Xu C, Song Y, Zheng Q, Wang Q, Heng PA (2025) Unsupervised multi-source domain adaptation via contrastive learning for EEG classification. Expert Systems with Applications 261:125452. \url{https://doi.org/10.1016/j.eswa.2024.125452}
+
+\bibitem{ref48} Lin TY, Goyal P, Girshick R, He K, Doll\'ar P (2017) Focal loss for dense object detection. In: Proceedings of the IEEE International Conference on Computer Vision (ICCV), pp 2980-2988. \url{https://doi.org/10.1109/ICCV.2017.324}
+
+\bibitem{ref49} Cui Y, Jia M, Lin TY, Song Y, Belongie S (2019) Class-balanced loss based on effective number of samples. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), pp 9268-9277. \url{https://doi.org/10.1109/CVPR.2019.00949}
+
+\end{thebibliography}
+
+\end{document}

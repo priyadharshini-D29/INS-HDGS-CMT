@@ -1,0 +1,505 @@
+test_subject,n,roc_auc,balanced_acc,feature_set
+S01,38,0.7562326869806094,0.6578947368421052,EEG-5 (frontal band power)
+S02,46,0.7765151515151515,0.6212121212121212,EEG-5 (frontal band power)
+S03,42,0.6099773242630385,0.5,EEG-5 (frontal band power)
+S05,48,0.8559027777777778,0.75,EEG-5 (frontal band power)
+S06,26,0.5208333333333334,0.4375,EEG-5 (frontal band power)
+S07,48,0.732638888888889,0.5,EEG-5 (frontal band power)
+S08,48,0.40277777777777773,0.4375,EEG-5 (frontal band power)
+S09,48,0.7413194444444444,0.7291666666666667,EEG-5 (frontal band power)
+S10,48,0.7517361111111112,0.5208333333333334,EEG-5 (frontal band power)
+S12,46,0.5500945179584121,0.4782608695652174,EEG-5 (frontal band power)
+S13,46,0.5871212121212122,0.6818181818181819,EEG-5 (frontal band power)
+S14,47,0.7028985507246378,0.5661231884057971,EEG-5 (frontal band power)
+S15,39,0.5861111111111111,0.5,EEG-5 (frontal band power)
+S16,48,0.7569444444444444,0.7083333333333334,EEG-5 (frontal band power)
+S17,37,0.4766081871345029,0.5,EEG-5 (frontal band power)
+S18,48,0.685763888888889,0.5625,EEG-5 (frontal band power)
+S19,48,0.5694444444444444,0.5625,EEG-5 (frontal band power)
+S20,48,0.8715277777777779,0.8541666666666667,EEG-5 (frontal band power)
+S21,48,0.5017361111111112,0.5416666666666667,EEG-5 (frontal band power)
+S22,28,0.3112244897959184,0.5,EEG-5 (frontal band power)
+S23,48,0.6805555555555556,0.6041666666666666,EEG-5 (frontal band power)
+S24,48,0.6319444444444444,0.6458333333333334,EEG-5 (frontal band power)
+S25,33,0.47058823529411764,0.39889705882352944,EEG-5 (frontal band power)
+S26,32,0.7421875,0.75,EEG-5 (frontal band power)
+S27,38,0.5623268698060941,0.5789473684210527,EEG-5 (frontal band power)
+S28,48,0.6267361111111113,0.6041666666666666,EEG-5 (frontal band power)
+S29,48,0.5659722222222222,0.5833333333333334,EEG-5 (frontal band power)
+S30,22,0.5702479338842975,0.5909090909090909,EEG-5 (frontal band power)
+S31,42,0.5419501133786848,0.47619047619047616,EEG-5 (frontal band power)
+S32,48,0.5,0.5625,EEG-5 (frontal band power)
+S33,40,0.5599999999999999,0.5,EEG-5 (frontal band power)
+S34,48,0.7065972222222222,0.5208333333333334,EEG-5 (frontal band power)
+S35,48,0.9652777777777778,0.7291666666666666,EEG-5 (frontal band power)
+S36,46,0.5860113421550094,0.6086956521739131,EEG-5 (frontal band power)
+S37,48,0.5694444444444444,0.5208333333333334,EEG-5 (frontal band power)
+S38,48,0.5815972222222222,0.5208333333333334,EEG-5 (frontal band power)
+S39,48,0.7899305555555556,0.625,EEG-5 (frontal band power)
+S40,48,0.7916666666666667,0.6875,EEG-5 (frontal band power)
+S41,28,0.5408163265306123,0.5357142857142857,EEG-5 (frontal band power)
+S42,16,0.5272727272727272,0.5181818181818182,EEG-5 (frontal band power)
+S43,26,0.5029585798816567,0.38461538461538464,EEG-5 (frontal band power)
+S44,48,0.3506944444444444,0.4791666666666667,EEG-5 (frontal band power)
+S01,38,0.8504155124653741,0.8421052631578947,ET-5 (gaze statistics)
+S02,46,0.9090909090909091,0.8276515151515151,ET-5 (gaze statistics)
+S03,42,0.9297052154195011,0.9285714285714286,ET-5 (gaze statistics)
+S05,48,0.9965277777777777,0.9583333333333333,ET-5 (gaze statistics)
+S06,26,0.7083333333333334,0.6458333333333333,ET-5 (gaze statistics)
+S07,48,0.9409722222222222,0.8958333333333333,ET-5 (gaze statistics)
+S08,48,1.0,0.9791666666666667,ET-5 (gaze statistics)
+S09,48,0.845486111111111,0.7708333333333333,ET-5 (gaze statistics)
+S10,48,0.5329861111111112,0.7291666666666667,ET-5 (gaze statistics)
+S12,46,0.9376181474480151,0.8913043478260869,ET-5 (gaze statistics)
+S13,46,0.8352272727272727,0.7064393939393939,ET-5 (gaze statistics)
+S14,47,0.9583333333333334,0.9356884057971014,ET-5 (gaze statistics)
+S15,39,0.8916666666666667,0.7708333333333333,ET-5 (gaze statistics)
+S16,48,0.9201388888888888,0.875,ET-5 (gaze statistics)
+S17,37,0.9532163742690059,0.8421052631578947,ET-5 (gaze statistics)
+S18,48,0.8940972222222222,0.8333333333333333,ET-5 (gaze statistics)
+S19,48,0.8680555555555555,0.875,ET-5 (gaze statistics)
+S20,48,0.7204861111111112,0.7291666666666667,ET-5 (gaze statistics)
+S21,48,0.53125,0.625,ET-5 (gaze statistics)
+S22,28,0.9285714285714286,0.9642857142857143,ET-5 (gaze statistics)
+S23,48,0.9027777777777778,0.8333333333333333,ET-5 (gaze statistics)
+S24,48,0.8472222222222223,0.8333333333333334,ET-5 (gaze statistics)
+S25,33,0.9301470588235294,0.8786764705882353,ET-5 (gaze statistics)
+S26,32,0.90625,0.90625,ET-5 (gaze statistics)
+S27,38,0.9833795013850416,0.868421052631579,ET-5 (gaze statistics)
+S28,48,0.9166666666666666,0.8333333333333333,ET-5 (gaze statistics)
+S29,48,0.9565972222222223,0.875,ET-5 (gaze statistics)
+S30,22,0.9917355371900827,0.9545454545454546,ET-5 (gaze statistics)
+S31,42,0.5510204081632653,0.5238095238095238,ET-5 (gaze statistics)
+S32,48,0.9149305555555556,0.8541666666666666,ET-5 (gaze statistics)
+S33,40,0.92,0.925,ET-5 (gaze statistics)
+S34,48,0.8402777777777778,0.8125,ET-5 (gaze statistics)
+S35,48,0.9600694444444444,0.9583333333333334,ET-5 (gaze statistics)
+S36,46,0.8298676748582231,0.8260869565217391,ET-5 (gaze statistics)
+S37,48,0.8836805555555556,0.875,ET-5 (gaze statistics)
+S38,48,0.9878472222222222,0.9583333333333334,ET-5 (gaze statistics)
+S39,48,0.9583333333333334,0.9583333333333334,ET-5 (gaze statistics)
+S40,48,0.9965277777777777,0.9583333333333333,ET-5 (gaze statistics)
+S41,28,0.8724489795918368,0.8928571428571428,ET-5 (gaze statistics)
+S42,16,0.7272727272727273,0.7181818181818183,ET-5 (gaze statistics)
+S43,26,0.9349112426035502,0.8076923076923077,ET-5 (gaze statistics)
+S44,48,0.9131944444444444,0.875,ET-5 (gaze statistics)
+S01,38,0.8781163434903047,0.8421052631578947,ALL-10
+S02,46,0.9015151515151515,0.7859848484848485,ALL-10
+S03,42,0.9297052154195011,0.9523809523809523,ALL-10
+S05,48,0.998263888888889,0.9791666666666667,ALL-10
+S06,26,0.8333333333333333,0.6041666666666667,ALL-10
+S07,48,0.9427083333333334,0.9375,ALL-10
+S08,48,0.9947916666666666,0.8958333333333333,ALL-10
+S09,48,0.859375,0.75,ALL-10
+S10,48,0.5399305555555556,0.6875,ALL-10
+S12,46,0.9640831758034027,0.8913043478260869,ALL-10
+S13,46,0.8636363636363638,0.768939393939394,ALL-10
+S14,47,0.9565217391304348,0.9365942028985508,ALL-10
+S15,39,0.8944444444444445,0.8041666666666667,ALL-10
+S16,48,0.9635416666666667,0.8958333333333333,ALL-10
+S17,37,0.9385964912280701,0.8932748538011696,ALL-10
+S18,48,0.8940972222222223,0.875,ALL-10
+S19,48,0.8645833333333334,0.875,ALL-10
+S20,48,0.7482638888888888,0.7708333333333333,ALL-10
+S21,48,0.5416666666666666,0.5833333333333333,ALL-10
+S22,28,0.9285714285714286,0.9642857142857143,ALL-10
+S23,48,0.9079861111111112,0.8333333333333333,ALL-10
+S24,48,0.8420138888888888,0.8541666666666666,ALL-10
+S25,33,0.9301470588235294,0.8786764705882353,ALL-10
+S26,32,0.9453125,0.90625,ALL-10
+S27,38,0.9778393351800554,0.868421052631579,ALL-10
+S28,48,0.921875,0.8541666666666666,ALL-10
+S29,48,0.9583333333333334,0.875,ALL-10
+S30,22,0.9917355371900827,0.9090909090909091,ALL-10
+S31,42,0.54421768707483,0.5476190476190476,ALL-10
+S32,48,0.9079861111111112,0.8541666666666666,ALL-10
+S33,40,0.93,0.95,ALL-10
+S34,48,0.8524305555555556,0.8333333333333334,ALL-10
+S35,48,0.9791666666666667,0.9583333333333334,ALL-10
+S36,46,0.8638941398865785,0.8695652173913043,ALL-10
+S37,48,0.8819444444444444,0.875,ALL-10
+S38,48,0.9878472222222222,0.9375,ALL-10
+S39,48,0.9583333333333334,0.9791666666666667,ALL-10
+S40,48,0.9965277777777777,0.9583333333333333,ALL-10
+S41,28,0.8316326530612245,0.8571428571428572,ALL-10
+S42,16,0.9454545454545454,0.8181818181818181,ALL-10
+S43,26,0.9289940828402367,0.8846153846153846,ALL-10
+S44,48,0.8940972222222222,0.875,ALL-10
+S01,38,0.7008310249307479,0.5526315789473684,EEG whole-head log band power (5 bands + rel. alpha)
+S02,46,0.9507575757575757,0.7973484848484849,EEG whole-head log band power (5 bands + rel. alpha)
+S03,42,0.6507936507936508,0.6190476190476191,EEG whole-head log band power (5 bands + rel. alpha)
+S05,48,0.8368055555555555,0.7916666666666667,EEG whole-head log band power (5 bands + rel. alpha)
+S06,26,0.8541666666666667,0.8125,EEG whole-head log band power (5 bands + rel. alpha)
+S07,48,0.7569444444444444,0.6875,EEG whole-head log band power (5 bands + rel. alpha)
+S08,48,0.6927083333333333,0.6041666666666666,EEG whole-head log band power (5 bands + rel. alpha)
+S09,48,0.8333333333333333,0.6875,EEG whole-head log band power (5 bands + rel. alpha)
+S10,48,0.8263888888888888,0.7916666666666667,EEG whole-head log band power (5 bands + rel. alpha)
+S12,46,0.7901701323251418,0.7608695652173914,EEG whole-head log band power (5 bands + rel. alpha)
+S13,46,0.8806818181818182,0.8484848484848485,EEG whole-head log band power (5 bands + rel. alpha)
+S14,47,0.41847826086956524,0.5443840579710145,EEG whole-head log band power (5 bands + rel. alpha)
+S15,39,0.9944444444444445,0.6333333333333333,EEG whole-head log band power (5 bands + rel. alpha)
+S16,48,0.8993055555555556,0.7916666666666667,EEG whole-head log band power (5 bands + rel. alpha)
+S17,37,0.9795321637426901,0.8888888888888888,EEG whole-head log band power (5 bands + rel. alpha)
+S18,48,0.984375,0.8958333333333334,EEG whole-head log band power (5 bands + rel. alpha)
+S19,48,0.9079861111111112,0.75,EEG whole-head log band power (5 bands + rel. alpha)
+S20,48,0.8784722222222222,0.7916666666666667,EEG whole-head log band power (5 bands + rel. alpha)
+S21,48,0.7204861111111112,0.5416666666666666,EEG whole-head log band power (5 bands + rel. alpha)
+S22,28,0.5663265306122449,0.5,EEG whole-head log band power (5 bands + rel. alpha)
+S23,48,0.7604166666666666,0.5833333333333333,EEG whole-head log band power (5 bands + rel. alpha)
+S24,48,0.6006944444444444,0.6041666666666666,EEG whole-head log band power (5 bands + rel. alpha)
+S25,33,0.8161764705882353,0.6268382352941176,EEG whole-head log band power (5 bands + rel. alpha)
+S26,32,0.97265625,0.53125,EEG whole-head log band power (5 bands + rel. alpha)
+S27,38,0.6731301939058172,0.5789473684210527,EEG whole-head log band power (5 bands + rel. alpha)
+S28,48,0.876736111111111,0.75,EEG whole-head log band power (5 bands + rel. alpha)
+S29,48,0.5711805555555556,0.5,EEG whole-head log band power (5 bands + rel. alpha)
+S30,22,0.7603305785123967,0.7272727272727273,EEG whole-head log band power (5 bands + rel. alpha)
+S31,42,0.8321995464852607,0.7619047619047619,EEG whole-head log band power (5 bands + rel. alpha)
+S32,48,0.8350694444444445,0.7708333333333334,EEG whole-head log band power (5 bands + rel. alpha)
+S33,40,0.255,0.55,EEG whole-head log band power (5 bands + rel. alpha)
+S34,48,0.875,0.7291666666666666,EEG whole-head log band power (5 bands + rel. alpha)
+S35,48,0.9670138888888888,0.6458333333333334,EEG whole-head log band power (5 bands + rel. alpha)
+S36,46,0.9319470699432892,0.8478260869565217,EEG whole-head log band power (5 bands + rel. alpha)
+S37,48,0.8888888888888888,0.875,EEG whole-head log band power (5 bands + rel. alpha)
+S38,48,0.7256944444444444,0.5625,EEG whole-head log band power (5 bands + rel. alpha)
+S39,48,0.7951388888888888,0.75,EEG whole-head log band power (5 bands + rel. alpha)
+S40,48,0.8072916666666667,0.6666666666666666,EEG whole-head log band power (5 bands + rel. alpha)
+S41,28,0.7040816326530612,0.5714285714285714,EEG whole-head log band power (5 bands + rel. alpha)
+S42,16,0.7818181818181817,0.49090909090909096,EEG whole-head log band power (5 bands + rel. alpha)
+S43,26,0.6331360946745562,0.5,EEG whole-head log band power (5 bands + rel. alpha)
+S44,48,0.8871527777777777,0.7708333333333333,EEG whole-head log band power (5 bands + rel. alpha)
+S01,38,0.9196675900277008,0.8157894736842105,EEG whole-head + ET-5
+S02,46,0.9147727272727272,0.8049242424242424,EEG whole-head + ET-5
+S03,42,0.9773242630385487,0.9523809523809523,EEG whole-head + ET-5
+S05,48,0.9965277777777777,0.9791666666666667,EEG whole-head + ET-5
+S06,26,0.8541666666666667,0.8541666666666667,EEG whole-head + ET-5
+S07,48,0.9479166666666667,0.9166666666666667,EEG whole-head + ET-5
+S08,48,0.9618055555555556,0.8541666666666667,EEG whole-head + ET-5
+S09,48,0.9270833333333333,0.8333333333333334,EEG whole-head + ET-5
+S10,48,0.5972222222222222,0.7083333333333333,EEG whole-head + ET-5
+S12,46,0.9697542533081286,0.8695652173913043,EEG whole-head + ET-5
+S13,46,0.9128787878787877,0.8106060606060606,EEG whole-head + ET-5
+S14,47,0.9402173913043478,0.7835144927536233,EEG whole-head + ET-5
+S15,39,0.9166666666666666,0.725,EEG whole-head + ET-5
+S16,48,0.984375,0.9375,EEG whole-head + ET-5
+S17,37,0.9678362573099416,0.945906432748538,EEG whole-head + ET-5
+S18,48,0.939236111111111,0.8958333333333333,EEG whole-head + ET-5
+S19,48,0.9045138888888888,0.9375,EEG whole-head + ET-5
+S20,48,0.8142361111111112,0.8125,EEG whole-head + ET-5
+S21,48,0.5677083333333333,0.6458333333333334,EEG whole-head + ET-5
+S22,28,0.9285714285714286,0.9642857142857143,EEG whole-head + ET-5
+S23,48,0.90625,0.8333333333333333,EEG whole-head + ET-5
+S24,48,0.8628472222222221,0.6875,EEG whole-head + ET-5
+S25,33,0.9705882352941176,0.96875,EEG whole-head + ET-5
+S26,32,0.92578125,0.71875,EEG whole-head + ET-5
+S27,38,0.9722991689750693,0.894736842105263,EEG whole-head + ET-5
+S28,48,0.9548611111111112,0.875,EEG whole-head + ET-5
+S29,48,0.9427083333333334,0.8125,EEG whole-head + ET-5
+S30,22,1.0,0.9545454545454546,EEG whole-head + ET-5
+S31,42,0.5804988662131518,0.5714285714285714,EEG whole-head + ET-5
+S32,48,0.9253472222222221,0.7708333333333333,EEG whole-head + ET-5
+S33,40,0.94,0.5499999999999999,EEG whole-head + ET-5
+S34,48,0.8333333333333334,0.8333333333333334,EEG whole-head + ET-5
+S35,48,0.96875,0.9166666666666667,EEG whole-head + ET-5
+S36,46,0.9073724007561437,0.8043478260869565,EEG whole-head + ET-5
+S37,48,0.9322916666666667,0.8541666666666667,EEG whole-head + ET-5
+S38,48,0.9878472222222222,0.9375,EEG whole-head + ET-5
+S39,48,0.9496527777777777,0.875,EEG whole-head + ET-5
+S40,48,1.0,0.9583333333333333,EEG whole-head + ET-5
+S41,28,0.9183673469387755,0.8928571428571428,EEG whole-head + ET-5
+S42,16,0.8,0.6727272727272727,EEG whole-head + ET-5
+S43,26,0.9408284023668638,0.8076923076923077,EEG whole-head + ET-5
+S44,48,0.9357638888888888,0.8541666666666666,EEG whole-head + ET-5
+S01,38,0.6980609418282548,0.6052631578947368,RULE score (old engagement index)
+S02,46,0.5871212121212122,0.44696969696969696,RULE score (old engagement index)
+S03,42,0.8911564625850339,0.8333333333333333,RULE score (old engagement index)
+S05,48,0.5815972222222222,0.4583333333333333,RULE score (old engagement index)
+S06,26,0.5833333333333334,0.7291666666666666,RULE score (old engagement index)
+S07,48,0.6458333333333333,0.6666666666666667,RULE score (old engagement index)
+S08,48,0.6232638888888888,0.625,RULE score (old engagement index)
+S09,48,0.6059027777777778,0.5416666666666666,RULE score (old engagement index)
+S10,48,0.359375,0.3541666666666667,RULE score (old engagement index)
+S12,46,0.7580340264650283,0.6521739130434783,RULE score (old engagement index)
+S13,46,0.7159090909090908,0.6231060606060607,RULE score (old engagement index)
+S14,47,0.733695652173913,0.6847826086956521,RULE score (old engagement index)
+S15,39,0.23333333333333334,0.2875,RULE score (old engagement index)
+S16,48,0.6232638888888888,0.5833333333333334,RULE score (old engagement index)
+S17,37,0.5818713450292398,0.5409356725146199,RULE score (old engagement index)
+S18,48,0.685763888888889,0.6666666666666667,RULE score (old engagement index)
+S19,48,0.7048611111111112,0.75,RULE score (old engagement index)
+S20,48,0.6996527777777778,0.6041666666666666,RULE score (old engagement index)
+S21,48,0.27604166666666663,0.4791666666666667,RULE score (old engagement index)
+S22,28,0.7755102040816326,0.7857142857142857,RULE score (old engagement index)
+S23,48,0.4444444444444445,0.3958333333333333,RULE score (old engagement index)
+S24,48,0.5243055555555556,0.5416666666666667,RULE score (old engagement index)
+S25,33,0.7757352941176471,0.7261029411764706,RULE score (old engagement index)
+S26,32,0.33203125,0.34375,RULE score (old engagement index)
+S27,38,0.7423822714681441,0.5,RULE score (old engagement index)
+S28,48,0.7204861111111112,0.6666666666666667,RULE score (old engagement index)
+S29,48,0.8454861111111112,0.7916666666666667,RULE score (old engagement index)
+S30,22,0.7851239669421488,0.7272727272727273,RULE score (old engagement index)
+S31,42,0.5532879818594104,0.5476190476190477,RULE score (old engagement index)
+S32,48,0.6840277777777779,0.7291666666666666,RULE score (old engagement index)
+S33,40,0.905,0.875,RULE score (old engagement index)
+S34,48,0.34375,0.3333333333333333,RULE score (old engagement index)
+S35,48,0.7222222222222222,0.5416666666666666,RULE score (old engagement index)
+S36,46,0.5236294896030245,0.5,RULE score (old engagement index)
+S37,48,0.734375,0.6458333333333333,RULE score (old engagement index)
+S38,48,0.59375,0.6041666666666667,RULE score (old engagement index)
+S39,48,0.7690972222222222,0.625,RULE score (old engagement index)
+S40,48,0.6927083333333334,0.6875,RULE score (old engagement index)
+S41,28,0.5561224489795918,0.5714285714285714,RULE score (old engagement index)
+S42,16,0.3454545454545454,0.33636363636363636,RULE score (old engagement index)
+S43,26,0.8284023668639053,0.7307692307692308,RULE score (old engagement index)
+S44,48,0.7569444444444445,0.6666666666666667,RULE score (old engagement index)
+S01,38,0.7562326869806094,0.7105263157894737,EEG-5 (frontal band power) [within-subject z]
+S02,46,0.7708333333333334,0.7348484848484849,EEG-5 (frontal band power) [within-subject z]
+S03,42,0.4557823129251701,0.4285714285714286,EEG-5 (frontal band power) [within-subject z]
+S05,48,0.8472222222222222,0.75,EEG-5 (frontal band power) [within-subject z]
+S06,26,0.5,0.5625,EEG-5 (frontal band power) [within-subject z]
+S07,48,0.5746527777777778,0.5416666666666666,EEG-5 (frontal band power) [within-subject z]
+S08,48,0.36631944444444453,0.375,EEG-5 (frontal band power) [within-subject z]
+S09,48,0.7864583333333334,0.7083333333333334,EEG-5 (frontal band power) [within-subject z]
+S10,48,0.4704861111111111,0.4791666666666667,EEG-5 (frontal band power) [within-subject z]
+S12,46,0.391304347826087,0.391304347826087,EEG-5 (frontal band power) [within-subject z]
+S13,46,0.9053030303030303,0.8863636363636364,EEG-5 (frontal band power) [within-subject z]
+S14,47,0.38405797101449274,0.4429347826086957,EEG-5 (frontal band power) [within-subject z]
+S15,39,0.47777777777777775,0.475,EEG-5 (frontal band power) [within-subject z]
+S16,48,0.7795138888888888,0.6458333333333333,EEG-5 (frontal band power) [within-subject z]
+S17,37,0.02923976608187135,0.13157894736842105,EEG-5 (frontal band power) [within-subject z]
+S18,48,0.5069444444444444,0.4791666666666667,EEG-5 (frontal band power) [within-subject z]
+S19,48,0.4861111111111111,0.5208333333333334,EEG-5 (frontal band power) [within-subject z]
+S20,48,0.8385416666666667,0.7291666666666666,EEG-5 (frontal band power) [within-subject z]
+S21,48,0.5850694444444445,0.5208333333333334,EEG-5 (frontal band power) [within-subject z]
+S22,28,0.2704081632653061,0.3214285714285714,EEG-5 (frontal band power) [within-subject z]
+S23,48,0.6684027777777778,0.6041666666666666,EEG-5 (frontal band power) [within-subject z]
+S24,48,0.6597222222222222,0.7083333333333333,EEG-5 (frontal band power) [within-subject z]
+S25,33,0.44485294117647056,0.5110294117647058,EEG-5 (frontal band power) [within-subject z]
+S26,32,0.69140625,0.53125,EEG-5 (frontal band power) [within-subject z]
+S27,38,0.5124653739612188,0.5,EEG-5 (frontal band power) [within-subject z]
+S28,48,0.6128472222222222,0.6041666666666666,EEG-5 (frontal band power) [within-subject z]
+S29,48,0.4322916666666667,0.4375,EEG-5 (frontal band power) [within-subject z]
+S30,22,0.5537190082644629,0.5454545454545454,EEG-5 (frontal band power) [within-subject z]
+S31,42,0.489795918367347,0.5476190476190477,EEG-5 (frontal band power) [within-subject z]
+S32,48,0.20833333333333334,0.4375,EEG-5 (frontal band power) [within-subject z]
+S33,40,0.7375,0.7,EEG-5 (frontal band power) [within-subject z]
+S34,48,0.7152777777777778,0.6458333333333334,EEG-5 (frontal band power) [within-subject z]
+S35,48,0.9427083333333334,0.8541666666666667,EEG-5 (frontal band power) [within-subject z]
+S36,46,0.6068052930056711,0.5652173913043478,EEG-5 (frontal band power) [within-subject z]
+S37,48,0.359375,0.45833333333333337,EEG-5 (frontal band power) [within-subject z]
+S38,48,0.5763888888888888,0.5416666666666666,EEG-5 (frontal band power) [within-subject z]
+S39,48,0.8177083333333333,0.7708333333333333,EEG-5 (frontal band power) [within-subject z]
+S40,48,0.767361111111111,0.7083333333333334,EEG-5 (frontal band power) [within-subject z]
+S41,28,0.3520408163265306,0.4285714285714286,EEG-5 (frontal band power) [within-subject z]
+S42,16,0.19999999999999996,0.6,EEG-5 (frontal band power) [within-subject z]
+S43,26,0.5621301775147929,0.5,EEG-5 (frontal band power) [within-subject z]
+S44,48,0.2309027777777778,0.35416666666666663,EEG-5 (frontal band power) [within-subject z]
+S01,38,0.9279778393351801,0.868421052631579,ET-5 (gaze statistics) [within-subject z]
+S02,46,0.9204545454545454,0.8693181818181819,ET-5 (gaze statistics) [within-subject z]
+S03,42,0.9319727891156462,0.9047619047619047,ET-5 (gaze statistics) [within-subject z]
+S05,48,0.998263888888889,0.9791666666666667,ET-5 (gaze statistics) [within-subject z]
+S06,26,0.6458333333333334,0.45833333333333337,ET-5 (gaze statistics) [within-subject z]
+S07,48,0.9409722222222222,0.9166666666666667,ET-5 (gaze statistics) [within-subject z]
+S08,48,1.0,0.9791666666666667,ET-5 (gaze statistics) [within-subject z]
+S09,48,0.8663194444444445,0.7083333333333333,ET-5 (gaze statistics) [within-subject z]
+S10,48,0.6527777777777777,0.6875,ET-5 (gaze statistics) [within-subject z]
+S12,46,0.9621928166351607,0.9130434782608696,ET-5 (gaze statistics) [within-subject z]
+S13,46,0.7878787878787878,0.8465909090909092,ET-5 (gaze statistics) [within-subject z]
+S14,47,0.9510869565217391,0.8731884057971014,ET-5 (gaze statistics) [within-subject z]
+S15,39,0.8972222222222223,0.9375,ET-5 (gaze statistics) [within-subject z]
+S16,48,0.8940972222222222,0.8541666666666666,ET-5 (gaze statistics) [within-subject z]
+S17,37,0.976608187134503,0.9210526315789473,ET-5 (gaze statistics) [within-subject z]
+S18,48,0.9027777777777778,0.8541666666666667,ET-5 (gaze statistics) [within-subject z]
+S19,48,0.8645833333333334,0.8541666666666667,ET-5 (gaze statistics) [within-subject z]
+S20,48,0.796875,0.8125,ET-5 (gaze statistics) [within-subject z]
+S21,48,0.5190972222222222,0.5416666666666667,ET-5 (gaze statistics) [within-subject z]
+S22,28,1.0,1.0,ET-5 (gaze statistics) [within-subject z]
+S23,48,0.8124999999999999,0.8333333333333333,ET-5 (gaze statistics) [within-subject z]
+S24,48,0.8628472222222221,0.8125,ET-5 (gaze statistics) [within-subject z]
+S25,33,0.9338235294117647,0.9099264705882353,ET-5 (gaze statistics) [within-subject z]
+S26,32,0.8671875,0.875,ET-5 (gaze statistics) [within-subject z]
+S27,38,0.9279778393351801,0.894736842105263,ET-5 (gaze statistics) [within-subject z]
+S28,48,0.9583333333333333,0.9166666666666666,ET-5 (gaze statistics) [within-subject z]
+S29,48,0.9652777777777778,0.9583333333333333,ET-5 (gaze statistics) [within-subject z]
+S30,22,0.8760330578512396,0.8636363636363636,ET-5 (gaze statistics) [within-subject z]
+S31,42,0.6303854875283447,0.6428571428571428,ET-5 (gaze statistics) [within-subject z]
+S32,48,0.9201388888888888,0.8541666666666666,ET-5 (gaze statistics) [within-subject z]
+S33,40,0.9375,0.925,ET-5 (gaze statistics) [within-subject z]
+S34,48,0.8107638888888888,0.8333333333333333,ET-5 (gaze statistics) [within-subject z]
+S35,48,0.9340277777777779,0.9583333333333334,ET-5 (gaze statistics) [within-subject z]
+S36,46,0.8412098298676749,0.8478260869565217,ET-5 (gaze statistics) [within-subject z]
+S37,48,0.9322916666666667,0.875,ET-5 (gaze statistics) [within-subject z]
+S38,48,0.9809027777777777,0.9375,ET-5 (gaze statistics) [within-subject z]
+S39,48,0.9618055555555555,0.9166666666666667,ET-5 (gaze statistics) [within-subject z]
+S40,48,0.998263888888889,0.9791666666666667,ET-5 (gaze statistics) [within-subject z]
+S41,28,0.8826530612244898,0.8928571428571428,ET-5 (gaze statistics) [within-subject z]
+S42,16,0.7272727272727273,0.7636363636363637,ET-5 (gaze statistics) [within-subject z]
+S43,26,0.9881656804733728,0.9230769230769231,ET-5 (gaze statistics) [within-subject z]
+S44,48,0.96875,0.9166666666666666,ET-5 (gaze statistics) [within-subject z]
+S01,38,0.9529085872576177,0.868421052631579,ALL-10 [within-subject z]
+S02,46,0.9166666666666666,0.8693181818181819,ALL-10 [within-subject z]
+S03,42,0.9251700680272109,0.9047619047619047,ALL-10 [within-subject z]
+S05,48,0.998263888888889,0.9583333333333334,ALL-10 [within-subject z]
+S06,26,0.75,0.7083333333333334,ALL-10 [within-subject z]
+S07,48,0.9479166666666666,0.9375,ALL-10 [within-subject z]
+S08,48,0.9913194444444444,0.9375,ALL-10 [within-subject z]
+S09,48,0.9045138888888888,0.8333333333333334,ALL-10 [within-subject z]
+S10,48,0.671875,0.7083333333333333,ALL-10 [within-subject z]
+S12,46,0.9621928166351608,0.9347826086956521,ALL-10 [within-subject z]
+S13,46,0.8143939393939393,0.8465909090909092,ALL-10 [within-subject z]
+S14,47,0.9221014492753623,0.894927536231884,ALL-10 [within-subject z]
+S15,39,0.8972222222222223,0.8708333333333333,ALL-10 [within-subject z]
+S16,48,0.9079861111111112,0.875,ALL-10 [within-subject z]
+S17,37,0.9005847953216374,0.8391812865497076,ALL-10 [within-subject z]
+S18,48,0.8940972222222222,0.875,ALL-10 [within-subject z]
+S19,48,0.8628472222222222,0.8541666666666667,ALL-10 [within-subject z]
+S20,48,0.8315972222222222,0.8333333333333334,ALL-10 [within-subject z]
+S21,48,0.5416666666666666,0.6041666666666666,ALL-10 [within-subject z]
+S22,28,1.0,1.0,ALL-10 [within-subject z]
+S23,48,0.859375,0.8125,ALL-10 [within-subject z]
+S24,48,0.8402777777777778,0.8333333333333333,ALL-10 [within-subject z]
+S25,33,0.9375,0.9393382352941176,ALL-10 [within-subject z]
+S26,32,0.91015625,0.90625,ALL-10 [within-subject z]
+S27,38,0.9279778393351801,0.894736842105263,ALL-10 [within-subject z]
+S28,48,0.9618055555555555,0.8958333333333333,ALL-10 [within-subject z]
+S29,48,0.9479166666666666,0.9583333333333333,ALL-10 [within-subject z]
+S30,22,0.9173553719008264,0.9090909090909092,ALL-10 [within-subject z]
+S31,42,0.562358276643991,0.5476190476190477,ALL-10 [within-subject z]
+S32,48,0.9149305555555556,0.8333333333333333,ALL-10 [within-subject z]
+S33,40,0.9875,0.925,ALL-10 [within-subject z]
+S34,48,0.8211805555555556,0.8333333333333333,ALL-10 [within-subject z]
+S35,48,0.9427083333333335,0.9583333333333334,ALL-10 [within-subject z]
+S36,46,0.8733459357277883,0.8913043478260869,ALL-10 [within-subject z]
+S37,48,0.9409722222222221,0.8958333333333334,ALL-10 [within-subject z]
+S38,48,0.9913194444444444,0.9166666666666666,ALL-10 [within-subject z]
+S39,48,0.9774305555555555,0.9375,ALL-10 [within-subject z]
+S40,48,0.998263888888889,0.9791666666666667,ALL-10 [within-subject z]
+S41,28,0.8979591836734694,0.8214285714285714,ALL-10 [within-subject z]
+S42,16,0.7272727272727273,0.7636363636363637,ALL-10 [within-subject z]
+S43,26,0.9940828402366865,0.9615384615384616,ALL-10 [within-subject z]
+S44,48,0.9322916666666666,0.875,ALL-10 [within-subject z]
+S01,38,0.5484764542936289,0.5789473684210527,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S02,46,0.9318181818181818,0.8674242424242424,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S03,42,0.8684807256235828,0.8095238095238095,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S05,48,0.986111111111111,0.9166666666666667,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S06,26,0.5,0.5416666666666667,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S07,48,0.8124999999999999,0.7916666666666666,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S08,48,0.6979166666666666,0.6458333333333334,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S09,48,0.8576388888888888,0.7708333333333333,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S10,48,0.7777777777777778,0.6875,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S12,46,0.42533081285444235,0.391304347826087,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S13,46,0.5511363636363636,0.5587121212121212,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S14,47,0.4583333333333333,0.42481884057971014,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S15,39,0.8472222222222223,0.7166666666666667,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S16,48,0.921875,0.8333333333333334,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S17,37,0.9941520467836257,0.9444444444444444,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S18,48,1.0,0.9791666666666667,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S19,48,0.8854166666666666,0.75,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S20,48,0.7743055555555556,0.7291666666666667,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S21,48,0.5277777777777778,0.5625,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S22,28,0.7704081632653061,0.6428571428571428,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S23,48,0.890625,0.8333333333333333,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S24,48,0.48784722222222227,0.5416666666666666,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S25,33,0.8970588235294117,0.7867647058823529,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S26,32,0.9296875,0.875,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S27,38,1.0,0.9473684210526316,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S28,48,0.9809027777777777,0.9375,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S29,48,0.6163194444444444,0.6458333333333333,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S30,22,0.6198347107438017,0.5909090909090908,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S31,42,0.6643990929705216,0.6190476190476191,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S32,48,0.7100694444444444,0.7083333333333334,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S33,40,0.27,0.275,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S34,48,0.65625,0.6458333333333334,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S35,48,0.9947916666666666,0.9791666666666667,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S36,46,0.8449905482041588,0.8695652173913043,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S37,48,0.842013888888889,0.7708333333333334,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S38,48,0.8003472222222222,0.7708333333333333,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S39,48,0.8715277777777778,0.7291666666666666,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S40,48,0.5972222222222222,0.625,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S41,28,0.9234693877551019,0.8928571428571428,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S42,16,0.8,0.6181818181818182,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S43,26,0.7100591715976331,0.6538461538461539,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S44,48,0.892361111111111,0.8125,EEG whole-head log band power (5 bands + rel. alpha) [within-subject z]
+S01,38,0.9224376731301939,0.8157894736842105,EEG whole-head + ET-5 [within-subject z]
+S02,46,0.9564393939393939,0.9545454545454546,EEG whole-head + ET-5 [within-subject z]
+S03,42,0.9841269841269842,0.9047619047619047,EEG whole-head + ET-5 [within-subject z]
+S05,48,1.0,1.0,EEG whole-head + ET-5 [within-subject z]
+S06,26,0.6666666666666666,0.5208333333333333,EEG whole-head + ET-5 [within-subject z]
+S07,48,0.9322916666666666,0.875,EEG whole-head + ET-5 [within-subject z]
+S08,48,0.9635416666666667,0.9791666666666667,EEG whole-head + ET-5 [within-subject z]
+S09,48,0.9618055555555556,0.9166666666666667,EEG whole-head + ET-5 [within-subject z]
+S10,48,0.7013888888888888,0.7291666666666667,EEG whole-head + ET-5 [within-subject z]
+S12,46,0.8260869565217391,0.6086956521739131,EEG whole-head + ET-5 [within-subject z]
+S13,46,0.8295454545454546,0.8674242424242424,EEG whole-head + ET-5 [within-subject z]
+S14,47,0.9583333333333333,0.9365942028985508,EEG whole-head + ET-5 [within-subject z]
+S15,39,0.9166666666666666,0.9041666666666667,EEG whole-head + ET-5 [within-subject z]
+S16,48,0.9479166666666666,0.8541666666666667,EEG whole-head + ET-5 [within-subject z]
+S17,37,0.9970760233918128,0.9736842105263157,EEG whole-head + ET-5 [within-subject z]
+S18,48,0.9427083333333333,0.8958333333333333,EEG whole-head + ET-5 [within-subject z]
+S19,48,0.8975694444444444,0.8958333333333333,EEG whole-head + ET-5 [within-subject z]
+S20,48,0.890625,0.8333333333333333,EEG whole-head + ET-5 [within-subject z]
+S21,48,0.6024305555555556,0.5833333333333333,EEG whole-head + ET-5 [within-subject z]
+S22,28,1.0,0.9642857142857143,EEG whole-head + ET-5 [within-subject z]
+S23,48,0.9027777777777777,0.8333333333333333,EEG whole-head + ET-5 [within-subject z]
+S24,48,0.8038194444444444,0.75,EEG whole-head + ET-5 [within-subject z]
+S25,33,0.9705882352941176,0.9393382352941176,EEG whole-head + ET-5 [within-subject z]
+S26,32,0.93359375,0.90625,EEG whole-head + ET-5 [within-subject z]
+S27,38,0.9501385041551246,0.9473684210526315,EEG whole-head + ET-5 [within-subject z]
+S28,48,0.9930555555555555,0.9583333333333333,EEG whole-head + ET-5 [within-subject z]
+S29,48,0.9444444444444444,0.8125,EEG whole-head + ET-5 [within-subject z]
+S30,22,0.9173553719008264,0.8181818181818181,EEG whole-head + ET-5 [within-subject z]
+S31,42,0.5691609977324263,0.5714285714285714,EEG whole-head + ET-5 [within-subject z]
+S32,48,0.888888888888889,0.8125,EEG whole-head + ET-5 [within-subject z]
+S33,40,0.8225,0.65,EEG whole-head + ET-5 [within-subject z]
+S34,48,0.779513888888889,0.7708333333333334,EEG whole-head + ET-5 [within-subject z]
+S35,48,0.9548611111111113,0.9583333333333334,EEG whole-head + ET-5 [within-subject z]
+S36,46,0.888468809073724,0.8695652173913044,EEG whole-head + ET-5 [within-subject z]
+S37,48,0.9496527777777779,0.8541666666666667,EEG whole-head + ET-5 [within-subject z]
+S38,48,0.9913194444444444,0.9166666666666666,EEG whole-head + ET-5 [within-subject z]
+S39,48,0.9461805555555556,0.7916666666666667,EEG whole-head + ET-5 [within-subject z]
+S40,48,0.9947916666666666,0.9375,EEG whole-head + ET-5 [within-subject z]
+S41,28,0.9846938775510204,0.9285714285714286,EEG whole-head + ET-5 [within-subject z]
+S42,16,0.7636363636363637,0.7636363636363637,EEG whole-head + ET-5 [within-subject z]
+S43,26,0.9822485207100592,0.8846153846153846,EEG whole-head + ET-5 [within-subject z]
+S44,48,0.9861111111111112,0.9166666666666666,EEG whole-head + ET-5 [within-subject z]
+S01,38,0.6980609418282548,0.6578947368421053,RULE score (old engagement index) [within-subject z]
+S02,46,0.5871212121212122,0.5625,RULE score (old engagement index) [within-subject z]
+S03,42,0.8911564625850339,0.8809523809523809,RULE score (old engagement index) [within-subject z]
+S05,48,0.5815972222222222,0.5208333333333333,RULE score (old engagement index) [within-subject z]
+S06,26,0.5833333333333334,0.5208333333333333,RULE score (old engagement index) [within-subject z]
+S07,48,0.6458333333333333,0.6666666666666667,RULE score (old engagement index) [within-subject z]
+S08,48,0.6232638888888888,0.625,RULE score (old engagement index) [within-subject z]
+S09,48,0.6059027777777778,0.5416666666666667,RULE score (old engagement index) [within-subject z]
+S10,48,0.359375,0.3333333333333333,RULE score (old engagement index) [within-subject z]
+S12,46,0.7580340264650283,0.6739130434782609,RULE score (old engagement index) [within-subject z]
+S13,46,0.7159090909090908,0.6477272727272727,RULE score (old engagement index) [within-subject z]
+S14,47,0.733695652173913,0.7463768115942029,RULE score (old engagement index) [within-subject z]
+S15,39,0.23333333333333334,0.3125,RULE score (old engagement index) [within-subject z]
+S16,48,0.6232638888888888,0.6458333333333333,RULE score (old engagement index) [within-subject z]
+S17,37,0.5818713450292398,0.5672514619883041,RULE score (old engagement index) [within-subject z]
+S18,48,0.685763888888889,0.6666666666666667,RULE score (old engagement index) [within-subject z]
+S19,48,0.7048611111111112,0.6875,RULE score (old engagement index) [within-subject z]
+S20,48,0.6996527777777778,0.625,RULE score (old engagement index) [within-subject z]
+S21,48,0.27604166666666663,0.35416666666666663,RULE score (old engagement index) [within-subject z]
+S22,28,0.7755102040816326,0.7857142857142857,RULE score (old engagement index) [within-subject z]
+S23,48,0.4444444444444445,0.5,RULE score (old engagement index) [within-subject z]
+S24,48,0.5243055555555556,0.5416666666666667,RULE score (old engagement index) [within-subject z]
+S25,33,0.7757352941176471,0.7279411764705883,RULE score (old engagement index) [within-subject z]
+S26,32,0.33203125,0.40625,RULE score (old engagement index) [within-subject z]
+S27,38,0.7423822714681441,0.6842105263157895,RULE score (old engagement index) [within-subject z]
+S28,48,0.7204861111111112,0.6875,RULE score (old engagement index) [within-subject z]
+S29,48,0.8454861111111112,0.7916666666666667,RULE score (old engagement index) [within-subject z]
+S30,22,0.7851239669421488,0.7272727272727273,RULE score (old engagement index) [within-subject z]
+S31,42,0.5532879818594104,0.5476190476190477,RULE score (old engagement index) [within-subject z]
+S32,48,0.6840277777777779,0.7291666666666666,RULE score (old engagement index) [within-subject z]
+S33,40,0.905,0.875,RULE score (old engagement index) [within-subject z]
+S34,48,0.34375,0.39583333333333337,RULE score (old engagement index) [within-subject z]
+S35,48,0.7222222222222222,0.6875,RULE score (old engagement index) [within-subject z]
+S36,46,0.5236294896030245,0.5652173913043479,RULE score (old engagement index) [within-subject z]
+S37,48,0.734375,0.6458333333333333,RULE score (old engagement index) [within-subject z]
+S38,48,0.59375,0.5833333333333334,RULE score (old engagement index) [within-subject z]
+S39,48,0.7690972222222222,0.6666666666666667,RULE score (old engagement index) [within-subject z]
+S40,48,0.6927083333333334,0.7083333333333334,RULE score (old engagement index) [within-subject z]
+S41,28,0.5561224489795918,0.5,RULE score (old engagement index) [within-subject z]
+S42,16,0.3454545454545454,0.4181818181818182,RULE score (old engagement index) [within-subject z]
+S43,26,0.8284023668639053,0.8461538461538463,RULE score (old engagement index) [within-subject z]
+S44,48,0.7569444444444445,0.7291666666666667,RULE score (old engagement index) [within-subject z]

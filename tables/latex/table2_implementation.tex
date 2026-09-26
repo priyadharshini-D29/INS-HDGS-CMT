@@ -1,0 +1,22 @@
+\begin{table}[t]
+  \caption{Implementation details of INS-HDGS-CMT.}
+  \label{tab:impl}
+  \centering
+  \begin{tabular}{@{}ll@{}}
+    \toprule
+    Component & Configuration \\
+    \midrule
+    Epoch length & 5.0~s \\
+    Batch size & 32 \\
+    Learning rate & 5$\times10^{-4}$ \\
+    Optimiser & AdamW \\
+    Training epochs & 250 (early stopping) \\
+    Dropout & 0.X \\
+    Transformer heads & X \\
+    Hidden dimensions & 128 \\
+    Connectivity threshold $\tau$ & 0.30 \\
+    Fusion weight $\beta$ & 0.X \\
+    Loss function & Focal (class-balanced) cross-entropy \\
+    \botrule
+  \end{tabular}
+\end{table}

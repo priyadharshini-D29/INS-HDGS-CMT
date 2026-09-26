@@ -1,0 +1,19 @@
+# -----------------------------------------------------------------------------
+# Dynamic functional-graph construction + Graph Attention Network (GAT) encoder
+# Mirrors src/model/config/settings.py (Graph Construction + GAT sections).
+# -----------------------------------------------------------------------------
+graph:
+  # Dynamic connectivity
+  connectivity_method: pearson    # pearson | coherence | plv | plv_<band>
+  connectivity_threshold: 0.30    # edges kept above this |connectivity|
+  min_edges: 3                    # minimum edges retained per graph
+  embed_dim: 128                  # universal node/embedding dimension
+
+  # Graph Attention Network
+  gat:
+    layer1_head_dim: 32
+    layer1_heads: 4               # 4 x 32 = 128 (concat)
+    layer2_dim: 128
+    layer2_heads: 1               # single-head output layer
+    dropout: 0.20
+    leaky_relu_alpha: 0.20

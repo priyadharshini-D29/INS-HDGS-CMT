@@ -1,0 +1,55 @@
+{
+  "n_subjects": 37,
+  "n_epochs": 347,
+  "frontal": [
+    "Fz",
+    "F3",
+    "F4",
+    "FC1",
+    "FC2"
+  ],
+  "posterior": [
+    "Pz",
+    "Oz",
+    "O1",
+    "O2",
+    "P3",
+    "P4",
+    "P7",
+    "P8"
+  ],
+  "bands": {
+    "theta": [
+      4.0,
+      8.0
+    ],
+    "alpha": [
+      8.0,
+      13.0
+    ]
+  },
+  "theta": {
+    "within_subject_perm": {
+      "observed_diff": 0.0017090575216401722,
+      "cohens_d": 0.03730622165229841,
+      "null_mean": -6.313252493765086e-06,
+      "null_std": 0.004710721641889295,
+      "p_value_two_sided": 0.7186640667966602,
+      "n_epochs": 347,
+      "n_perm": 20000
+    },
+    "wilcoxon_p": 0.7092871580534847
+  },
+  "alpha": {
+    "within_subject_perm": {
+      "observed_diff": -0.001352066703823042,
+      "cohens_d": -0.043959799874692146,
+      "null_mean": 7.229040018564564e-06,
+      "null_std": 0.0031376100731570606,
+      "p_value_two_sided": 0.6627168641567922,
+      "n_epochs": 347,
+      "n_perm": 20000
+    },
+    "wilcoxon_p": 0.570653132192092
+  }
+}

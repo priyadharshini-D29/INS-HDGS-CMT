@@ -1,0 +1,59 @@
+{
+ "device": "cuda",
+ "device_name": "NVIDIA A100-SXM4-80GB",
+ "gpu_index": "1",
+ "checkpoint": "../../src/model/output/checkpoints/abl_full/abl_full_fold01_e0.pt",
+ "n_snn_tensors_loaded": 16,
+ "n_epochs": 385,
+ "n_iter": 300,
+ "min_seconds": 4.0,
+ "idle_power_w": 85.02333333333334,
+ "idle_util_pct": 0.6190476190476191,
+ "foreign_processes_on_card": 0,
+ "clean": true,
+ "measured": {
+  "snn_b1": {
+   "latency_ms": 3.98505776489814,
+   "n_iter": 1004,
+   "power_w": 85.04217391304348,
+   "util_pct": 12.695652173913043,
+   "n_power_samples": 23,
+   "energy_total_mJ": 338.89797549599194,
+   "energy_dynamic_mJ": 0.07508079846909112
+  },
+  "dense_b1": {
+   "latency_ms": 0.4065504028979738,
+   "n_iter": 9839,
+   "power_w": 88.27399999999999,
+   "util_pct": 20.4,
+   "n_power_samples": 10,
+   "energy_total_mJ": 35.88783026541574,
+   "energy_dynamic_mJ": 1.3215598430203384
+  },
+  "snn_b32": {
+   "latency_ms": 4.031199785577807,
+   "n_iter": 993,
+   "power_w": 85.3508695652174,
+   "util_pct": 19.956521739130434,
+   "n_power_samples": 23,
+   "energy_total_mJ": 344.0664070901837,
+   "energy_dynamic_mJ": 1.3203639877399596
+  },
+  "dense_b32": {
+   "latency_ms": 0.4335637195263952,
+   "n_iter": 9226,
+   "power_w": 86.78999999999998,
+   "util_pct": 27.130434782608695,
+   "n_power_samples": 23,
+   "energy_total_mJ": 37.62899521769583,
+   "energy_dynamic_mJ": 0.7659625711632854
+  }
+ },
+ "analytic": {
+  "firing_rate": 0.07529017857142857,
+  "lif_macs_per_inference": 327680,
+  "E_snn_pJ": 22203.977142857144,
+  "E_ann_pJ": 1507328.0,
+  "ratio": 0.014730687111801243
+ }
+}

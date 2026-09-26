@@ -1,0 +1,41 @@
+{
+  "label": "abl_full",
+  "csv": "results/ablation/abl_full/losocv_abl_full.csv",
+  "n_folds": 37,
+  "n_epochs": 347,
+  "n_perm": 5000,
+  "seed": 0,
+  "operating_point": "fold-specific opt_threshold",
+  "max_abs_deviation_from_stored_metrics": 1.1102230246251565e-16,
+  "results": {
+    "pooled_roc_auc": {
+      "observed": 0.8623737373737373,
+      "p_value": 0.0001999600079984003,
+      "null_mean": 0.5988857389686337,
+      "null_sd": 0.02434065510357536,
+      "null_max": 0.6764354066985646
+    },
+    "mean_fold_balanced_acc": {
+      "observed": 0.747494734994735,
+      "p_value": 0.0001999600079984003,
+      "null_mean": 0.49918186527436526,
+      "null_sd": 0.02660219259600508,
+      "null_max": 0.5952892827892828
+    },
+    "mean_fold_mcc": {
+      "observed": 0.485366170797985,
+      "p_value": 0.0001999600079984003,
+      "null_mean": -0.001551157091991625,
+      "null_sd": 0.05116457489034927,
+      "null_max": 0.18033167461956348
+    },
+    "mean_fold_roc_auc": {
+      "observed": 0.8789929608206919,
+      "p_value": 0.0001999600079984003,
+      "null_mean": 0.49877593618077865,
+      "null_sd": 0.04089761758728866,
+      "null_max": 0.6536574994453145
+    }
+  },
+  "note": "Association test on saved held-out predictions; not a random-label training control."
+}

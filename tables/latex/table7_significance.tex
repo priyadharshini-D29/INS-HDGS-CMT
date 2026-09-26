@@ -1,0 +1,20 @@
+\begin{table}[t]
+  \caption{Statistical significance of the proposed EEG branch versus each EEG baseline (LOSOCV balanced accuracy; paired Wilcoxon signed-rank, Holm--Bonferroni corrected; Cliff's $\delta$ effect size). The MCC and ROC-AUC analyses yielded the same ordering and significance.}
+  \label{tab:significance}
+  \centering
+  \small
+  \begin{tabular}{@{}lcccc@{}}
+    \toprule
+    Baseline & Median $\Delta$ & $p$ & $p_{\mathrm{Holm}}$ & Cliff's $\delta$ \\
+    \midrule
+    GAT             & $+0.250$ & $<0.001$ & $<0.001$ & $+0.68$ \\
+    CNN--BiLSTM     & $+0.200$ & $<0.001$ & $<0.001$ & $+0.56$ \\
+    TSception       & $+0.167$ & $<0.001$ & $<0.001$ & $+0.50$ \\
+    DeepConvNet     & $+0.133$ & $0.001$  & $0.005$  & $+0.42$ \\
+    EEG Transformer & $+0.125$ & $0.004$  & $0.017$  & $+0.41$ \\
+    CNN--LSTM       & $+0.125$ & $0.012$  & $0.035$  & $+0.39$ \\
+    ShallowConvNet  & $+0.129$ & $0.021$  & $0.043$  & $+0.32$ \\
+    EEGNet          & $+0.083$ & $0.042$  & $0.043$  & $+0.26$ \\
+    \botrule
+  \end{tabular}
+\end{table}
