@@ -2,7 +2,7 @@
 
 # INS-HDGS-CMT
 
-### Dynamic Functional Graph Learning for Subject-Independent Consumer Engagement Decoding from EEG and Eye Tracking: A Leakage-Aware NeuMa Study
+### What Does a Multimodal EEG–Eye-Tracking Engagement Decoder Learn? A Leakage-Aware Audit on the NeuMa Dataset
 
 [![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.x-EE4C2C?logo=pytorch&logoColor=white)](https://pytorch.org/)
@@ -17,10 +17,7 @@ Centre for Neuroinformatics, Vellore Institute of Technology, Chennai, India
 
 ---
 
-Official source code for **"Dynamic Functional Graph Learning for
-Subject-Independent Consumer Engagement Decoding from EEG and Eye Tracking: A
-Leakage-Aware NeuMa Study"**, submitted to *Brain Informatics* (Springer
-Nature).
+Official source code for **"What Does a Multimodal EEG–Eye-Tracking Engagement Decoder Learn? A Leakage-Aware Audit on the NeuMa Dataset"**, under review at *Brain Informatics* (Springer Nature).
 
 ## Overview
 
@@ -39,8 +36,9 @@ Cross-Modal Transformer — is a subject-independent framework that:
 2. encodes gaze/pupil dynamics with a **Transformer attention** branch and an
    **ROI-saliency** signal;
 3. **fuses** the modalities with a **cross-modal (NeuroFusion) transformer**; and
-4. exposes each decision through a **neuro-symbolic soft-rule layer** with a
-   learned rule/bypass gate.
+4. includes a **neuro-symbolic soft-rule layer** with a learned rule/bypass
+   gate (in the trained model the decision is bypass-dominated; attribution
+   summaries are reported from a rule-only variant).
 
 Evaluation uses **leave-one-subject-out cross-validation (LOSOCV)** on the public
 **NeuMa** dataset — the strict, subject-independent protocol.
@@ -60,16 +58,29 @@ claims strictly separate:
 | Claim | Branch | ROC-AUC | Status |
 |---|---|---|---|
 | Label-coupled (headline) | Full multimodal (EEG + ET) | **0.88** | Matches, does not exceed, the best individually tuned single-modality baselines |
-| **Leakage-independent (control)** | **EEG-only** — never accesses gaze | **0.59** | Statistically indistinguishable from eight tuned EEG encoders (37-fold Wilcoxon, Holm-corrected; three baselines score numerically higher) |
+| **Gaze-free variant (control)** | **EEG-only** — never accesses gaze | **0.59** | No detectable difference from eight tuned EEG encoders (37-fold Wilcoxon, Holm-corrected; three baselines score numerically higher) |
 
 **The controls are the main result, not a side note.** Removing the graph
 pathway costs 0.09 balanced accuracy, but replacing the measured dynamic
-connectivity with density-matched static or random graphs costs nothing — so
-the graph pathway acts through its node-feature processing, not through the
-measured connectivity topology. Read this as: the dynamic-graph and spiking
+connectivity with density-matched static or random graphs produces no
+detectable loss — so the measured time-varying topology was not necessary for
+the reported accuracy; the comparison does not identify which information the
+graph pathway uses. Read this as: the dynamic-graph and spiking
 components are representations worth studying, not a demonstrated source of
 predictive accuracy on this label. Full detail, effect sizes and every
 comparison are in the manuscript.
+
+## Manuscript sources and reproducibility
+
+The manuscript states its contribution as empirical findings plus a reusable
+audit protocol, anchored on EEGNet, ShallowConvNet and a gaze-only LSTM, with a
+behavioural product-selection label among the controls. All sources — code,
+per-fold results (CSV), statistics and manuscript TeX — are on the
+[`paper-sources`](../../tree/paper-sources) branch. Start from its
+[`REPRODUCING.md`](../../blob/paper-sources/REPRODUCING.md): it maps every
+reported number to a committed per-fold file (verifiable without retraining)
+and gives the exact retraining commands (seed 42) together with the documented
+run-to-run spread (0.030 balanced accuracy / 0.016 ROC-AUC).
 
 ## Dataset
 
@@ -219,8 +230,8 @@ metadata in [`CITATION.cff`](CITATION.cff)):
 
 ```bibtex
 @article{inshdgscmt2026,
-  title   = {Dynamic Functional Graph Learning for Subject-Independent Consumer
-             Engagement Decoding from EEG and Eye Tracking: A Leakage-Aware NeuMa Study},
+  title   = {What Does a Multimodal EEG--Eye-Tracking Engagement Decoder Learn?
+             A Leakage-Aware Audit on the NeuMa Dataset},
   author  = {D, Priyadharshini and S, Shridevi},
   journal = {Brain Informatics},
   year    = {2026},
