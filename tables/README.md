@@ -46,3 +46,15 @@ Supporting the supplementary material (not main-paper tables):
 ```bash
 bash ../reproducibility/generate_tables.sh
 ```
+
+> **Data freshness note (added 2026-09-28):** table1_eeg_encoders.csv,
+> table2_et_encoders.csv, table3_fusion.csv, and results/losocv_metrics/*.csv
+> were exported before later commits (5e8e185, 4e7bd5d, 0c6dc3f) corrected
+> manuscript wording and values against the code and per-fold data. These
+> specific exported files were not regenerated after those commits and
+> should not be read row-by-row against the current manuscript text. The
+> underlying per-fold statistics behind the manuscript's reported figures
+> have since been independently checked and matched precisely. Regenerate
+> these exports via reproducibility/evaluate.sh and
+> reproducibility/generate_tables.sh before treating this directory as an
+> authoritative table-by-table reference.

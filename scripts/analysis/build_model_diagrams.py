@@ -209,7 +209,7 @@ def outer():
     d.container(0.540, 0.470, 0.720, 0.700, "fusion", "NeuroFusion")
     d.ax.text(0.630, 0.585, "Cross-Modal\nTransformer", ha="center", va="center",
               fontsize=12, fontweight="bold", color=PAL["fusion"][0])
-    d.ax.text(0.630, 0.520, "directed cross-attention\n+ gated residual fusion",
+    d.ax.text(0.630, 0.520, "directed cross-attention\n+ gated projection fusion",
               ha="center", va="center", fontsize=9.0, color=INK)
 
     # ── neuro-symbolic ────────────────────────────────────────────────────────

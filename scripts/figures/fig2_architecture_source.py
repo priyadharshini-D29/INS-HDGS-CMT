@@ -132,7 +132,7 @@ fw = 3.425
 flabels = [("Modality Tokens", "EEG, graph & ET embeddings"),
            ("Self-Attention", "cross-modality interaction"),
            ("Directed Cross-Attention", "EEG attends to graph / ET"),
-           ("Gated Residual Fusion", "gated, collapse-safe fusion")]
+           ("Gated Projection Fusion", "gated, collapse-safe fusion")]
 for x0, (t, s) in zip(fx, flabels):
     card(ax, x0, 4.55, x0 + fw, 5.45, t, s, f, tsize=8.6, ssize=6.6)
 

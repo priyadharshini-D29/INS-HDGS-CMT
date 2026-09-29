@@ -25,7 +25,7 @@ Stage 3 — Bilinear Cross-Modal Attention
   These provide directed information flow: the EEG embedding
   is enriched by connectivity and visual attention context.
 
-Stage 4 — Gated Residual Fusion
+Stage 4 — Gated Projection Fusion
   g = σ(W_g [eeg ‖ cross_graph ‖ cross_et])
   fused = LayerNorm(g ⊙ W_f [eeg ‖ cross_graph ‖ cross_et])
 

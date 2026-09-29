@@ -40,7 +40,7 @@ def arr(x1, y1, x2, y2, c=C_EDGE, lw=1.9, ls="-"):
 
 
 t(60, 81.5, "Cross-Modal Fusion & Neuro-Symbolic Reasoning", 15, "bold")
-t(60, 78.0, "bidirectional cross-attention  ·  learned multimodal fusion  ·  interpretable rule-based reasoning",
+t(60, 78.0, "directed cross-attention  ·  learned multimodal fusion  ·  interpretable rule-based reasoning",
   9.5, c="#555")
 
 # ── encoder embeddings (inputs) ───────────────────────────────────────────────

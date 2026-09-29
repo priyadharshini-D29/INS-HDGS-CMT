@@ -156,7 +156,7 @@ if cap.get("attn_eeg_graph") is not None: cross_bar(cap["attn_eeg_graph"], "Grap
 if cap.get("attn_eeg_et")    is not None: cross_bar(cap["attn_eeg_et"],    "ET",    "06_crossattn_eeg_et.png",   "06")
 
 # 07  gated residual fusion — the learned gate vector
-vec_heat(cap["gate"], "07 · Gated Residual Fusion (learned gate σ)", "07_gated_fusion.png",
+vec_heat(cap["gate"], "07 · Gated Projection Fusion (learned gate σ)", "07_gated_fusion.png",
          cbar="gate value ∈[0,1]", cmap="viridis")
 
 # 08  joint multimodal representation Z
