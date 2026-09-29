@@ -229,7 +229,7 @@ For each of the 37 evaluable held-out test subjects ([losocv.py:371-400](evaluat
 
 **How to read these numbers (the manuscript's framing, keep it):**
 - The NeuMa engagement label is a fixed rule over EEG band power and gaze statistics; a linear probe recovers it at ROC-AUC 0.67 from the label's EEG terms and 0.92 from its gaze terms. The full model's 0.88 is therefore **label-coupled**: it matches, but does not exceed, the best individually tuned eye-tracking and fusion baselines after Holm correction.
-- The **gaze-free EEG branch** reaches ROC-AUC 0.59 and is statistically indistinguishable from eight tuned EEG encoders. Removing the graph pathway costs 0.09 balanced accuracy, but density-matched static or random graphs cost nothing.
+- The **gaze-free EEG branch** reaches ROC-AUC 0.59 and is statistically indistinguishable from eight tuned EEG encoders. Removing the graph pathway lowers ROC-AUC by 0.078 (raw p = 0.011, not significant after Holm correction; balanced accuracy −0.024), but density-matched static or random graphs cost nothing.
 - A model trained with the rule gate closed (rules decide) keeps balanced accuracy 0.715 and ROC-AUC 0.839; the gated model bypasses the rules.
 - Lead with ROC-AUC + balanced accuracy + MCC; report accuracy alongside; state the operating point. Do **not** report test-tuned thresholds or cherry-picked folds.
 

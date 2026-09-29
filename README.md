@@ -61,7 +61,8 @@ claims strictly separate:
 | **Gaze-free variant (control)** | **EEG-only** — never accesses gaze | **0.59** | No detectable difference from eight tuned EEG encoders (37-fold Wilcoxon, Holm-corrected; three baselines score numerically higher) |
 
 **The controls are the main result, not a side note.** Removing the graph
-pathway costs 0.09 balanced accuracy, but replacing the measured dynamic
+pathway lowers ROC-AUC by 0.078 (raw p = 0.011, not significant after Holm
+correction; balanced accuracy −0.024), but replacing the measured dynamic
 connectivity with density-matched static or random graphs produces no
 detectable loss — so the measured time-varying topology was not necessary for
 the reported accuracy; the comparison does not identify which information the
@@ -80,7 +81,8 @@ per-fold results (CSV), statistics and manuscript TeX — are on the
 [`REPRODUCING.md`](../../blob/paper-sources/REPRODUCING.md): it maps every
 reported number to a committed per-fold file (verifiable without retraining)
 and gives the exact retraining commands (seed 42) together with the documented
-run-to-run spread (0.030 balanced accuracy / 0.016 ROC-AUC).
+run-to-run spread (0.02 balanced accuracy, 0.719–0.740 / 0.02 ROC-AUC,
+0.863–0.879).
 
 ## Dataset
 
