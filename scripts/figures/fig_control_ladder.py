@@ -1,22 +1,25 @@
 #!/usr/bin/env python3
-"""Control ladder: paired change against the full model for every control (Section 3.4 of the
-manuscript). One row per control, three panels (ROC-AUC, balanced accuracy, MCC at the
-uncalibrated operating point = threshold transferred from the validation subject), mean paired
-difference with a bootstrap 95 % CI and the paired Wilcoxon p (zero differences discarded, the
-scipy default used by compare_component_ablation.py, so the raw p equals Table 7), over the held-out
-subjects the two runs share.
+"""Control ladder: paired change against the full model for every control (Fig. 6 / Table 6 of the
+manuscript). One row per control, three panels (ROC-AUC, balanced accuracy, MCC), mean paired
+difference with a bootstrap 95 % CI and the paired Wilcoxon p (zero differences discarded), over
+the held-out subjects the two runs share.
 
-Reference : results/ablation/abl_full/losocv_abl_full.csv, the revision re-run of the production
-            configuration from the same code path as every ablation (the reference of Table 7 /
-            compare_component_ablation.py --full-csv ... --raw).  The published production CSV
-            differs from it by run-to-run variation (0.008 balanced accuracy raw, 0.034 calibrated);
-            the calibrated operating point (0.5 cut-off after temperature scaling) is therefore
-            NOT used for paired deltas.  Override with NEUMA_LADDER_FULL=<csv>.
+Operating point (the manuscript's reporting convention, Section 2.7): balanced accuracy and MCC
+are computed per fold from the saved held-out probabilities thresholded at 0.5 (`y_true`/`y_prob`
+of each per-fold CSV; the ET-LSTM from its per-epoch fold_probs file); ROC-AUC is the stored
+per-fold column. Paired differences smaller than 1e-9 are treated as ties, since equal per-fold
+scores can differ by one ulp across save paths. This reproduces every delta, r_rb and W/T/L of
+Table 6 / Table S14 exactly; Wilcoxon p-values in cells with heavily tied ranks can differ from
+the published third decimal across scipy versions (tie-correction details), without any effect
+on the corrected conclusions -- see results/statistics/VERIFICATION_2026-09-29.md.
+
+Reference : results/ablation/abl_full/losocv_abl_full.csv (override: NEUMA_LADDER_FULL=<csv>).
 Variants  : results/ablation/abl_<v>/losocv_abl_<v>.csv ; ET-LSTM from results/baselines/dl_tuned/
 Output    : paper/figures/fig_control_ladder.{pdf,png}, results/figures/control_ladder.csv
-Run       : python scripts/figures/fig_control_ladder.py     (repository root; CPU; needs the
-            revision CSVs, i.e. run on the server or after they are pulled)
+Run       : python scripts/figures/fig_control_ladder.py     (repository root; CPU)
 """
+import ast
+import os
 from pathlib import Path
 import numpy as np
 import pandas as pd
@@ -26,15 +29,15 @@ import matplotlib.pyplot as plt
 from scipy.stats import wilcoxon
 
 ROOT = Path(__file__).resolve().parents[2]
-import os
 FULL = Path(os.environ.get("NEUMA_LADDER_FULL", ROOT / "results/ablation/abl_full/losocv_abl_full.csv"))
 ABL = ROOT / "results/ablation"
 BASE = ROOT / "results/baselines/dl_tuned"
+TIE_EPS = 1e-9
 
 # (label, csv, group).  Order = display order (top to bottom).
 ROWS = [
     ("$-$ Spiking encoder",                       ABL / "abl_no_snn/losocv_abl_no_snn.csv",                         "Architecture ablations"),
-    ("$-$ ROI guidance",                          ABL / "abl_no_roi/losocv_abl_no_roi.csv",                         "Architecture ablations"),
+    ("$-$ ROI gate and graph modulation",         ABL / "abl_no_roi/losocv_abl_no_roi.csv",                         "Architecture ablations"),
     ("$-$ Fusion transformer",                    ABL / "abl_no_fusion_transformer/losocv_abl_no_fusion_transformer.csv", "Architecture ablations"),
     ("$-$ Neuro-symbolic module",                 ABL / "abl_no_neuro_symbolic/losocv_abl_no_neuro_symbolic.csv",   "Architecture ablations"),
     ("$-$ Contrastive objective",                 ABL / "abl_no_contrastive/losocv_abl_no_contrastive.csv",         "Architecture ablations"),
@@ -47,17 +50,41 @@ ROWS = [
     ("$-$ All gaze input (gaze-free variant)",     ABL / "abl_eeg_only/losocv_abl_eeg_only.csv",                     "Gaze input"),
     ("ET-LSTM, gaze only (tuned baseline)",       BASE / "losocv_et_lstm.csv",                                      "External reference"),
 ]
-METRICS = [("roc_auc", "$\\Delta$ ROC-AUC"), ("balanced_acc", "$\\Delta$ balanced accuracy"),
+METRICS = [("roc", "$\\Delta$ ROC-AUC"), ("bal", "$\\Delta$ balanced accuracy"),
            ("mcc", "$\\Delta$ MCC")]
 GROUP_COLOR = {"Architecture ablations": "#4c72b0", "Graph topology": "#8172b2",
                "Gaze input": "#c44e52", "External reference": "#55a868"}
 RNG = np.random.default_rng(0)
 
 
+def bal_mcc(yt, pred):
+    tp = int(((yt == 1) & (pred == 1)).sum()); tn = int(((yt == 0) & (pred == 0)).sum())
+    fp = int(((yt == 0) & (pred == 1)).sum()); fn = int(((yt == 1) & (pred == 0)).sum())
+    sens = tp / (tp + fn) if tp + fn else 0.0
+    spec = tn / (tn + fp) if tn + fp else 0.0
+    den = np.sqrt(float((tp + fp) * (tp + fn) * (tn + fp) * (tn + fn)))
+    return 0.5 * (sens + spec), ((tp * tn - fp * fn) / den if den else 0.0)
+
+
 def load(csv):
-    d = pd.read_csv(csv)
-    d = d.drop_duplicates("test_subject", keep="last").set_index("test_subject")
-    return d
+    """Per-fold roc / bal / mcc at the 0.5 operating point on the saved held-out probabilities."""
+    d = pd.read_csv(csv).drop_duplicates("test_subject", keep="last").set_index("test_subject")
+    probs = csv.parent / "fold_probs" / f"probs_{csv.stem.replace('losocv_', '')}.csv"
+    out = {}
+    if "y_prob" in d.columns:
+        for s, r in d.iterrows():
+            yt = np.array(ast.literal_eval(r["y_true"]), int)
+            yp = np.array(ast.literal_eval(r["y_prob"]), float)
+            b, m = bal_mcc(yt, (yp >= 0.5).astype(int))
+            out[s] = dict(roc=r["roc_auc"], bal=b, mcc=m)
+    elif probs.exists():
+        pp = pd.read_csv(probs)
+        for s, g in pp.groupby("test_subject"):
+            b, m = bal_mcc(g["y_true"].to_numpy(int), (g["p1"].to_numpy(float) >= 0.5).astype(int))
+            out[s] = dict(roc=float(d.loc[s, "roc_auc"]), bal=b, mcc=m)
+    else:
+        raise SystemExit(f"{csv}: no y_prob column and no fold_probs file")
+    return pd.DataFrame(out).T
 
 
 def boot_ci(x, n=10000):
@@ -76,14 +103,13 @@ def main():
         v = load(csv)
         common = sorted(set(full.index) & set(v.index))
         for m, _ in METRICS:
-            if m not in v.columns:
-                print(f"[skip] {label}: no column {m}"); continue
             a = full.loc[common, m].astype(float).to_numpy()
             b = v.loc[common, m].astype(float).to_numpy()
             d = b - a                                     # variant minus full (negative = variant worse)
+            d[np.abs(d) < TIE_EPS] = 0.0                  # ulp-equal per-fold scores are ties
             lo, hi = boot_ci(d)
             try:
-                p = wilcoxon(b, a, zero_method="wilcox").pvalue if np.any(d != 0) else 1.0   # = Table 7 convention
+                p = wilcoxon(d[d != 0]).pvalue if np.any(d != 0) else 1.0
             except ValueError:
                 p = float("nan")
             recs.append(dict(control=label, group=group, metric=m, n=len(common), mean_full=a.mean(),
