@@ -4,19 +4,14 @@
   "frontal": [
     "Fz",
     "F3",
-    "F4",
-    "FC1",
-    "FC2"
+    "F4"
   ],
   "posterior": [
     "Pz",
-    "Oz",
     "O1",
     "O2",
     "P3",
-    "P4",
-    "P7",
-    "P8"
+    "P4"
   ],
   "bands": {
     "theta": [
@@ -30,26 +25,66 @@
   },
   "theta": {
     "within_subject_perm": {
-      "observed_diff": 0.0017090575216401722,
-      "cohens_d": 0.03730622165229841,
-      "null_mean": -6.313252493765086e-06,
-      "null_std": 0.004710721641889295,
-      "p_value_two_sided": 0.7186640667966602,
+      "observed_diff": 0.004859173440088117,
+      "cohens_d": 0.07177470280294028,
+      "null_mean": -6.80686344225252e-06,
+      "null_std": 0.006965764414574776,
+      "p_value_two_sided": 0.49052547372631367,
       "n_epochs": 347,
       "n_perm": 20000
     },
-    "wilcoxon_p": 0.7092871580534847
+    "wilcoxon_p": 0.39420714185689576
   },
   "alpha": {
     "within_subject_perm": {
-      "observed_diff": -0.001352066703823042,
-      "cohens_d": -0.043959799874692146,
-      "null_mean": 7.229040018564564e-06,
-      "null_std": 0.0031376100731570606,
-      "p_value_two_sided": 0.6627168641567922,
+      "observed_diff": -0.008755461422667702,
+      "cohens_d": -0.1650078193594738,
+      "null_mean": 2.15975870509518e-05,
+      "null_std": 0.005427939574284792,
+      "p_value_two_sided": 0.10989450527473626,
       "n_epochs": 347,
       "n_perm": 20000
     },
-    "wilcoxon_p": 0.570653132192092
+    "wilcoxon_p": 0.10705992698785849
+  },
+  "variant": {
+    "frontal": [
+      "Fz",
+      "F3",
+      "F4",
+      "F7",
+      "F8"
+    ],
+    "posterior": [
+      "Pz",
+      "O1",
+      "O2",
+      "P3",
+      "P4",
+      "T5",
+      "T6"
+    ],
+    "theta": {
+      "within_subject_perm": {
+        "observed_diff": -0.0007950180030177755,
+        "cohens_d": -0.01301916410482282,
+        "null_mean": -1.1803256612885265e-05,
+        "null_std": 0.006288133701790162,
+        "p_value_two_sided": 0.8990550472476376,
+        "n_epochs": 347,
+        "n_perm": 20000
+      }
+    },
+    "alpha": {
+      "within_subject_perm": {
+        "observed_diff": -0.005867640080778178,
+        "cohens_d": -0.13338376905093993,
+        "null_mean": -8.805500980772645e-06,
+        "null_std": 0.0044244469732596095,
+        "p_value_two_sided": 0.18829058547072647,
+        "n_epochs": 347,
+        "n_perm": 20000
+      }
+    }
   }
 }

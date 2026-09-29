@@ -2,11 +2,11 @@
 ================================================================
 INS-HDGS-CMT — Construct Validity (PRIMARY): EEG connectivity ↔ engagement
 ================================================================
-The model's most important component is the EEG functional-connectivity graph
-(ablation: removing it costs Δbal-acc −0.057, Wilcoxon p=0.007). Engagement in
-this dataset is therefore encoded in CONNECTIVITY structure, not regional band
-power (see analysis/eeg_concordance.py, which found only weak power effects in
-this delta-dominated, eyes-open paradigm).
+Removing the graph pathway changes ROC-AUC by −0.078 (raw p=0.011, not
+significant after Holm; balanced accuracy −0.024), and density-matched
+static/random graphs cost nothing (manuscript Table 6). This script tests the
+construct from the independent EEG modality with the connectivity quantity the
+model consumes (see also analysis/eeg_concordance.py for band-power markers).
 
 This script tests the construct from the independent EEG modality using the SAME
 quantity the model consumes: phase-locking value (PLV). If the ET-derived
@@ -20,8 +20,11 @@ METHOD (leakage-free, within-subject)
 * Per band (theta 4–8, alpha 8–13 Hz): zero-phase band-pass → Hilbert phase →
   PLV between every frontal×posterior channel pair; mean over pairs = the
   epoch's fronto-parietal PLV.
-    frontal  : Fz, F3, F4, FC1, FC2
-    posterior: Pz, Oz, O1, O2, P3, P4, P7, P8
+    frontal  : Fz, F3, F4          (variant: + F7, F8)
+    posterior: Pz, O1, O2, P3, P4  (variant: + T5, T6)
+  (2026-09-29 correction: the earlier sets named FC1/FC2/Oz/P7/P8, which do
+  not exist in the DSI-24, and the shared channel index map did not match the
+  saved epoch order; see eeg_concordance.CANONICAL.)
 * Within-subject epoch-level permutation test (subject-centred PLV; labels
   shuffled within subject), two-sided. Subject = structure unit. Reports Cohen's
   d and a per-subject-mean Wilcoxon as a secondary check.
@@ -47,8 +50,10 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from eeg_concordance import _load_subject, _subjects, IDX, FS, OUT_DIR  # noqa: E402
 
-FRONTAL = ["Fz", "F3", "F4", "FC1", "FC2"]
-POSTERIOR = ["Pz", "Oz", "O1", "O2", "P3", "P4", "P7", "P8"]
+FRONTAL = ["Fz", "F3", "F4"]
+POSTERIOR = ["Pz", "O1", "O2", "P3", "P4"]
+FRONTAL_VAR = ["Fz", "F3", "F4", "F7", "F8"]
+POSTERIOR_VAR = ["Pz", "O1", "O2", "P3", "P4", "T5", "T6"]
 BANDS = {"theta": (4.0, 8.0), "alpha": (8.0, 13.0)}
 
 
@@ -62,11 +67,11 @@ def _bandpass(epoch, lo, hi):
     return filtfilt(b, a, epoch, axis=0)
 
 
-def _fronto_parietal_plv(epoch, band):
+def _fronto_parietal_plv(epoch, band, frontal=FRONTAL, posterior=POSTERIOR):
     lo, hi = BANDS[band]
     ph = _phase(_bandpass(epoch, lo, hi))           # (T, C)
-    f_idx = [IDX[c] for c in FRONTAL if c in IDX and np.any(epoch[:, IDX[c]] != 0)]
-    p_idx = [IDX[c] for c in POSTERIOR if c in IDX and np.any(epoch[:, IDX[c]] != 0)]
+    f_idx = [IDX[c] for c in frontal if c in IDX and np.any(epoch[:, IDX[c]] != 0)]
+    p_idx = [IDX[c] for c in posterior if c in IDX and np.any(epoch[:, IDX[c]] != 0)]
     if not f_idx or not p_idx:
         return np.nan
     plvs = []
@@ -109,10 +114,15 @@ def main():
             continue
         theta = np.array([_fronto_parietal_plv(eeg[i], "theta") for i in range(len(eeg))])
         alpha = np.array([_fronto_parietal_plv(eeg[i], "alpha") for i in range(len(eeg))])
+        theta_v = np.array([_fronto_parietal_plv(eeg[i], "theta", FRONTAL_VAR, POSTERIOR_VAR)
+                            for i in range(len(eeg))])
+        alpha_v = np.array([_fronto_parietal_plv(eeg[i], "alpha", FRONTAL_VAR, POSTERIOR_VAR)
+                            for i in range(len(eeg))])
         hi, lo = lab == 1, lab == 0
         for i in range(len(eeg)):
             epoch_rows.append({"subject": sid, "label": int(lab[i]),
-                               "fp_plv_theta": theta[i], "fp_plv_alpha": alpha[i]})
+                               "fp_plv_theta": theta[i], "fp_plv_alpha": alpha[i],
+                               "fp_plv_theta_var": theta_v[i], "fp_plv_alpha_var": alpha_v[i]})
         subj_rows.append({
             "subject": sid, "n_high": int(hi.sum()), "n_low": int(lo.sum()),
             "delta_fp_plv_theta": float(np.nanmean(theta[hi]) - np.nanmean(theta[lo])),
@@ -126,6 +136,8 @@ def main():
 
     ws_theta = within_subject_perm(ep, "fp_plv_theta")
     ws_alpha = within_subject_perm(ep, "fp_plv_alpha")
+    ws_theta_v = within_subject_perm(ep, "fp_plv_theta_var")
+    ws_alpha_v = within_subject_perm(ep, "fp_plv_alpha_var")
     w_theta = wilcoxon(sdf["delta_fp_plv_theta"].to_numpy())
     w_alpha = wilcoxon(sdf["delta_fp_plv_alpha"].to_numpy())
 
@@ -145,6 +157,9 @@ def main():
         "frontal": FRONTAL, "posterior": POSTERIOR, "bands": BANDS,
         "theta": {"within_subject_perm": ws_theta, "wilcoxon_p": float(w_theta.pvalue)},
         "alpha": {"within_subject_perm": ws_alpha, "wilcoxon_p": float(w_alpha.pvalue)},
+        "variant": {"frontal": FRONTAL_VAR, "posterior": POSTERIOR_VAR,
+                    "theta": {"within_subject_perm": ws_theta_v},
+                    "alpha": {"within_subject_perm": ws_alpha_v}},
     }
     with open(OUT_DIR / "connectivity_concordance.json", "w") as fh:
         json.dump(summary, fh, indent=2)

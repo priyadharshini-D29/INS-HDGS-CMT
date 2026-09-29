@@ -6,7 +6,9 @@ Sources: results/validation/eeg_concordance.json          (frontal-theta, poster
          results/ablation/abl_eeg_only/losocv_abl_eeg_only.csv   (gaze-free EEG branch, per fold)
          results/ablation/abl_full/losocv_abl_full.csv  (full model, per fold)
 Output : paper/figures/fig_concordance_depth.{png,pdf}  (+ results/figures/)
-Panel A: every single univariate marker has |Cohen's d| < 0.2 and permutation p >> 0.05.
+Panel A: within-subject effect size and permutation p of each univariate marker
+         (after the 2026-09-29 channel-map correction, frontal-midline theta shows a
+         small HIGH>LOW effect; the other markers do not separate the classes).
 Panel B: ROC-AUC of the best single marker (pooled and mean per subject), the gaze-free EEG
          branch and the full model, all on the same 37 evaluable subjects.
 Run    : python scripts/figures/gen_fig_concordance_depth.py   (from the repository root)
@@ -47,10 +49,12 @@ ax.set_yticks(y); ax.set_yticklabels(names); ax.invert_yaxis()
 ax.set_xlabel("Cohen's d  (HIGH − LOW, within-subject)")
 ax.set_xlim(-0.35, 0.35)
 for yi, v, p in zip(y, ds, ps):
-    ax.text(v + (0.01 if v>=0 else -0.01), yi, f"d={v:+.2f}, p={p:.2f} (ns)",
+    tag = f"d={v:+.2f}, p={p:.3f}" + ("" if p < 0.05 else " (ns)")
+    ax.text(v + (0.01 if v>=0 else -0.01), yi, tag,
             va="center", ha="left" if v>=0 else "right", fontsize=8.5)
-ax.set_title("Single-marker concordance — no univariate EEG marker separates engagement\n"
-             "(20,000-perm within-subject tests, 347 epochs, 37 subjects)", fontsize=11)
+ax.set_title("Single-marker concordance — frontal-midline theta shows a small HIGH>LOW effect;\n"
+             "no other marker separates the classes (20,000-perm within-subject tests, 347 epochs, 37 subjects)",
+             fontsize=10.5)
 ax.legend(loc="lower right", frameon=False, fontsize=8)
 ax.set_title("A", loc="left", fontweight="bold")
 

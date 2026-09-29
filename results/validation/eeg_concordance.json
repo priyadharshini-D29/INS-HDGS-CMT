@@ -2,55 +2,88 @@
   "n_subjects": 37,
   "within_subject_permutation": {
     "frontal_theta_HIGH_gt_LOW": {
-      "observed_diff": 0.0032374375681330425,
-      "cohens_d": 0.09141486149773778,
-      "null_mean": 1.6177700316322864e-05,
-      "null_std": 0.0035331059160069477,
-      "p_value": 0.1824408779561022,
+      "observed_diff": 0.009557880799823101,
+      "cohens_d": 0.25042131515229127,
+      "null_mean": 8.018953597192857e-06,
+      "null_std": 0.0038096959616656496,
+      "p_value": 0.006749662516874156,
       "n_epochs": 347,
       "n_perm": 20000
     },
     "posterior_alpha_HIGH_lt_LOW": {
-      "observed_diff": -0.0008471706421289689,
-      "cohens_d": -0.02776987364275223,
-      "null_mean": 2.315781064277969e-06,
-      "null_std": 0.0031936772902087635,
-      "p_value": 0.3966801659917004,
+      "observed_diff": -0.002509765834700161,
+      "cohens_d": -0.07321023568452306,
+      "null_mean": 7.222059529000818e-06,
+      "null_std": 0.003563257483357624,
+      "p_value": 0.23953802309884506,
       "n_epochs": 347,
       "n_perm": 20000
     }
   },
   "frontal_theta": {
-    "mean_delta": 0.00442348783987258,
-    "median_delta": 0.0025556176488885363,
-    "n_positive": 20,
-    "wilcoxon_W": 394.0,
-    "wilcoxon_p_greater": 0.2653418701083865
+    "mean_delta": 0.012555462098226465,
+    "median_delta": 0.01268242740401751,
+    "n_positive": 26,
+    "wilcoxon_W": 496.0,
+    "wilcoxon_p_greater": 0.014315016895125154
   },
   "posterior_alpha": {
-    "mean_delta": -0.00322482848357901,
-    "median_delta": -0.0001627371265298383,
+    "mean_delta": -0.006329203275027462,
+    "median_delta": -0.0008842054299690594,
     "n_negative": 19,
-    "wilcoxon_W": 316.0,
-    "wilcoxon_p_less": 0.3007593980655656
+    "wilcoxon_W": 295.0,
+    "wilcoxon_p_less": 0.20130198468541494
+  },
+  "variant": {
+    "frontal_theta_HIGH_gt_LOW": {
+      "observed_diff": 0.00404363637049122,
+      "cohens_d": 0.11731240113164564,
+      "null_mean": 1.305528744188568e-05,
+      "null_std": 0.0034464293682662413,
+      "p_value": 0.12309384530773461,
+      "n_epochs": 347,
+      "n_perm": 20000
+    },
+    "posterior_alpha_HIGH_lt_LOW": {
+      "observed_diff": -0.0022056475928563402,
+      "cohens_d": -0.06792800000198995,
+      "null_mean": 1.650577407242032e-07,
+      "null_std": 0.003395606508227286,
+      "p_value": 0.25738713064346785,
+      "n_epochs": 347,
+      "n_perm": 20000
+    },
+    "channels": {
+      "frontal_theta": [
+        "Fz",
+        "F3",
+        "F4",
+        "F7",
+        "F8"
+      ],
+      "posterior_alpha": [
+        "Pz",
+        "O1",
+        "O2",
+        "P3",
+        "P4",
+        "T5",
+        "T6"
+      ]
+    }
   },
   "channels": {
     "frontal_theta": [
       "Fz",
       "F3",
-      "F4",
-      "FC1",
-      "FC2"
+      "F4"
     ],
     "posterior_alpha": [
       "Pz",
-      "Oz",
       "O1",
       "O2",
       "P3",
-      "P4",
-      "P7",
-      "P8"
+      "P4"
     ]
   },
   "bands": {
@@ -63,5 +96,31 @@
       13.0
     ]
   },
-  "fs": 300
+  "fs": 300,
+  "montage": [
+    "P3",
+    "C3",
+    "F3",
+    "Fz",
+    "F4",
+    "C4",
+    "P4",
+    "Cz",
+    "Pz",
+    "Fp1",
+    "Fp2",
+    "T3",
+    "T5",
+    "O1",
+    "O2",
+    "X3",
+    "X2",
+    "F7",
+    "F8",
+    "X1",
+    "A2",
+    "T6",
+    "T4",
+    "TRG"
+  ]
 }

@@ -63,7 +63,20 @@ def gaze_entropy(xy: np.ndarray) -> float:
     return float(-(p * np.log(p)).sum())
 
 
-def load_case(name: str, prov: dict, roi: dict) -> dict:
+def saved_probs() -> dict:
+    """Per-subject held-out probabilities from the saved LOSOCV evaluation —
+    the manuscript's probability definition (temperature-scaled ensemble mean,
+    Section 2.7). The provenance JSON's p_high is the checkpoint re-inference
+    WITHOUT the per-member temperature (the checkpoints do not store it), which
+    differs on fold 28, the one fold where the temperatures were active."""
+    import ast
+    import pandas as pd
+    d = pd.read_csv(ROOT / "results" / "ablation" / "abl_full" / "losocv_abl_full.csv")
+    d = d.drop_duplicates("test_subject", keep="last").set_index("test_subject")
+    return {s: [float(v) for v in ast.literal_eval(r["y_prob"])] for s, r in d.iterrows()}
+
+
+def load_case(name: str, prov: dict, roi: dict, probs: dict) -> dict:
     c = prov[name]
     et = np.load(SEG / c["subj"] / "output" / "epochs" / "et_epochs_phase3d.npy", allow_pickle=True)
     xy = np.asarray(et[c["rep"]], np.float32)[:, :2]
@@ -71,14 +84,17 @@ def load_case(name: str, prov: dict, roi: dict) -> dict:
     if abs(ent - c["gaze_entropy"]) > 1e-3:
         raise RuntimeError(f"{name}: local epoch {c['rep']} of {c['subj']} gives gaze entropy {ent:.4f}, "
                            f"saved run had {c['gaze_entropy']:.4f}; epochs differ from the analysed run")
-    return dict(subj=c["subj"], xy=xy, entropy=c["gaze_entropy"], p_high=c["p_high"], true=c["true"],
+    p_saved = probs[c["subj"]][c["rep"]]
+    return dict(subj=c["subj"], xy=xy, entropy=c["gaze_entropy"], p_high=p_saved,
+                p_high_untempered=c["p_high"], true=c["true"],
                 ig=c["ig"], roi=np.asarray(roi[name]["roi_vector"], np.float32))
 
 
 def main():
     prov = json.loads((RES / "high_low_provenance.json").read_text())
     roi = json.loads((RES / "roi_timecourse.json").read_text())
-    H, L = load_case("HIGH", prov, roi), load_case("LOW", prov, roi)
+    probs = saved_probs()
+    H, L = load_case("HIGH", prov, roi, probs), load_case("LOW", prov, roi, probs)
 
     fig, ax = plt.subplots(2, 4, figsize=(18, 8))
     for col, (C, ttl) in enumerate([(H, "HIGH (S24)"), (L, "LOW (S30)")]):
@@ -107,7 +123,9 @@ def main():
     plt.close(fig)
     for name, C in (("HIGH", H), ("LOW", L)):
         tot = sum(C["ig"][k] for k in IGN)
-        print(name, C["subj"], "p_high=%.3f" % C["p_high"], "entropy=%.3f" % C["entropy"],
+        print(name, C["subj"], "p_high(saved)=%.3f" % C["p_high"],
+              "p_high(untempered)=%.3f" % C["p_high_untempered"],
+              "entropy=%.3f" % C["entropy"],
               {IGN[k]: round(C["ig"][k] / tot, 2) for k in IGN})
     print("wrote", ", ".join(str(o / "fig_gaze_pred.{pdf,png}") for o in OUT))
 
