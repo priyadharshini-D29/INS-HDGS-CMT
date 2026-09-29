@@ -105,5 +105,5 @@ hardware timings.
 
 ## Manuscript
 
-`paper/` contains the manuscript and supplementary TeX
-(`pdflatex`, class file included); the PDFs compile from these sources.
+The manuscript and supplementary sources are with the journal during review
+and will be deposited in this branch upon publication.

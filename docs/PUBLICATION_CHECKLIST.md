@@ -11,7 +11,7 @@ Nature Portfolio, IEEE, Elsevier, Springer).
 - [ ] All tables referenced in text; units and significant figures consistent
 - [ ] Statistical tests reported with effect sizes and corrected p-values
 - [ ] Limitations and ethical considerations discussed
-- [ ] References complete and consistently formatted (`paper/references.bib`)
+- [ ] References complete and consistently formatted (manuscript sources; deposited upon publication)
 
 ## Code & data (reproducibility)
 - [ ] Public repository link in the paper (this repo)
