@@ -4,8 +4,9 @@ drawn from the revision runs so that every number matches Tables 3-7.
 
   (A) Pooled ROC over the 37 held-out subjects: full model, the tuned ET-LSTM (gaze only) and the
       gaze-free EEG branch, from the per-epoch probabilities.
-  (B) Per-fold distribution of the full model's calibrated balanced accuracy, ROC-AUC, calibrated MCC
-      and calibrated accuracy (the Table 3 conventions).
+  (B) Per-fold distribution of the full model's balanced accuracy, ROC-AUC, MCC and accuracy at the
+      common 0.5 operating point on the saved held-out probabilities (the *_cal CSV columns; the
+      manuscript's reporting convention, Section 2.7 -- not the validation-derived thresholds).
   (C) Mean per-fold ROC-AUC (+/- SD) of the label's own gaze terms (linear probe), the full model, the
       tuned ET-LSTM, the gaze-free branch, the best tuned EEG encoder and the label's own EEG terms:
       where the accuracy sits relative to the ceiling the label's gaze terms set.
@@ -77,12 +78,12 @@ def main():
 
     # (A) pooled ROC ---------------------------------------------------------------------
     axA = fig.add_subplot(gs[0])
-    curves = [("Decoder (EEG + gaze)", pooled_from_losocv(FULL_CSV), C_FULL, 2.4)]
+    curves = [("Full model (EEG + gaze)", pooled_from_losocv(FULL_CSV), C_FULL, 2.4)]
     et = pooled_from_probs("et_lstm")
     if et is not None:
         curves.append(("ET-LSTM, gaze only (tuned)", et, C_ET, 1.6))
     if EEG_CSV.exists():
-        curves.append(("Gaze-free variant", pooled_from_losocv(EEG_CSV), C_EEG, 1.6))
+        curves.append(("Gaze-free EEG branch", pooled_from_losocv(EEG_CSV), C_EEG, 1.6))
     for name, (yt, yp), c, lw in curves:
         fpr, tpr, _ = roc_curve(yt, yp)
         axA.plot(fpr, tpr, color=c, lw=lw, label=f"{name} (AUC {roc_auc_score(yt, yp):.2f})")
@@ -93,8 +94,8 @@ def main():
 
     # (B) per-fold distribution ----------------------------------------------------------
     axB = fig.add_subplot(gs[1])
-    mets = [("balanced_acc_cal", "Balanced\nacc (cal.)"), ("roc_auc", "ROC-AUC"),
-            ("mcc_cal", "MCC (cal.)"), ("accuracy_cal", "Accuracy\n(cal.)")]
+    mets = [("balanced_acc_cal", "Balanced\nacc"), ("roc_auc", "ROC-AUC"),
+            ("mcc_cal", "MCC"), ("accuracy_cal", "Accuracy")]
     data = [d[m].astype(float).values for m, _ in mets]
     bp = axB.boxplot(data, patch_artist=True, widths=.6, showmeans=True,
                      meanprops=dict(marker="D", mfc="white", mec="k", ms=5))
@@ -105,7 +106,7 @@ def main():
         axB.scatter(rng.normal(i + 1, .05, len(vals)), vals, s=10, color=C_FULL, alpha=.6, zorder=3)
     axB.set_xticks(range(1, len(mets) + 1)); axB.set_xticklabels([l for _, l in mets])
     axB.set_ylim(-.4, 1.05); axB.axhline(0, color="#bbb", lw=.8); axB.axhline(0.5, color="#ddd", lw=.8, ls=":")
-    axB.set_title(f"(B) Decoder, per fold (n={len(d)})", fontweight="bold", fontsize=10)
+    axB.set_title(f"(B) Full model, per fold (n={len(d)})", fontweight="bold", fontsize=10)
     axB.grid(axis="y", alpha=.25)
 
     # (C) where the accuracy sits --------------------------------------------------------
@@ -113,12 +114,12 @@ def main():
     bars = []
     g = probe(["Gaze-5", "ET-5"])
     if g: bars.append(("Label's gaze terms\n(linear probe)", g[0], g[1], C_PROBE))
-    bars.append(("Decoder\n(EEG + gaze)", d["roc_auc"].mean(), d["roc_auc"].std(), C_FULL))
+    bars.append(("Full model\n(EEG + gaze)", d["roc_auc"].mean(), d["roc_auc"].std(), C_FULL))
     et_csv = BASE / "losocv_et_lstm.csv"
     if et_csv.exists():
         e = per_fold(et_csv); bars.append(("ET-LSTM\n(gaze only, tuned)", e["roc_auc"].mean(), e["roc_auc"].std(), C_ET))
     if EEG_CSV.exists():
-        e = per_fold(EEG_CSV); bars.append(("Gaze-free\nvariant", e["roc_auc"].mean(), e["roc_auc"].std(), C_EEG))
+        e = per_fold(EEG_CSV); bars.append(("Gaze-free\nEEG branch", e["roc_auc"].mean(), e["roc_auc"].std(), C_EEG))
     best = None
     for name in EEG_ENCODERS:
         p = BASE / f"losocv_{name}.csv"
