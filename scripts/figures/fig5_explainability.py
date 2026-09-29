@@ -56,8 +56,8 @@ from models.ins_hdgs_cmt import INS_HDGS_CMT, AblationConfig  # noqa: E402
 from data.dataset import NeumaGraphDataset                 # noqa: E402
 
 DEV = torch.device("cpu")
-CHAN = ["Fp1", "Fp2", "F3", "F4", "C3", "C4", "P3", "P4", "O1", "O2",
-        "F7", "F8", "T3", "T4", "T5", "T6", "Fz", "Cz", "Pz"]   # 19 canonical (matches data order)
+CHAN = ["P3", "C3", "F3", "Fz", "F4", "C4", "P4", "Cz", "Pz", "Fp1", "Fp2",
+        "T3", "T5", "O1", "O2", "F7", "F8", "T6", "T4"]   # true loader order (channel_harmonizer.CANONICAL_CHANNELS)
 GREEK = {"delta": "δ", "theta": "θ", "alpha": "α", "beta": "β", "gamma": "γ"}
 ARROW = {"up": "↑", "down": "↓"}
 
