@@ -94,9 +94,9 @@ hardware timings.
 - **Determinism:** identical machines and library versions reproduce runs closely;
   across GPUs/toolkits, bitwise identity is not guaranteed. The measured
   run-to-run spread of the full decoder over three same-seed trainings is
-  **0.030 balanced accuracy / 0.016 ROC-AUC**; differences within this band are
-  the documented noise floor, and the paper's conclusions are stated relative
-  to it.
+  **0.02 balanced accuracy (0.719–0.740) / 0.02 ROC-AUC (0.863–0.879)**;
+  differences within this band are the documented noise floor, and the paper's
+  conclusions are stated relative to it.
 - The tuned standard baselines are single models per fold (no ensemble); the
   decoder rows are 5-member ensembles — both stated in the table captions.
 - Checkpoints are deliberately not distributed; every checkpoint regenerates

@@ -214,27 +214,27 @@ For each of the 37 evaluable held-out test subjects ([losocv.py:371-400](evaluat
 
 ---
 
-## 8. Best Result & Production Config
+## 8. Reported Result & Production Config
 
-**Configuration `focal_abl_g3p0_effective_num`** — focal γ=3.0 × `effective_num` weighting, 3-ch un-normalized ET, full model.
+**Configuration `abl_full`** — the production decoder (19-electrode montage, 5-member ensemble per fold; `results/ablation/abl_full/losocv_abl_full.csv`). The manuscript reports the **lowest of three same-seed trainings** (run-to-run spread: balanced accuracy 0.719–0.740, ROC-AUC 0.863–0.879) at the **common 0.5 operating point** on the saved held-out probabilities (the `_cal` CSV columns; manuscript Section 2.7).
 
-| Metric | Value |
+| Metric (mean ± SD over 37 LOSOCV folds) | Value |
 |--------|-------|
-| Accuracy | **0.7976** (post-hoc threshold) / **~0.79 leakage-free** |
-| Balanced accuracy | 0.7594 |
-| MCC | **0.5304** |
-| ROC-AUC | 0.870 per-fold / 0.861 pooled |
-| PR-AUC | ~0.898 |
-| Raw accuracy (stored threshold) | 0.7569 |
-| ECE | 0.166 → **0.070** after cross-fold isotonic recalibration (no retrain) |
+| ROC-AUC (threshold-invariant) | **0.879 ± 0.17** |
+| Balanced accuracy | **0.719 ± 0.19** |
+| Accuracy | 76.7 ± 16.3 % |
+| MCC | **0.446 ± 0.38** |
+| Pooled ECE / Brier | 0.14 / 0.18 |
 | Folds | 37 of 42 subjects (5 single-class excluded) |
 
-**Reporting guidance / guardrails:**
-- The publishable headline is **~0.79 leakage-free** (beats the ~0.77 literature benchmark). Lead with **AUC + balanced-acc + MCC**, report accuracy alongside, state validation-derived calibration explicitly.
-- **Do NOT** report the test-tuned `0.804` global threshold, nor cherry-pick seeds/folds.
-- ECE is reported from the **pooled** cross-fold isotonic recalibration (`analysis/recalibrate_crossfold.py`); AUC/PR-AUC from raw probs (discrimination is calibration-independent).
+**Reporting guidance / guardrails (the manuscript's framing — keep it):**
+- The label is a fixed rule over EEG band power and gaze statistics; a linear probe recovers it at ROC-AUC 0.92 from its gaze terms and 0.67 from its EEG terms. The decoder's 0.879 is **label-coupled**: it matches, but does not exceed, the best individually tuned eye-tracking and fusion baselines after Holm correction.
+- The **gaze-free EEG branch** reaches ROC-AUC 0.59, statistically indistinguishable from eight tuned EEG encoders. Removing the graph pathway lowers ROC-AUC by 0.078 (raw p = 0.011, not significant after Holm correction; balanced accuracy −0.024), and density-matched static or random graphs cost nothing.
+- Lead with **ROC-AUC + balanced accuracy + MCC** at the stated 0.5 operating point; report accuracy alongside. Do **not** report test-tuned thresholds, validation-derived per-fold thresholds (the plain CSV columns) or cherry-picked seeds/folds as the headline.
 
-**Ceiling & bottleneck:** ~0.797 ceiling; main limiter is **high per-fold variance** (acc std ~0.19) from ~5–6 *inverted-AUC* subjects (subject distribution shift, e.g. S21), not the loss function. Open lever: reliability-aware fusion / test-time adaptation for those subjects.
+> **Retired numbers.** The earlier headline `focal_abl_g3p0_effective_num` — accuracy 0.7976 (post-hoc threshold), MCC 0.5304, ROC-AUC 0.870 — came from the 2026-05-30/31 grid that ran **before the EEG-montage fix**: it fed five non-cortical channels (three auxiliary/EOG, the A2 mastoid reference and the trigger channel) into graph construction as electrodes for 41 of 42 participants. It is superseded by the table above and must not be quoted.
+
+**Ceiling & bottleneck:** main limiter is **high per-fold variance** (accuracy SD ≈ 0.16) from a handful of *inverted-AUC* subjects (subject distribution shift, e.g. S21), not the loss function.
 
 **Approaches tested and REJECTED** (report as ablations, do not retry): DANN invariance, contrastive SSL pretraining, ET feature expansion (9-ch), ET normalization, per-subject-median labeling, reliability/recalibration static fusion, percentile-tail labeling.
 
