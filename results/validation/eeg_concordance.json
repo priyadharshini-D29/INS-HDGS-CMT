@@ -7,6 +7,8 @@
       "null_mean": 8.018953597192857e-06,
       "null_std": 0.0038096959616656496,
       "p_value": 0.006749662516874156,
+      "p_value_one_sided": 0.006749662516874156,
+      "p_value_two_sided": 0.012649367531623419,
       "n_epochs": 347,
       "n_perm": 20000
     },
@@ -16,6 +18,8 @@
       "null_mean": 7.222059529000818e-06,
       "null_std": 0.003563257483357624,
       "p_value": 0.23953802309884506,
+      "p_value_one_sided": 0.23953802309884506,
+      "p_value_two_sided": 0.48062596870156493,
       "n_epochs": 347,
       "n_perm": 20000
     }
@@ -25,14 +29,16 @@
     "median_delta": 0.01268242740401751,
     "n_positive": 26,
     "wilcoxon_W": 496.0,
-    "wilcoxon_p_greater": 0.014315016895125154
+    "wilcoxon_p_greater": 0.014315016895125154,
+    "wilcoxon_p_two_sided": 0.02863003379025031
   },
   "posterior_alpha": {
     "mean_delta": -0.006329203275027462,
     "median_delta": -0.0008842054299690594,
     "n_negative": 19,
     "wilcoxon_W": 295.0,
-    "wilcoxon_p_less": 0.20130198468541494
+    "wilcoxon_p_less": 0.20130198468541494,
+    "wilcoxon_p_two_sided": 0.4026039693708299
   },
   "variant": {
     "frontal_theta_HIGH_gt_LOW": {
@@ -41,6 +47,8 @@
       "null_mean": 1.305528744188568e-05,
       "null_std": 0.0034464293682662413,
       "p_value": 0.12309384530773461,
+      "p_value_one_sided": 0.12309384530773461,
+      "p_value_two_sided": 0.24258787060646966,
       "n_epochs": 347,
       "n_perm": 20000
     },
@@ -50,6 +58,8 @@
       "null_mean": 1.650577407242032e-07,
       "null_std": 0.003395606508227286,
       "p_value": 0.25738713064346785,
+      "p_value_one_sided": 0.25738713064346785,
+      "p_value_two_sided": 0.5143242837858107,
       "n_epochs": 347,
       "n_perm": 20000
     },

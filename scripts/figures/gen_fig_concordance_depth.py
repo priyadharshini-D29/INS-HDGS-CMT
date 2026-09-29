@@ -30,7 +30,7 @@ ft = eeg["within_subject_permutation"]["frontal_theta_HIGH_gt_LOW"]
 pa = eeg["within_subject_permutation"]["posterior_alpha_HIGH_lt_LOW"]
 pt = con["theta"]["within_subject_perm"]
 pl = con["alpha"]["within_subject_perm"]
-def pval(o): return o.get("p_value", o.get("p_value_two_sided"))
+def pval(o): return o.get("p_value_two_sided", o.get("p_value"))   # two-sided throughout
 
 markers = [
     ("Frontal-theta band power",        ft["cohens_d"], pval(ft)),
@@ -53,7 +53,7 @@ for yi, v, p in zip(y, ds, ps):
     ax.text(v + (0.01 if v>=0 else -0.01), yi, tag,
             va="center", ha="left" if v>=0 else "right", fontsize=8.5)
 ax.set_title("Single-marker concordance — frontal-midline theta shows a small HIGH>LOW effect;\n"
-             "no other marker separates the classes (20,000-perm within-subject tests, 347 epochs, 37 subjects)",
+             "no other marker separates the classes (20,000-perm two-sided within-subject tests, 347 epochs, 37 subjects)",
              fontsize=10.5)
 ax.legend(loc="lower right", frameon=False, fontsize=8)
 ax.set_title("A", loc="left", fontweight="bold")

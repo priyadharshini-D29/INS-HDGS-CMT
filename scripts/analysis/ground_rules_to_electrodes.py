@@ -184,7 +184,7 @@ def main():
         prem = [dict(electrode=chan[i // 5], band=BANDS[i % 5], attribution=float(flat[i]),
                      direction="up" if flat[i] > 0 else "down") for i in order]
         et_top = int(np.argmax(np.abs(et[r])))
-        m = RM[dom == r]
+        m = RM[dom == r, r]   # rule r's OWN head on the epochs it dominates
         concl = CLASS[int(m.mean() > 0)] if len(m) else CLASS[int(RM[:, r].mean() > 0)]
         rules.append(dict(rule=r + 1, conclusion=concl, dominant_frac=float((dom == r).mean()),
                           mean_activation=float(A[:, r].mean()), premises=prem,

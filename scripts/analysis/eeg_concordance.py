@@ -165,7 +165,9 @@ def within_subject_perm(ep, col, direction, n_perm=20000, seed=42):
     per-subject-mean Wilcoxon when epochs/subject is small (~6–16 here).
 
     direction: 'greater' (HIGH>LOW, theta) or 'less' (HIGH<LOW, alpha).
-    Returns observed diff, Cohen's d, and one-sided p-value.
+    Returns observed diff, Cohen's d, and both the one-sided p (pre-specified
+    canonical direction) and the two-sided p (|null| >= |obs|), from the same
+    null draws.
     """
     rng = np.random.default_rng(seed)
     ep = ep.dropna(subset=[col]).copy()
@@ -195,12 +197,15 @@ def within_subject_perm(ep, col, direction, n_perm=20000, seed=42):
         null[b] = _diff(perm)
 
     if direction == "greater":
-        p = (np.sum(null >= obs) + 1) / (n_perm + 1)
+        p_one = (np.sum(null >= obs) + 1) / (n_perm + 1)
     else:
-        p = (np.sum(null <= obs) + 1) / (n_perm + 1)
+        p_one = (np.sum(null <= obs) + 1) / (n_perm + 1)
+    p_two = (np.sum(np.abs(null) >= abs(obs)) + 1) / (n_perm + 1)
     return {"observed_diff": float(obs), "cohens_d": d,
             "null_mean": float(null.mean()), "null_std": float(null.std()),
-            "p_value": float(p), "n_epochs": int(len(ep)), "n_perm": n_perm}
+            "p_value": float(p_one), "p_value_one_sided": float(p_one),
+            "p_value_two_sided": float(p_two),
+            "n_epochs": int(len(ep)), "n_perm": n_perm}
 
 
 def main():
@@ -250,6 +255,8 @@ def main():
     # Wilcoxon signed-rank across subjects (subject = unit)
     w_theta = wilcoxon(d_theta, alternative="greater")    # H1: HIGH theta > LOW
     w_alpha = wilcoxon(d_alpha, alternative="less")        # H1: HIGH alpha < LOW
+    w_theta2 = wilcoxon(d_theta)                           # two-sided
+    w_alpha2 = wilcoxon(d_alpha)                           # two-sided
 
     n = len(df)
     n_theta_pos = int((d_theta > 0).sum())
@@ -291,6 +298,7 @@ def main():
             "n_positive": n_theta_pos,
             "wilcoxon_W": float(w_theta.statistic),
             "wilcoxon_p_greater": float(w_theta.pvalue),
+            "wilcoxon_p_two_sided": float(w_theta2.pvalue),
         },
         "posterior_alpha": {
             "mean_delta": float(d_alpha.mean()),
@@ -298,6 +306,7 @@ def main():
             "n_negative": n_alpha_neg,
             "wilcoxon_W": float(w_alpha.statistic),
             "wilcoxon_p_less": float(w_alpha.pvalue),
+            "wilcoxon_p_two_sided": float(w_alpha2.pvalue),
         },
         "variant": {
             "frontal_theta_HIGH_gt_LOW": ws_theta_v,
