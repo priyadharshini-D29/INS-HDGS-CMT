@@ -43,9 +43,8 @@ Cross-Modal Transformer — is a subject-independent framework that:
 Evaluation uses **leave-one-subject-out cross-validation (LOSOCV)** on the public
 **NeuMa** dataset — the strict, subject-independent protocol.
 
-<div align="center">
-<img src="assets/architecture.png" alt="INS-HDGS-CMT architecture" width="760"/>
-</div>
+The architecture is described in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md);
+figures are part of the manuscript under review and will be added upon publication.
 
 ## Leakage-aware evaluation — please read first
 
@@ -243,7 +242,8 @@ metadata in [`CITATION.cff`](CITATION.cff)):
 
 Please also cite the **NeuMa dataset** (Georgiadis et al., 2023).
 
-The files submitted to the journal on 18 September 2026 (manuscript PDF, supplementary PDF and LaTeX source) are archived unchanged in [submission/2026-09-18/](submission/2026-09-18/).
+The submitted manuscript files are with the journal during review; the submission
+archive will be restored here upon publication.
 
 ## License
 
