@@ -1,5 +1,12 @@
 # ROI-grid spatial-resolution sensitivity
 
+> **Operating-point note (2026-09-30):** the model-side summary below was
+> computed at the retired validation-threshold operating point (reference
+> balanced accuracy 0.747); the manuscript (Section 3.6) reports the fixed-0.5
+> operating point (reference 0.719) recomputed from the per-fold files, whose
+> ROC-AUC values are unaffected. A fixed-0.5 export of this table is pending;
+> see results/statistics/AUDIT_2026-09-29.md, addendum item 7.
+
 (A) ROI saliency vector (model input) rebuilt on alternative grids — 385 epochs, 42 subjects; reference = 5x2.
 
 | grid | cells | max-cell share | norm. entropy | empty cells | ρ(concentration) vs ref | ρ(entropy) vs ref |

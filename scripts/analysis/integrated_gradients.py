@@ -9,11 +9,11 @@ held-out subject's epochs — leakage-free).
 
 Inputs and the honest feature groups they support
 --------------------------------------------------
-  eeg_windows  (B,W,24,5)  per-window per-electrode band-power
+  eeg_windows  (B,W,19,5)  per-window per-electrode band-power
        bands  = [delta, theta, alpha, beta, gamma]
-       regions= frontal {Fz,F3,F4,FC1,FC2} / posterior {Pz,Oz,O1,O2,P3,P4,P7,P8}
+       regions= frontal {Fz,F3,F4,F7,F8} / posterior {Pz,O1,O2,P3,P4,T5,T6}
        → "Frontal theta power", "Posterior alpha power"
-  weighted_adjs(B,W,24,24) functional connectivity
+  weighted_adjs(B,W,19,19) functional connectivity
        → "Frontal functional connectivity" (frontal-frontal edges)
   et_seq       (B,600,3)   raw gaze  [gaze-x, gaze-y, pupil]
        → "Gaze position", "Pupil dynamics"
@@ -50,9 +50,9 @@ import torch
 from torch.utils.data import DataLoader
 
 HERE = Path(__file__).resolve()
-PHASE8 = HERE.parents[1]
-ROOT = PHASE8.parent
-for p in (str(PHASE8), str(ROOT)):
+ROOT = HERE.parents[2]                      # repository root
+SRC_MODEL = ROOT / "src" / "model"          # data/, models/, evaluation/, config/
+for p in (str(SRC_MODEL), str(ROOT)):
     if p not in sys.path:
         sys.path.insert(0, p)
 
@@ -65,7 +65,7 @@ from config.settings import ET_INPUT_DIM                        # noqa: E402
 # Defaults reproduce the revision run on the 19-electrode production checkpoints
 # (Table S2). Override without editing the file, e.g.:
 #   IG_CKPT_DIR=<run>/output/checkpoints/abl_full python scripts/analysis/integrated_gradients.py
-CKPT_DIR = Path(os.environ.get("IG_CKPT_DIR", str(ROOT / "output" / "checkpoints" / "abl_full")))
+CKPT_DIR = Path(os.environ.get("IG_CKPT_DIR", str(SRC_MODEL / "output" / "checkpoints" / "abl_full")))
 FULL_CSV = Path(os.environ.get("IG_FULL_CSV", str(ROOT / "results" / "ablation" / "abl_full" / "losocv_abl_full.csv")))
 OUT = Path(os.environ.get("IG_OUT", str(ROOT / "results" / "statistics")))
 

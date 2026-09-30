@@ -7,7 +7,8 @@
 ## Supported dataset: NeuMa
 
 **NeuMa** — a public neuromarketing dataset with synchronized **EEG** and
-**eye-tracking** recordings from 44 participants viewing product stimuli.
+**eye-tracking** recordings from 42 analysed participants (release identifiers
+S01–S44; S04 and S11 are unused identifiers) viewing product stimuli.
 
 > Georgiadis, K., Kalaganis, F.P., Riskos, K. *et al.* NeuMa — the absolute
 > neuromarketing dataset en route to a holistic understanding of consumer
