@@ -11,4 +11,4 @@ Premise terms are (electrode, band) node features ranked by |integrated-gradient
 | 5 | LOW | 8% | 47% | T6-alpha↑ ∧ Pz-alpha↑ ∧ P4-alpha↑ | gaze_x↓ |
 | 6 | HIGH | 2% | 66% | O1-alpha↓ ∧ C3-gamma↑ ∧ O2-alpha↓ | gaze_x↑ |
 | 7 | HIGH | 15% | 78% | O1-alpha↓ ∧ O2-alpha↓ ∧ Pz-alpha↓ | gaze_x↑ |
-| 8 | HIGH | 18% | 55% | P4-alpha↓ ∧ T6-alpha↓ ∧ Pz-alpha↓ | gaze_x↑ |
+| 8 | LOW | 18% | 55% | P4-alpha↓ ∧ T6-alpha↓ ∧ Pz-alpha↓ | gaze_x↑ |

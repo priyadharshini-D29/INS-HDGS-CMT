@@ -44,8 +44,9 @@ The fold-level files carry one row per held-out participant, keyed by
 
 ### Data
 
-The NeuMa dataset is public (CC BY 4.0): https://doi.org/10.6084/m9.figshare.22117124
-(raw release used here; dataset descriptor DOI 10.6084/m9.figshare.22117001).
+The NeuMa dataset is public (CC BY 4.0): raw release
+https://doi.org/10.6084/m9.figshare.22117001; preprocessed release
+https://doi.org/10.6084/m9.figshare.22117124.
 No participant data is redistributed in this repository. Run the pipeline stages
 under `src/data_pipeline/` in numeric order (01_validation … 06_dataset_aggregation).
 The engagement label is constructed by

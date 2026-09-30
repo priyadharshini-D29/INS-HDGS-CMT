@@ -38,7 +38,7 @@ src/data_pipeline/
 ├── 01_validation/            integrity checks on raw .xdf/.xlsx
 ├── 02_signal_qc/             EEG/ET signal quality control
 ├── 03_preprocessing/         filtering, artifact handling, resampling
-├── 04_segmentation/          epoching (5 s epochs, 75% overlap) -> output/
+├── 04_segmentation/          epoching (5 s engagement epochs, one per page view) -> output/
 ├── 05_feature_extraction/    band powers, connectivity, ET/ROI features
 └── 06_dataset_aggregation/   per-subject + pooled global datasets -> output/global/
 ```
@@ -57,12 +57,12 @@ The model reads the segmentation and aggregation outputs (see
 | Parameter | Value |
 |---|---|
 | EEG sampling rate | 300 Hz |
-| EEG epoch length | 5.0 s (75% overlap) |
+| EEG epoch length | 5.0 s, one per page view (first 5 s after onset) |
 | EEG channels | 19 (10–20 montage, real channels) |
 | Frequency bands | delta/theta/alpha/beta/gamma |
 | ET sampling rate | 120 Hz |
 | ET features | gaze_x, gaze_y, pupil (+ ROI dwell/entropy) |
-| Engagement label | per-subject median split → HIGH / LOW |
+| Engagement label | pooled-median split → HIGH / LOW (primary); per-subject median as robustness check |
 
 ## 4. Sample metadata
 
@@ -71,6 +71,6 @@ folder layout without the real data: [`sample_metadata.csv`](sample_metadata.csv
 
 ## Notes
 
-- `S04` and `S11` have no per-subject engagement labels (excluded).
+- `S04` and `S11` are unused identifiers in the NeuMa release.
 - `S16, S31, S33, S41, S44` are single-class under the global threshold: kept as
   training subjects but skipped as LOSOCV **test** folds → 37 valid test folds.

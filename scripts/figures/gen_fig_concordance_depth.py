@@ -52,11 +52,11 @@ for yi, v, p in zip(y, ds, ps):
     tag = f"d={v:+.2f}, p={p:.3f}" + ("" if p < 0.05 else " (ns)")
     ax.text(v + (0.01 if v>=0 else -0.01), yi, tag,
             va="center", ha="left" if v>=0 else "right", fontsize=8.5)
-ax.set_title("Single-marker concordance — frontal-midline theta shows a small HIGH>LOW effect;\n"
-             "no other marker separates the classes (20,000-perm two-sided within-subject tests, 347 epochs, 37 subjects)",
-             fontsize=10.5)
+ax.set_title("Single-marker concordance (20,000-perm two-sided within-subject tests, 347 epochs, 37 subjects)",
+             fontsize=9.5, pad=14)
 ax.legend(loc="lower right", frameon=False, fontsize=8)
-ax.set_title("A", loc="left", fontweight="bold")
+ax.annotate("A", xy=(-0.30, 1.05), xycoords="axes fraction", fontsize=13, fontweight="bold",
+            annotation_clip=False)
 
 # ---- panel B: single markers vs the learned models, same epochs ----------------
 def marker_auc(csv, col):
@@ -77,19 +77,20 @@ def fold_auc(csv):
     d = pd.read_csv(csv); return float(d["roc_auc"].mean()), float(d["roc_auc"].std())
 eeg_csv = P8 / "results/ablation/abl_eeg_only/losocv_abl_eeg_only.csv"
 full_csv = P8 / "results/ablation/abl_full/losocv_abl_full.csv"
-bars = [(f"best single marker\n({best.replace('_', ' ')}, per-subject mean)", bm, None),
-        ("gaze-free EEG branch\n(mean per fold)", *fold_auc(eeg_csv)),
-        ("full model, EEG + gaze\n(mean per fold)", *fold_auc(full_csv))]
+bars = [(f"best single marker\n({best.replace('_', ' ')})", bm, None),
+        ("gaze-free\nEEG branch", *fold_auc(eeg_csv)),
+        ("full model\n(EEG + gaze)", *fold_auc(full_csv))]
 xb = np.arange(len(bars))
 axb.bar(xb, [b[1] for b in bars], yerr=[b[2] if b[2] else 0 for b in bars], capsize=4,
         color=["#999999", "#b00020", "#1f77b4"], zorder=3)
 axb.axhline(0.5, color="k", ls="--", lw=0.8)
-axb.set_xticks(xb); axb.set_xticklabels([b[0] for b in bars], fontsize=8.5)
+axb.set_xticks(xb); axb.set_xticklabels([b[0] for b in bars], fontsize=8)
 axb.set_ylim(0.3, 1.0); axb.set_ylabel("ROC-AUC (37 evaluable subjects)")
 for xi, b in zip(xb, bars):
     axb.text(xi, b[1] + 0.02, f"{b[1]:.2f}", ha="center", fontsize=9)
-axb.set_title("B", loc="left", fontweight="bold")
-axb.set_title("Decoding of the index: markers vs learned models", fontsize=10)
+axb.annotate("B", xy=(-0.20, 1.05), xycoords="axes fraction", fontsize=13, fontweight="bold",
+             annotation_clip=False)
+axb.set_title("Decoding of the index: markers vs learned models", fontsize=9.5, pad=14)
 axb.grid(axis="y", alpha=0.3)
 fig.tight_layout()
 for out in (P8 / "paper/figures", P8 / "results/figures"):

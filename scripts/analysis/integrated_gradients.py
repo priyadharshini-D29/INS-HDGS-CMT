@@ -39,6 +39,7 @@ from __future__ import annotations
 
 import argparse
 import glob
+import os
 import re
 import sys
 from pathlib import Path
@@ -61,9 +62,12 @@ from models.ins_hdgs_cmt import AblationConfig                  # noqa: E402
 from evaluation.losocv import _make_model                       # noqa: E402
 from config.settings import ET_INPUT_DIM                        # noqa: E402
 
-CKPT_DIR = PHASE8 / "output" / "checkpoints" / "repro_focal_g3p0_effective_num_37"
-FULL_CSV = PHASE8 / "results" / "losocv_metrics" / "losocv_repro_focal_g3p0_effective_num_37.csv"
-OUT = PHASE8 / "results" / "statistics"
+# Defaults reproduce the revision run on the 19-electrode production checkpoints
+# (Table S2). Override without editing the file, e.g.:
+#   IG_CKPT_DIR=<run>/output/checkpoints/abl_full python scripts/analysis/integrated_gradients.py
+CKPT_DIR = Path(os.environ.get("IG_CKPT_DIR", str(ROOT / "output" / "checkpoints" / "abl_full")))
+FULL_CSV = Path(os.environ.get("IG_FULL_CSV", str(ROOT / "results" / "ablation" / "abl_full" / "losocv_abl_full.csv")))
+OUT = Path(os.environ.get("IG_OUT", str(ROOT / "results" / "statistics")))
 
 BANDS = ["delta", "theta", "alpha", "beta", "gamma"]
 FRONTAL = ["Fz", "F3", "F4", "F7", "F8"]
