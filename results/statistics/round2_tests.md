@@ -1,13 +1,4 @@
-# tests from saved per-fold CSVs
-
-Regenerated 2026-10-04 after the third external audit. The engagement-index fusion and
-fold-wise-label inputs are the log-reconstructed CSVs of
-`scripts/revision/reconstruct_losocv_from_logs.py` (exact to the 3 decimals the training
-logs print, so tie counts and the third decimal of p-values can differ from the
-full-precision values in the manuscript; mean differences and CIs reproduce Tables 4 and
-S17 as published). The decoder rows pair against the final production run
-(`results/ablation/abl_full/losocv_abl_full_final.csv`). See
-`results/statistics/STATS_ENVIRONMENT.md`.
+# Round-2 tests from saved per-fold CSVs
 
 ## A. Engagement index (37 folds): paired differences, first minus second
 

@@ -2,7 +2,7 @@
 
 Learned bypass gate alpha: mean 0.570 (range 0.567–0.573 across folds/members; init sigmoid(0.30)=0.574).
 
-Decision fidelity: argmax(R) agrees with the final decision on 39.4% of held-out epochs (fold mean; min 0%); Pearson r between the rule margin (R_HIGH−R_LOW) and the final logit margin: mean -0.691.
+Decision fidelity: argmax(R) agrees with the final decision on 39.4% of held-out epochs as a mean over folds (min 0%); pooled over the 347 held-out epochs the share is 36.6% (127/347). Pearson r between the rule margin (R_HIGH−R_LOW) and the final logit margin: mean within-fold -0.691.
 
 | decision rule at inference | BalAcc | ROC-AUC | MCC |
 |---|---|---|---|
@@ -28,8 +28,13 @@ Decision fidelity: argmax(R) agrees with the final decision on 39.4% of held-out
 
 ## Model TRAINED with α fixed at 0 (`losocv_abl_ns_rule_only.csv`, 37 paired folds)
 
-| metric | full (learned α) | rule-only trained | Δ | Wilcoxon p |
-|---|---|---|---|---|
-| balanced_acc | 0.747 | 0.715 | -0.033 | 0.047 |
-| roc_auc | 0.879 | 0.839 | -0.040 | 0.014 |
-| mcc | 0.485 | 0.438 | -0.048 | 0.093 |
+> **SUPERSEDED (2026-10-04).** The comparison that stood here (full 0.747 vs rule-only 0.715,
+> p = 0.047/0.014/0.093) paired the earlier 24-channel full run with the rule-only variant's
+> training-time export. The manuscript's final comparison (Supplementary Table S13) pairs the
+> saved held-out probabilities of the final production run (`losocv_abl_full_final.csv`;
+> balanced accuracy 0.719, ROC-AUC 0.879, MCC 0.446) with those of the rule-only variant
+> (0.734, 0.839, 0.497) at the common 0.5 operating point: Δ = +0.014 / −0.040 / +0.051,
+> Wilcoxon p = 0.42 / 0.018 / 0.23. The rule-only variant's per-fold probability files were
+> produced on the Brev instance and are not in this tree; its training-time export brackets
+> the published row (balanced_acc 0.7147 uncalibrated, 0.7335 calibrated).
+

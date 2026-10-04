@@ -1,0 +1,135 @@
+nohup: ignoring input
+[baseline] building dataset (graph-free) …
+  [Dataset] 'S01': 16 epochs  EEG=(1500, 20)  ET=(600, 6)
+
+[Channel Harmonization]
+  Subject   : S01
+  Strategy  : index-based (bad_channels.json)
+  C_subj    : 20  →  RAW_MONTAGE_N : 24
+  Missing   : ['X3', 'X2', 'X1', 'TRG']
+  Filled with zeros.
+
+
+[Channel Harmonization]
+  Subject   : S01
+  Strategy  : index-based (bad_channels.json)
+  C_subj    : 20  →  RAW_MONTAGE_N : 24
+  Missing   : ['X3', 'X2', 'X1', 'TRG']
+  Filled with zeros.
+
+  [Dataset] 'S01': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  15 epochs  EEG=(1500, 19)
+  [Dataset] 'S02': 8 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S02': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  7 epochs  EEG=(1500, 19)
+  [Dataset] 'S03': 7 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S03': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  6 epochs  EEG=(1500, 19)
+  [Dataset] 'S05': 8 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S05': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  8 epochs  EEG=(1500, 19)
+  [Dataset] 'S06': 9 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S06': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  8 epochs  EEG=(1500, 19)
+  [Dataset] 'S07': 8 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S07': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  7 epochs  EEG=(1500, 19)
+  [Dataset] 'S08': 17 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S08': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  16 epochs  EEG=(1500, 19)
+  [Dataset] 'S09': 11 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S09': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  10 epochs  EEG=(1500, 19)
+  [Dataset] 'S10': 13 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S10': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  12 epochs  EEG=(1500, 19)
+  [Dataset] 'S12': 8 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S12': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  7 epochs  EEG=(1500, 19)
+  [Dataset] 'S13': 7 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S13': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  6 epochs  EEG=(1500, 19)
+  [Dataset] 'S14': 9 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S14': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  8 epochs  EEG=(1500, 19)
+  [Dataset] 'S15': 7 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S15': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  6 epochs  EEG=(1500, 19)
+  [Dataset] 'S16': 10 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S16': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  8 epochs  EEG=(1500, 19)
+  [Dataset] 'S17': 8 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S17': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  7 epochs  EEG=(1500, 19)
+  [Dataset] 'S18': 16 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S18': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  14 epochs  EEG=(1500, 19)
+  [Dataset] 'S19': 18 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S19': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  17 epochs  EEG=(1500, 19)
+  [Dataset] 'S20': 8 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S20': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  7 epochs  EEG=(1500, 19)
+  [Dataset] 'S21': 7 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S21': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  6 epochs  EEG=(1500, 19)
+  [Dataset] 'S22': 16 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S22': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  14 epochs  EEG=(1500, 19)
+  [Dataset] 'S23': 13 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S23': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  12 epochs  EEG=(1500, 19)
+  [Dataset] 'S24': 14 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S24': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  13 epochs  EEG=(1500, 19)
+  [Dataset] 'S25': 15 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S25': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  14 epochs  EEG=(1500, 19)
+  [Dataset] 'S26': 8 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S26': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  7 epochs  EEG=(1500, 19)
+  [Dataset] 'S27': 8 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S27': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  7 epochs  EEG=(1500, 19)
+  [Dataset] 'S28': 8 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S28': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  7 epochs  EEG=(1500, 19)
+  [Dataset] 'S29': 22 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S29': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  20 epochs  EEG=(1500, 19)
+  [Dataset] 'S30': 14 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S30': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  13 epochs  EEG=(1500, 19)
+  [Dataset] 'S31': 10 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S31': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  8 epochs  EEG=(1500, 19)
+  [Dataset] 'S32': 8 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S32': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  7 epochs  EEG=(1500, 19)
+  [Dataset] 'S33': 7 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S33': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  6 epochs  EEG=(1500, 19)
+  [Dataset] 'S34': 8 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S34': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  7 epochs  EEG=(1500, 19)
+  [Dataset] 'S35': 7 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S35': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  6 epochs  EEG=(1500, 19)
+  [Dataset] 'S36': 8 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S36': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  7 epochs  EEG=(1500, 19)
+  [Dataset] 'S37': 10 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S37': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  8 epochs  EEG=(1500, 19)
+  [Dataset] 'S38': 11 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S38': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  10 epochs  EEG=(1500, 19)
+  [Dataset] 'S39': 8 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S39': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  7 epochs  EEG=(1500, 19)
+  [Dataset] 'S40': 8 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S40': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  7 epochs  EEG=(1500, 19)
+  [Dataset] 'S41': 10 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S41': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  9 epochs  EEG=(1500, 19)
+  [Dataset] 'S42': 7 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S42': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  7 epochs  EEG=(1500, 19)
+  [Dataset] 'S43': 8 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S43': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  7 epochs  EEG=(1500, 19)
+  [Dataset] 'S44': 8 epochs  EEG=(1500, 24)  ET=(600, 6)
+  [Dataset] 'S44': pre-computed labels loaded [multimodal (EEG+ET, global threshold)]  7 epochs  EEG=(1500, 19)
+
+  [Dataset] Engagement distribution (385 epochs):
+    LOW_ENGAGEMENT: 192  (49.9%)
+    HIGH_ENGAGEMENT: 193  (50.1%)
+[baseline] fold range 29-42 of 42 (global numbering; outputs suffixed .part29-42)
+[baseline] N=385 epochs  C=19  T=1500  subjects=42  regime=tuned(n=12)
+[baseline] validation-subject rule: matched (seed 42; single-class subjects excluded: ['S16', 'S31', 'S33', 'S41', 'S44'])
+[baseline] label: FOLD-WISE (scaler + median fitted per fold on the training subjects)
+
+========== eegnet ==========
+  fold 30  S32: fold-wise label changed 3/385 epochs (train 3, val 0, test 0)
+  fold 30  S32 bal=0.750 auc=0.833 mcc=+0.354 | val_bal=1.00 cfg={'lr': 0.0003, 'wd': 0.0001, 'batch_size': 32, 'drop': 0.5} ep=6
+  fold 32  S34: fold-wise label changed 1/385 epochs (train 1, val 0, test 0)
+  fold 32  S34 bal=0.700 auc=0.500 mcc=+0.400 | val_bal=0.70 cfg={'lr': 0.002, 'wd': 0.0001, 'batch_size': 16, 'drop': 0.25} ep=6
+  fold 33  S35: fold-wise label changed 5/385 epochs (train 3, val 0, test 2)
+  fold 33  S35 bal=0.200 auc=0.000 mcc=-0.447 | val_bal=1.00 cfg={'lr': 0.002, 'wd': 1e-05, 'batch_size': 32, 'drop': 0.5} ep=1
+  fold 34  S36: fold-wise label changed 6/385 epochs (train 6, val 0, test 0)
+  fold 34  S36 bal=0.250 auc=0.000 mcc=-0.354 | val_bal=0.82 cfg={'lr': 0.002, 'wd': 1e-05, 'batch_size': 32, 'drop': 0.4} ep=2
+  fold 35  S37: fold-wise label changed 21/385 epochs (train 16, val 4, test 1)
+  fold 35  S37 bal=0.600 auc=0.533 mcc=+0.293 | val_bal=0.69 cfg={'lr': 0.0003, 'wd': 0.0, 'batch_size': 32, 'drop': 0.5} ep=27
+  fold 36  S38: fold-wise label changed 4/385 epochs (train 4, val 0, test 0)
+  fold 36  S38 bal=0.600 auc=0.560 mcc=+0.218 | val_bal=1.00 cfg={'lr': 0.003, 'wd': 0.001, 'batch_size': 16, 'drop': 0.5} ep=3
+  fold 37  S39: fold-wise label changed 2/385 epochs (train 2, val 0, test 0)
+  fold 37  S39 bal=0.542 auc=0.500 mcc=+0.091 | val_bal=0.92 cfg={'lr': 0.0003, 'wd': 1e-05, 'batch_size': 16, 'drop': 0.25} ep=10
+  fold 38  S40: fold-wise label changed 1/385 epochs (train 1, val 0, test 0)
+  fold 38  S40 bal=0.200 auc=0.100 mcc=-0.548 | val_bal=0.92 cfg={'lr': 0.003, 'wd': 0.001, 'batch_size': 16, 'drop': 0.5} ep=47
+  fold 40  S42: fold-wise label changed 5/385 epochs (train 5, val 0, test 0)
+  fold 40  S42 bal=0.800 auc=0.800 mcc=+0.548 | val_bal=0.80 cfg={'lr': 0.0005, 'wd': 1e-05, 'batch_size': 16, 'drop': 0.4} ep=1
+  fold 41  S43: fold-wise label changed 1/385 epochs (train 1, val 0, test 0)
+  fold 41  S43 bal=0.750 auc=0.700 mcc=+0.645 | val_bal=1.00 cfg={'lr': 0.002, 'wd': 0.0001, 'batch_size': 32, 'drop': 0.4} ep=16
+[baseline] eegnet: bal=0.539 auc=0.453 mcc=0.120 (10 folds, 3736s)
+ balanced_acc       f1  roc_auc      mcc  accuracy      ece  balanced_acc_cal  mcc_cal  accuracy_cal  model  n_folds  seconds regime
+     0.539167 0.481385 0.452667 0.120056  0.543333 0.350366          0.539167 0.120056      0.543333 eegnet       10   3735.6  tuned
