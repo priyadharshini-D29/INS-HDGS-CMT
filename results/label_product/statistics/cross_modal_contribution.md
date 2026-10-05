@@ -6,7 +6,7 @@ Variant definitions: full = EEG+ET+ROI+fusion; no_et = ET sequence branch and fu
 
 | variant | balanced_acc | roc_auc | mcc |
 |---|---|---|---|
-| full | 0.566 ± 0.091 | 0.606 ± 0.118 | 0.112 ± 0.151 |
+| full | 0.559 ± 0.089 | 0.606 ± 0.118 | 0.107 ± 0.156 |
 
 ## Paired comparisons (Wilcoxon signed-rank, Holm within metric family)
 

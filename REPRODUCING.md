@@ -10,11 +10,24 @@ Level 2 retrains everything from the public dataset.
 
 ---
 
-## Level 1 — verify every reported number from the committed per-fold files
+## Level 1 — verify the reported numbers from the committed per-fold files
 
-Every statistic in the paper (means, SDs, paired Wilcoxon tests, Holm corrections,
-bootstrap CIs, effect sizes, calibration) is computed from per-fold CSVs that are
-committed in this branch. Retraining is **not** required to check any reported number.
+Nearly every statistic in the paper (means, SDs, paired Wilcoxon tests, Holm
+corrections, bootstrap CIs, effect sizes, calibration) is computed from per-fold
+CSVs that are committed in this branch, and retraining is **not** required to
+check those numbers. The exceptions, inventoried in
+`results/statistics/STATS_ENVIRONMENT.md`, are:
+
+- the held-out probability files of the trained rule-only variant
+  (`abl_ns_rule_only`) and of the two engagement-index late fusions were produced
+  on a cloud instance that is no longer accessible, so Table 4's ECE/Brier for
+  the two late fusions and Table S13's rule-only row are documented but cannot be
+  recomputed from this branch without retraining (Level 2);
+- the per-fold metric files reconstructed from training logs are exact to the
+  three decimals the logs print, so recomputed Wilcoxon p-values can differ from
+  the manuscript's original full-precision values where rounding creates ties
+  (the manuscript discloses the affected ET-LSTM fold-wise comparison and
+  reports that decrease as descriptive).
 
 | Paper item | Committed source | Recompute with |
 |---|---|---|

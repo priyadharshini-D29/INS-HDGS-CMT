@@ -30,11 +30,13 @@ RES = ROOT / "results" / "case_study"
 SEG = ROOT / "src" / "data_pipeline" / "04_segmentation"
 OUT = [ROOT / "paper" / "figures", ROOT / "results" / "figures" / "case_study"]
 
+# Fourth external audit: canvas narrowed and fonts raised so tick labels print
+# at ~6 pt at \textwidth instead of ~3.7 pt.
 plt.rcParams.update({
     "font.family": "DejaVu Sans",
-    "font.size": 12, "axes.titlesize": 12.5, "axes.titleweight": "bold",
-    "axes.labelsize": 12, "axes.labelweight": "bold",
-    "xtick.labelsize": 10.5, "ytick.labelsize": 10.5, "legend.fontsize": 10,
+    "font.size": 14, "axes.titlesize": 14.5, "axes.titleweight": "bold",
+    "axes.labelsize": 14, "axes.labelweight": "bold",
+    "xtick.labelsize": 13, "ytick.labelsize": 13, "legend.fontsize": 12.5,
     "text.color": "black", "axes.labelcolor": "black", "axes.edgecolor": "black",
     "xtick.color": "black", "ytick.color": "black", "axes.titlecolor": "black",
     "savefig.dpi": 300, "savefig.bbox": "tight",
@@ -96,16 +98,16 @@ def main():
     probs = saved_probs()
     H, L = load_case("HIGH", prov, roi, probs), load_case("LOW", prov, roi, probs)
 
-    fig, ax = plt.subplots(2, 4, figsize=(18, 8))
+    fig, ax = plt.subplots(2, 4, figsize=(16, 7.4))
     for col, (C, ttl) in enumerate([(H, "HIGH (S24)"), (L, "LOW (S30)")]):
         xy = C["xy"]
         ax[col, 0].plot(xy[:, 0], xy[:, 1], lw=0.6, color="#444")
         ax[col, 0].scatter(xy[:, 0], xy[:, 1], s=4, c=np.arange(len(xy)), cmap="viridis")
-        ax[col, 0].set_title(f"{ttl}\nGaze trajectory (entropy={C['entropy']:.3f})")
+        ax[col, 0].set_title(f"{ttl}\nGaze trajectory\n(entropy={C['entropy']:.3f})")
         _std_axis(ax[col, 0], xlabel="Gaze x (norm.)", ylabel="Gaze y (norm.)", fmt_x=True, fmt_y=True)
         ax[col, 1].bar(np.arange(1, len(C["roi"]) + 1), C["roi"], color="#3f7d20"); ax[col, 1].set_xticks(np.arange(1, len(C["roi"]) + 1))
-        ax[col, 1].set_title("ROI saliency vector (5×2 page-grid cells)")
-        _std_axis(ax[col, 1], xlabel="Grid cell (1-5 upper row, 6-10 lower row)", ylabel="Gaze-sample share")
+        ax[col, 1].set_title("ROI saliency vector\n(5×2 page-grid cells)")
+        _std_axis(ax[col, 1], xlabel="Grid cell\n(1-5 upper row, 6-10 lower row)", ylabel="Gaze-sample share")
         ax[col, 2].bar(["LOW", "HIGH"], [1 - C["p_high"], C["p_high"]], color=["#30638e", "#d1495b"])
         ax[col, 2].set_ylim(0, 1)
         ax[col, 2].set_title(f"Prediction  (true={'HIGH' if C['true'] else 'LOW'})")

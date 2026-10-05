@@ -2,7 +2,7 @@
 
 - Paired comparisons: two-sided Wilcoxon signed-rank test, zero differences discarded
   (`scipy.stats.wilcoxon(x, zero_method="wilcox")`, default two-sided alternative and
-  automatic exact/normal method selection), Holm–Bonferroni correction within each stated
+  automatic exact/normal method selection), Holmâ€“Bonferroni correction within each stated
   family; matched-pairs rank-biserial correlation as effect size; 95% bootstrap CIs of the
   mean paired difference (10,000 resamples). Implementation: `scripts/revision/round2_tests.py`
   and the released analysis scripts.
@@ -26,3 +26,16 @@
   Brev instance and are not in this tree, so Supplementary Table S13's rule-only row and
   the fusions' ECE/Brier cannot be recomputed here; their fold-level metrics are bracketed
   or reproduced by the files named above.
+- Reconciliation with the manuscript (fourth external audit, 2026-10-05): on the
+  reconstructed fold-wise inputs the ET-LSTM pooled-to-fold-wise ROC-AUC test gives
+  raw p = 0.021 and p_Holm = 0.062 (16 of the 37 paired differences tie after the
+  3-decimal rounding; `round2_tests.md`, section B), against the original
+  full-precision computation's p = 0.012 / p_Holm = 0.036 run on the Brev instance.
+  The manuscript reports the -0.031 decrease as descriptive and discloses both
+  computations (main Section 3.2 and the Table S17 caption).
+- Operating point of the product-label reports: the decoder's stored
+  balanced_acc/mcc columns in `label_product/ablation/abl_full/losocv_abl_full.csv`
+  were written at the per-fold opt_threshold; `tests_product_label.md` and
+  `label_product/statistics/cross_modal_contribution.md` re-score the decoder at
+  the common fixed 0.5 operating point from the saved held-out probabilities,
+  matching manuscript Table 7 (0.559 / 0.606 / 0.107).

@@ -92,8 +92,20 @@ def _boot_ci(d: np.ndarray, n_boot: int = 10000, seed: int = 42):
     return float(np.percentile(means, 2.5)), float(np.percentile(means, 97.5))
 
 
-def _load_losocv(csv: Path, name: str) -> pd.DataFrame:
+def _load_losocv(csv: Path, name: str, fixed_05: bool = False) -> pd.DataFrame:
     df = pd.read_csv(csv)
+    if fixed_05 and {"y_true", "y_prob"}.issubset(df.columns):
+        # Re-score balanced_acc/mcc at the common fixed 0.5 operating point from
+        # the saved held-out probabilities.  Needed where the stored columns were
+        # written at a per-fold opt_threshold (the product-label decoder CSV);
+        # the manuscript reads every threshold-dependent metric at 0.5 (Table 7).
+        # ROC-AUC is threshold-invariant and is left as stored.
+        for i, row in df.iterrows():
+            yt = np.asarray(ast.literal_eval(row["y_true"]), int)
+            pred = (np.asarray(ast.literal_eval(row["y_prob"]), float) >= 0.5).astype(int)
+            df.at[i, "balanced_acc"] = balanced_accuracy_score(yt, pred)
+            df.at[i, "mcc"] = matthews_corrcoef(yt, pred)
+        print(f"[info] {name}: balanced_acc/mcc re-scored at the fixed 0.5 operating point")
     df = df[["test_subject"] + [m for m in METRICS if m in df]].copy()
     df["variant"] = name
     return df
@@ -132,16 +144,19 @@ def main():
                     help="per-fold CSV of AblationConfig.eeg_only() (no gaze input at all)")
     ap.add_argument("--et-only-probs", default=str(RES / "baselines" / "dl" / "fold_probs" / "probs_et_lstm.csv"))
     ap.add_argument("--out-dir", default=str(OUT))
+    ap.add_argument("--fixed-05", action="store_true",
+                    help="re-score balanced_acc/mcc at the fixed 0.5 operating point from saved "
+                         "y_true/y_prob where those columns exist (the manuscript's operating point)")
     args = ap.parse_args()
 
-    variants = {"full": _load_losocv(Path(args.full_csv), "full")}
+    variants = {"full": _load_losocv(Path(args.full_csv), "full", fixed_05=args.fixed_05)}
     for key, csv in (("no_et", args.no_et_csv), ("no_roi", args.no_roi_csv), ("no_fusion", args.no_fusion_csv)):
         if Path(csv).exists():
-            variants[key] = _load_losocv(Path(csv), key)
+            variants[key] = _load_losocv(Path(csv), key, fixed_05=args.fixed_05)
         else:
             print(f"[info] {key} CSV not found ({csv}) — that comparison is skipped.")
     if args.eeg_only_csv and Path(args.eeg_only_csv).exists():
-        variants["eeg_only"] = _load_losocv(Path(args.eeg_only_csv), "eeg_only")
+        variants["eeg_only"] = _load_losocv(Path(args.eeg_only_csv), "eeg_only", fixed_05=args.fixed_05)
     else:
         print("[info] eeg_only CSV not supplied/found — the no-gaze-input variant will "
               "be added once `NEUMA_LABEL=eeg_only` LOSOCV has been run.")

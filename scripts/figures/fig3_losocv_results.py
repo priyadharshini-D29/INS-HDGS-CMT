@@ -38,7 +38,9 @@ PRETTY = {"eegnet": "EEGNet", "shallow": "ShallowConvNet", "deep": "DeepConvNet"
           "gat": "GAT", "brain_gcn": "BrainGCN"}
 C_FULL, C_ET, C_EEG, C_PROBE, C_BASE = "#2EA37A", "#55a868", "#B2592E", "#999999", "#5B8DEF"
 C_PROBE_EEG = "#8172B2"   # the label's EEG-terms probe, distinct from the gaze-terms probe (grey)
-plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 9})
+# Fourth external audit: in-figure text enlarged (smallest print size was ~3.5 pt
+# at \textwidth); minimum font is now 10.5 pt on the 13.5-in canvas (~6 pt in print).
+plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 11})
 
 
 def per_fold(csv):
@@ -73,7 +75,7 @@ def probe(prefixes):
 
 def main():
     d = per_fold(FULL_CSV)
-    fig = plt.figure(figsize=(13.5, 4.6))
+    fig = plt.figure(figsize=(14, 4.8))
     gs = fig.add_gridspec(1, 3, width_ratios=[1, 1.1, 1.35], wspace=0.34)
 
     # (A) pooled ROC ---------------------------------------------------------------------
@@ -86,11 +88,12 @@ def main():
         curves.append(("Gaze-free EEG branch", pooled_from_losocv(EEG_CSV), C_EEG, 1.6))
     for name, (yt, yp), c, lw in curves:
         fpr, tpr, _ = roc_curve(yt, yp)
-        axA.plot(fpr, tpr, color=c, lw=lw, label=f"{name} (AUC {roc_auc_score(yt, yp):.2f})")
+        axA.plot(fpr, tpr, color=c, lw=lw, label=f"{name}\n(AUC {roc_auc_score(yt, yp):.2f})")
     axA.plot([0, 1], [0, 1], "--", color="#999", lw=1.0)
     axA.set_xlabel("False positive rate"); axA.set_ylabel("True positive rate")
-    axA.set_title("(A) Pooled LOSOCV ROC (37 subjects)", fontweight="bold", fontsize=10)
-    axA.legend(loc="lower right", fontsize=7.4, frameon=False); axA.set_aspect("equal"); axA.grid(alpha=.25)
+    axA.set_title("(A) Pooled LOSOCV ROC (37 subjects)", fontweight="bold", fontsize=12)
+    axA.legend(loc="lower right", fontsize=10, frameon=True, framealpha=0.9, edgecolor="none",
+               labelspacing=0.8); axA.set_aspect("equal"); axA.grid(alpha=.25)
 
     # (B) per-fold distribution ----------------------------------------------------------
     axB = fig.add_subplot(gs[1])
@@ -104,9 +107,9 @@ def main():
     rng = np.random.default_rng(0)
     for i, vals in enumerate(data):
         axB.scatter(rng.normal(i + 1, .05, len(vals)), vals, s=10, color=C_FULL, alpha=.6, zorder=3)
-    axB.set_xticks(range(1, len(mets) + 1)); axB.set_xticklabels([l for _, l in mets])
+    axB.set_xticks(range(1, len(mets) + 1)); axB.set_xticklabels([l for _, l in mets], fontsize=10, rotation=20, ha="right", rotation_mode="anchor")
     axB.set_ylim(-.4, 1.05); axB.axhline(0, color="#bbb", lw=.8); axB.axhline(0.5, color="#ddd", lw=.8, ls=":")
-    axB.set_title(f"(B) Full model, per fold (n={len(d)})", fontweight="bold", fontsize=10)
+    axB.set_title(f"(B) Full model, per fold (n={len(d)})", fontweight="bold", fontsize=12)
     axB.grid(axis="y", alpha=.25)
 
     # (C) where the accuracy sits --------------------------------------------------------
@@ -133,14 +136,14 @@ def main():
     x = np.arange(len(bars))
     axC.bar(x, [b[1] for b in bars], yerr=[b[2] for b in bars], color=[b[3] for b in bars], capsize=3, alpha=.9, zorder=3)
     for xi, b in zip(x, bars):
-        axC.text(xi, b[1] + 0.03, f"{b[1]:.2f}", ha="center", fontsize=8)
+        axC.text(xi, b[1] + 0.03, f"{b[1]:.2f}", ha="center", fontsize=10.5)
     axC.axhline(0.5, color="k", ls="--", lw=0.8)
-    axC.set_xticks(x); axC.set_xticklabels([b[0] for b in bars], fontsize=6.6, rotation=30, ha="right", rotation_mode="anchor")
+    axC.set_xticks(x); axC.set_xticklabels([b[0] for b in bars], fontsize=10, rotation=38, ha="right", rotation_mode="anchor")
     axC.set_ylim(0.3, 1.05); axC.set_ylabel("ROC-AUC, mean per fold ($\\pm$ SD)")
-    axC.set_title("(C) Mean per-fold ROC-AUC against the label's own terms", fontweight="bold", fontsize=10)
+    axC.set_title("(C) Mean per-fold ROC-AUC\nagainst the label's own terms", fontweight="bold", fontsize=12)
     axC.grid(axis="y", alpha=.25)
 
-    fig.suptitle("LOSOCV performance on the engagement index (37 evaluable subjects)", fontsize=12, fontweight="bold", y=1.02)
+    fig.suptitle("LOSOCV performance on the engagement index (37 evaluable subjects)", fontsize=13.5, fontweight="bold", y=1.06)
     for out in (ROOT / "paper/figures", ROOT / "results/figures"):
         out.mkdir(parents=True, exist_ok=True)
         for ext in ("pdf", "png"):

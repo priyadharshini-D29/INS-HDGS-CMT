@@ -2,7 +2,7 @@
 """Product-selection label: tests for the ShallowConvNet and ShallowConvNet+ET-LSTM runs (no training).
 Run from the repository root AFTER merge_fold_parts.py has written the merged files:
 
-    python scripts/revision/tests_product_label.py     # writes results/statistics/tests_product_label.md and .csv
+    python scripts/statistics/tests_product_label.py     # writes results/statistics/tests_product_label.md and .csv
 
 Blocks (each skipped with a message when its inputs are missing):
   0. Run check: every product-label model has 42 folds, one row per participant, no leftover part files.
@@ -108,6 +108,18 @@ say(f"  part files present: {len(leftover)} | merged shallow: {merged['shallow']
 if leftover and not all(merged.values()):
     say("  -> parts exist but are not merged yet: run merge_fold_parts.py first (see box_launch_r3_shallow.sh block 3)")
 dec = load(PROD / "ablation/abl_full/losocv_abl_full.csv")
+# The decoder CSV stores balanced_acc/mcc at the per-fold opt_threshold; every
+# comparison in the manuscript reads the common fixed 0.5 operating point
+# (Table 7), so the decoder is re-scored here from its saved held-out
+# probabilities.  ROC-AUC is threshold-invariant and is left as stored.
+if dec is not None:
+    from sklearn.metrics import balanced_accuracy_score, matthews_corrcoef
+    for _sid in dec.index:
+        _yt = np.asarray(ast.literal_eval(dec.at[_sid, "y_true"]), int)
+        _pred = (np.asarray(ast.literal_eval(dec.at[_sid, "y_prob"]), float) >= 0.5).astype(int)
+        dec.at[_sid, "balanced_acc"] = balanced_accuracy_score(_yt, _pred)
+        dec.at[_sid, "mcc"] = matthews_corrcoef(_yt, _pred)
+    say("  Audited decoder re-scored at the fixed 0.5 operating point from its saved held-out probabilities")
 models = {"decoder": ("Audited decoder", dec)}
 for stem, name in STANDARD:
     models[stem] = (name, load(DL / f"losocv_{stem}.csv"))

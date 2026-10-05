@@ -123,7 +123,9 @@ def main():
     labels = [r[0] for r in ROWS if r[0] in set(df.control)]
     y = np.arange(len(labels))[::-1]
     n_pairs = int(df.n.min())
-    fig, axes = plt.subplots(1, 3, figsize=(15, 0.46 * len(labels) + 1.8), sharey=True,
+    # Fourth external audit: canvas narrowed and fonts raised so the smallest text
+    # (the per-row p values) prints at ~6 pt at \textwidth instead of ~3.5 pt.
+    fig, axes = plt.subplots(1, 3, figsize=(12.5, 0.5 * len(labels) + 1.8), sharey=True,
                              gridspec_kw=dict(wspace=0.06))
     jit = np.random.default_rng(1)
     for ax, (m, title) in zip(axes, METRICS):
@@ -152,17 +154,17 @@ def main():
             sig = r.wilcoxon_p < 0.05
             ax.plot(r.delta, yi, "o", ms=7.5, mfc=c if sig else "white", mec=c, mew=1.6, zorder=3)
             ax.text(0.985, yi, f"p={r.wilcoxon_p:.3f}" if r.wilcoxon_p >= 0.001 else "p<0.001",
-                    transform=ax.get_yaxis_transform(), ha="right", va="center", fontsize=8.2,
+                    transform=ax.get_yaxis_transform(), ha="right", va="center", fontsize=10.5,
                     color="0.2" if sig else "0.45", fontweight="bold" if sig else "normal", zorder=4)
         ax.axvline(0, color="k", lw=0.9, zorder=2)
         ax.set_xlim(xlo, xhi)
         print(f"{m}: axis [{lo:+.3f}, {hi:+.3f}], {n_clip} subject points drawn at the edge")
         ax.set_ylim(-0.7, len(labels) - 0.3)
-        ax.set_title(title, fontsize=11.5, fontweight="bold")
+        ax.set_title(title, fontsize=12.5, fontweight="bold")
         ax.grid(axis="x", alpha=0.3)
-        ax.tick_params(axis="x", labelsize=9)
-        ax.set_xlabel(f"variant $-$ decoder over {n_pairs} paired subjects", fontsize=9)
-    axes[0].set_yticks(y); axes[0].set_yticklabels(labels, fontsize=10)
+        ax.tick_params(axis="x", labelsize=10.5)
+        ax.set_xlabel(f"variant $-$ decoder over {n_pairs} paired subjects", fontsize=10.5)
+    axes[0].set_yticks(y); axes[0].set_yticklabels(labels, fontsize=11.5)
     # group separators
     groups = [next(g for l, _, g in ROWS if l == lab) for lab in labels]
     for i in range(1, len(labels)):
@@ -174,8 +176,8 @@ def main():
                 plt.Line2D([], [], color="0.3", marker="o", mfc="white", mew=1.4, lw=0, label="$p \\geq 0.05$"),
                 plt.Line2D([], [], color="0.3", marker="o", ms=3, alpha=0.4, lw=0, label="individual subjects"),
                 plt.Line2D([], [], color="0.3", marker="<", ms=4, alpha=0.6, lw=0, label="beyond axis range")]
-    fig.legend(handles=handles, loc="lower center", fontsize=9, frameon=False, ncol=8, bbox_to_anchor=(0.5, 0.955))
-    fig.tight_layout(rect=[0, 0, 1, 0.965])
+    fig.legend(handles=handles, loc="lower center", fontsize=10.5, frameon=False, ncol=4, bbox_to_anchor=(0.5, 0.94))
+    fig.tight_layout(rect=[0, 0, 1, 0.93])
     for out in (ROOT / "paper/figures", ROOT / "results/figures"):
         out.mkdir(parents=True, exist_ok=True)
         fig.savefig(out / "fig_control_ladder.pdf", bbox_inches="tight")
